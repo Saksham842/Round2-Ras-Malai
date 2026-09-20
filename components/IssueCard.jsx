@@ -73,9 +73,25 @@ export default function IssueCard({ issue, onCorrectLabel, isMaintainerView = fa
         </h3>
 
         {/* Issue Body */}
-        <p className="text-xs text-slate-400 line-clamp-3 mb-4 leading-relaxed font-sans">
+        <p className="text-xs text-slate-400 line-clamp-2 mb-3 leading-relaxed font-sans">
           {issue.body || "No additional description provided in the GitHub issue."}
         </p>
+
+        {/* AI Triage Summary */}
+        {issue.labels?.summary && (
+          <div className="mb-3.5 p-3 rounded-xl bg-compass-950/40 border border-compass-500/25 text-xs text-compass-200 flex items-start gap-2.5 shadow-sm">
+            <div className="p-1 rounded-lg bg-compass-500/15 border border-compass-500/30 text-compass-300 shrink-0 mt-0.5">
+              <Sparkles className="w-3 h-3 animate-pulse" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="font-mono text-[10px] text-compass-400 uppercase tracking-wider font-semibold">AI Triage Summary</span>
+                <span className="text-[9px] font-mono text-slate-400 px-1.5 py-0.5 rounded bg-white/5 border border-white/10">Groq LLaMA 3.1</span>
+              </div>
+              <p className="text-slate-200 text-xs leading-relaxed font-sans">{issue.labels.summary}</p>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Tags Section / Inline Editor */}

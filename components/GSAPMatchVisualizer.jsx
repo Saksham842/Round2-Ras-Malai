@@ -294,14 +294,23 @@ export default function GSAPMatchVisualizer({ matches = [], contributor, onSelec
                 </h4>
 
                 {/* Match Reason Deep Dive */}
-                <div className="bg-[#050a0f]/60 rounded-xl p-3 border border-white/5 mb-3 text-xs">
-                  <div className="flex items-center gap-1.5 text-compass-300 font-medium mb-1">
-                    <Sparkles className="w-3.5 h-3.5 text-compass-400" />
-                    <span>Neural Matching Insight</span>
+                <div className="bg-[#050a0f]/60 rounded-xl p-3 border border-white/5 mb-3 text-xs space-y-2">
+                  <div>
+                    <div className="flex items-center gap-1.5 text-compass-300 font-medium mb-1">
+                      <Sparkles className="w-3.5 h-3.5 text-compass-400" />
+                      <span>Neural Matching Insight</span>
+                    </div>
+                    <p className="text-slate-300 leading-relaxed text-xs">
+                      {item.matchReason || "Strong overlap with your demonstrated skill portfolio."}
+                    </p>
                   </div>
-                  <p className="text-slate-300 leading-relaxed text-xs">
-                    {item.matchReason || "Strong overlap with your demonstrated skill portfolio."}
-                  </p>
+
+                  {item.issue.labels?.summary && (
+                    <div className="pt-2 border-t border-white/5 flex items-start gap-1.5 text-[11px] text-slate-400">
+                      <span className="font-mono text-compass-400/90 font-semibold uppercase tracking-wider text-[9px] shrink-0 mt-0.5">AI Summary:</span>
+                      <p className="text-slate-300 line-clamp-2">{item.issue.labels.summary}</p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Bottom Tags and Action */}

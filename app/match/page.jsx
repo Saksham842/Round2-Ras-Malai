@@ -16,7 +16,7 @@ import {
   RefreshCw
 } from "lucide-react";
 import GSAPMatchVisualizer from "../../components/GSAPMatchVisualizer";
-import { getMatches, getStoredUser } from "../../lib/api";
+import { getMatches, getStoredUser, getStoredSkills, setStoredSkills } from "../../lib/api";
 
 const POPULAR_SKILLS = [
   "React", "TypeScript", "Next.js", "Node.js", "Python", "TailwindCSS", "Documentation", "Bug Fixes", "Performance"
@@ -36,9 +36,6 @@ export default function MatchPage() {
     const user = getStoredUser();
     if (user) {
       setGithubProfile(user.login || "alexcontributor");
-      if (user.skills && user.skills.length > 0) {
-        setSkillsInput(user.skills.join(", "));
-      }
       setActiveContributor(user);
     } else {
       setActiveContributor({
@@ -50,22 +47,39 @@ export default function MatchPage() {
       });
     }
 
-    // Run initial match out of the box so the page loads with vivid visualizer ready
-    triggerMatch("React, TypeScript, Next.js, Architecture", user?.login || "alexcontributor");
+    // Restore persisted skills (priority: saved skills > user profile skills > defaults)
+    const savedSkills = getStoredSkills();
+    const initialSkillsStr = savedSkills
+      ? savedSkills.join(", ")
+      : (user?.skills?.length > 0 ? user.skills.join(", ") : "React, TypeScript, Next.js, Architecture");
+    setSkillsInput(initialSkillsStr);
+
+    // Load selected repos from localStorage for filtered matching
+    const savedRepos = localStorage.getItem("contrib_selected_repos");
+    const initialRepoIds = savedRepos ? JSON.parse(savedRepos) : [];
+
+    // Run initial match with restored skills and repo selection
+    triggerMatch(initialSkillsStr, user?.login || "alexcontributor", initialRepoIds);
   }, []);
 
-  const triggerMatch = async (skillsStr, handle) => {
+  const triggerMatch = async (skillsStr, handle, repoIds) => {
     setLoading(true);
     setError("");
     try {
       const skillsArray = skillsStr.split(",").map((s) => s.trim()).filter(Boolean);
-      const results = await getMatches(skillsArray, handle);
+      // Read selected repos from localStorage if not explicitly passed
+      const ids = repoIds !== undefined
+        ? repoIds
+        : (() => { try { return JSON.parse(localStorage.getItem("contrib_selected_repos") || "[]"); } catch { return []; } })();
+      const results = await getMatches(skillsArray, handle, ids);
       setMatches(results);
       setHasSearched(true);
       setActiveContributor((prev) => ({
         ...prev,
         skills: skillsArray,
       }));
+      // Persist skills whenever a match is run
+      setStoredSkills(skillsArray);
     } catch (err) {
       setError(err.message || "Failed to generate matches. Please retry.");
     } finally {
