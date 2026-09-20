@@ -18,13 +18,14 @@ function parseRepoUrl(input = '') {
 }
 
 // GitHub API client using native fetch
-async function fetchGithubRepo(owner, repo) {
+async function fetchGithubRepo(owner, repo, patOverride) {
+  const pat = patOverride || process.env.GITHUB_PAT;
   const headers = {
     'User-Agent': 'Contrib-Compass/1.0',
     'Accept': 'application/vnd.github.v3+json'
   };
-  if (process.env.GITHUB_PAT) {
-    headers['Authorization'] = `token ${process.env.GITHUB_PAT}`;
+  if (pat) {
+    headers['Authorization'] = `token ${pat}`;
   }
 
   const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`, { headers });
@@ -34,13 +35,14 @@ async function fetchGithubRepo(owner, repo) {
   return res.json();
 }
 
-async function fetchGithubIssues(owner, repo) {
+async function fetchGithubIssues(owner, repo, patOverride) {
+  const pat = patOverride || process.env.GITHUB_PAT;
   const headers = {
     'User-Agent': 'Contrib-Compass/1.0',
     'Accept': 'application/vnd.github.v3+json'
   };
-  if (process.env.GITHUB_PAT) {
-    headers['Authorization'] = `token ${process.env.GITHUB_PAT}`;
+  if (pat) {
+    headers['Authorization'] = `token ${pat}`;
   }
 
   // Fetch up to 2 pages (200 issues) so we match what the GitHub Issues tab shows
@@ -87,7 +89,8 @@ router.post('/connect', authMiddleware, async (req, res) => {
 
     // Try live GitHub API
     try {
-      const ghRepo = await fetchGithubRepo(owner, repo);
+      const clientPat = req.headers['x-github-pat'];
+      const ghRepo = await fetchGithubRepo(owner, repo, clientPat);
       repoData = {
         github_repo_id: String(ghRepo.id),
         owner: ghRepo.owner.login,
@@ -98,7 +101,7 @@ router.post('/connect', authMiddleware, async (req, res) => {
         stars: ghRepo.stargazers_count
       };
 
-      issuesData = await fetchGithubIssues(owner, repo);
+      issuesData = await fetchGithubIssues(owner, repo, clientPat);
     } catch (ghErr) {
       console.warn(`GitHub API request failed for ${fullName} (${ghErr.message}). Checking existing DB.`);
       // If already connected in DB, re-use existing ingested issues
@@ -149,14 +152,16 @@ router.post('/connect', authMiddleware, async (req, res) => {
         created_at: ghIssue.created_at || new Date().toISOString()
       });
 
-      // Classify
-      const classification = await classifyAndEmbedIssue(savedIssue);
+      // Classify with client Groq key if provided
+      const groqApiKey = req.headers['x-groq-api-key'] || undefined;
+      const classification = await classifyAndEmbedIssue(savedIssue, groqApiKey);
       queries.upsertIssueLabel({
         issue_id: savedIssue.id,
         difficulty: classification.difficulty,
         skill_area: classification.skillArea,
         effort: classification.effort,
-        confidence: classification.confidence
+        confidence: classification.confidence,
+        summary: classification.summary
       });
 
       ingestedCount++;
