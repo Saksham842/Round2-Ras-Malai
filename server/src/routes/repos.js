@@ -43,13 +43,23 @@ async function fetchGithubIssues(owner, repo) {
     headers['Authorization'] = `token ${process.env.GITHUB_PAT}`;
   }
 
-  const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/issues?state=open&per_page=25&sort=updated`, { headers });
-  if (!res.ok) {
-    throw new Error(`GitHub API error ${res.status}: ${res.statusText}`);
+  // Fetch up to 2 pages (200 issues) so we match what the GitHub Issues tab shows
+  let allIssues = [];
+  for (let page = 1; page <= 2; page++) {
+    const res = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/issues?state=open&per_page=100&page=${page}&sort=created&direction=desc`,
+      { headers }
+    );
+    if (!res.ok) {
+      throw new Error(`GitHub API error ${res.status}: ${res.statusText}`);
+    }
+    const batch = await res.json();
+    // Exclude pull requests (GitHub returns them in the issues endpoint)
+    const issues = batch.filter(issue => !issue.pull_request);
+    allIssues = allIssues.concat(issues);
+    if (batch.length < 100) break; // last page
   }
-  const issues = await res.json();
-  // Exclude pull requests which GitHub returns in the issues endpoint
-  return issues.filter(issue => !issue.pull_request);
+  return allIssues;
 }
 
 // POST /api/repos/connect
@@ -90,8 +100,8 @@ router.post('/connect', authMiddleware, async (req, res) => {
 
       issuesData = await fetchGithubIssues(owner, repo);
     } catch (ghErr) {
-      console.warn(`GitHub API request failed for ${fullName} (${ghErr.message}). Checking existing DB or fallback.`);
-      // If already connected in DB, re-use
+      console.warn(`GitHub API request failed for ${fullName} (${ghErr.message}). Checking existing DB.`);
+      // If already connected in DB, re-use existing ingested issues
       const existing = queries.findRepoByFullName(fullName);
       if (existing) {
         const issues = queries.getIssuesByRepoIds([existing.id]);
@@ -109,35 +119,13 @@ router.post('/connect', authMiddleware, async (req, res) => {
         });
       }
 
-      // Offline fallback metadata
-      repoData = {
-        github_repo_id: 'gh_' + Math.floor(Math.random() * 900000 + 100000),
-        owner,
-        name: repo,
-        full_name: fullName,
-        description: `Open-source repository ${fullName}`,
-        url: `https://github.com/${fullName}`,
-        stars: 1200
-      };
-
-      issuesData = [
-        {
-          id: Math.floor(Math.random() * 900000),
-          number: 101,
-          title: `Fix responsive layout & dark mode styles in ${repo}`,
-          body: 'Ensure flex container handles wrapping gracefully on mobile viewports.',
-          html_url: `https://github.com/${fullName}/issues/101`,
-          comments: 3
-        },
-        {
-          id: Math.floor(Math.random() * 900000),
-          number: 102,
-          title: `Update README documentation quickstart instructions for ${repo}`,
-          body: 'Fix outdated commands and broken links in getting started guide.',
-          html_url: `https://github.com/${fullName}/issues/102`,
-          comments: 1
+      // No DB fallback available — surface the error clearly
+      return res.status(503).json({
+        error: {
+          message: `GitHub API unavailable: ${ghErr.message}. Add a valid GITHUB_PAT to your server/.env to connect new repositories.`,
+          code: 'GITHUB_UNAVAILABLE'
         }
-      ];
+      });
     }
 
     // Upsert repo
