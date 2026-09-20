@@ -83,9 +83,22 @@ app.use((err, req, res, next) => {
 });
 
 if (require.main === module) {
-  app.listen(PORT, () => {
+  const server = app.listen(PORT, () => {
     console.log(`🚀 Contrib Compass API server running on http://localhost:${PORT}`);
   });
+
+  const shutdown = (signal) => {
+    console.log(`Received ${signal}. Shutting down gracefully...`);
+    server.close(() => {
+      try {
+        db.close();
+      } catch (e) {}
+      process.exit(0);
+    });
+  };
+
+  process.on('SIGTERM', () => shutdown('SIGTERM'));
+  process.on('SIGINT', () => shutdown('SIGINT'));
 }
 
 module.exports = app;
