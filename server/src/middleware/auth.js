@@ -27,7 +27,7 @@ function authMiddleware(req, res, next) {
   const token = authHeader.split(' ')[1];
 
   // Handle mock tokens gracefully for hackathon offline/resilience demo
-  if (token.startsWith('gh_mock_') || token.startsWith('demo_')) {
+  if (token.startsWith('gh_mock_') || token.startsWith('demo_') || token.startsWith('gh_fallback_')) {
     req.user = DEFAULT_DEMO_USER;
     return next();
   }

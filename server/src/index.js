@@ -20,15 +20,12 @@ app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps, curl, or server-side calls)
     if (!origin) return callback(null, true);
-    
-    // Check exact matches or any *.vercel.app deployment
-    if (allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
-      return callback(null, true);
-    }
-    return callback(null, true); // Permissive in hackathon mode
+    // Permissive in hackathon mode — allow all origins incl. *.vercel.app
+    return callback(null, true);
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  // Include BYOK headers so browser can send user-provided PAT and Groq key
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-github-pat', 'x-groq-api-key'],
   credentials: true
 }));
 

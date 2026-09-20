@@ -3,7 +3,10 @@ node_modules
 /.pnp
 .pnp.js
 *.db
+*.db*
 *.db-journal
+*.db-wal
+*.db-shm
 
 # testing
 /coverage
