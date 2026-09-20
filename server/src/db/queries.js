@@ -184,7 +184,7 @@ function formatIssueRow(row) {
       skillArea: row.skillArea,
       effort: row.effort,
       confidence: row.confidence !== null ? parseFloat(row.confidence) : 0.85,
-      summary: row.summary || null
+      summary: row.summary || `${row.difficulty} ${row.skillArea || 'Architecture'} task: ${row.title?.replace(/\.$/, '') || 'Investigate and resolve issue'}.`
     } : null,
     commentsCount: row.commentsCount,
     createdAt: row.createdAt

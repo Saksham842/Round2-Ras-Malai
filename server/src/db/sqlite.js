@@ -99,6 +99,20 @@ function initSchema() {
   } catch (e) {
     // Column already exists or table freshly created with summary
   }
+
+  // Backfill any issues with missing summary
+  try {
+    db.exec(`
+      UPDATE issue_labels
+      SET summary = (
+        SELECT COALESCE(difficulty, 'Intermediate') || ' ' || COALESCE(skill_area, 'Architecture') || ' task: ' || issues.title
+        FROM issues WHERE issues.id = issue_labels.issue_id
+      )
+      WHERE summary IS NULL OR summary = ''
+    `);
+  } catch (e) {
+    // Ignore error if issues table is not yet populated
+  }
 }
 
 initSchema();
