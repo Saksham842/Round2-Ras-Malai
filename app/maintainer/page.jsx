@@ -41,7 +41,7 @@ export default function MaintainerPage() {
   const handleCorrect = async (issueId, newLabels) => {
     try {
       await correctLabel(issueId, newLabels);
-      setToast(`Label corrected for Issue #${issueId}! Feedback incorporated into Groq fine-tune buffer.`);
+      setToast(`Label corrected for Issue #${issueId}! Verified labels logged and active in matching engine.`);
       setFeedbackCount((prev) => prev + 1);
       setTimeout(() => setToast(""), 4500);
 
@@ -85,7 +85,7 @@ export default function MaintainerPage() {
           </div>
           <h1 className="text-3xl font-extrabold text-white">Maintainer Triage & Feedback Studio</h1>
           <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl">
-            Review auto-generated difficulty and skill labels. When you correct an issue label, it directly fine-tunes the Groq classification pipeline.
+            Review auto-generated difficulty and skill labels. Maintainer corrections are stored and immediately override model labels in the matching engine.
           </p>
         </div>
 

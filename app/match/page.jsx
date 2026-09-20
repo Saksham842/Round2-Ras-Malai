@@ -206,9 +206,9 @@ export default function MatchPage() {
               <Zap className="w-6 h-6 animate-pulse" />
             </div>
           </div>
-          <h3 className="text-lg font-bold text-white mb-2">Executing Groq Cosine Similarity</h3>
+          <h3 className="text-lg font-bold text-white mb-2">Executing Issue Match Engine</h3>
           <p className="text-xs text-slate-400 font-mono max-w-md mx-auto leading-relaxed">
-            Projecting 768-dimensional sentence-transformer embeddings across active open issues...
+            Analyzing developer skills and evaluating active open repository issues...
           </p>
         </div>
       ) : matches.length > 0 ? (

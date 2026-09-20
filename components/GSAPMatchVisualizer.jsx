@@ -143,7 +143,7 @@ export default function GSAPMatchVisualizer({ matches = [], contributor, onSelec
               Neural Match Engine <span className="text-xs font-mono font-normal text-compass-400">GSAP Beam Stream</span>
             </h2>
             <p className="text-xs text-slate-400">
-              Cosine similarity over sentence-transformer issue embeddings weighted against contributor graph
+              Multi-factor matching across repository issues weighted against contributor skill graph
             </p>
           </div>
         </div>
@@ -213,8 +213,8 @@ export default function GSAPMatchVisualizer({ matches = [], contributor, onSelec
             </div>
 
             <div className="pt-2 flex items-center justify-between text-[11px] font-mono text-slate-400">
-              <span>Embedding Dimension</span>
-              <span className="text-cyan-400">768-D Vector</span>
+              <span>Match Algorithm</span>
+              <span className="text-cyan-400">Semantic & Skill Graph</span>
             </div>
           </div>
 

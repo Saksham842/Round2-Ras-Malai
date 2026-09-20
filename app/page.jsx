@@ -82,7 +82,7 @@ export default function HomePage() {
               </div>
               <div className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                <span>768-D Vector Embeddings</span>
+                <span>Smart Semantic Matching</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
@@ -212,7 +212,7 @@ export default function HomePage() {
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-white/5 flex items-center gap-2 text-xs font-mono text-cyan-300">
-              <span>Sentence-Transformers 768-D</span>
+              <span>Weighted Multi-Repo Match</span>
             </div>
           </div>
 
@@ -224,7 +224,7 @@ export default function HomePage() {
               </div>
               <h3 className="text-xl font-bold text-white mb-3">Self-Improving</h3>
               <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                Maintainer corrections and label adjustments feed directly back into the model, so matching accuracy compounds continuously over time.
+                Maintainer corrections and label adjustments update the issue knowledge base, ensuring match accuracy and triage fidelity stay sharp.
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-white/5 flex items-center gap-2 text-xs font-mono text-emerald-300">
@@ -255,18 +255,18 @@ export default function HomePage() {
             {/* Step 2 */}
             <div className="p-5 rounded-2xl bg-[#09111b] border border-white/10 relative overflow-hidden">
               <span className="text-2xl font-mono font-bold text-cyan-400 block mb-2">02</span>
-              <h4 className="font-bold text-sm text-white mb-1">Embeddings</h4>
+              <h4 className="font-bold text-sm text-white mb-1">Text Analysis</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Sentence-transformer embeddings capture dense semantic issue content &amp; code context.
+                Sanitizes issue bodies, extracts technical keywords, and normalizes stack taxonomy.
               </p>
             </div>
 
             {/* Step 3 */}
             <div className="p-5 rounded-2xl bg-[#09111b] border border-white/10 relative overflow-hidden">
               <span className="text-2xl font-mono font-bold text-emerald-400 block mb-2">03</span>
-              <h4 className="font-bold text-sm text-white mb-1">Groq LLM</h4>
+              <h4 className="font-bold text-sm text-white mb-1">AI Classifier</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
-                llama-3.3-70b classifies difficulty, skill area, and effort with microsecond latency.
+                Evaluates difficulty, skill area, and effort with microsecond triage execution.
               </p>
             </div>
 
