@@ -123,7 +123,8 @@ function getIssueById(id) {
       il.difficulty,
       il.skill_area as skillArea,
       il.effort,
-      il.confidence
+      il.confidence,
+      il.summary
     FROM issues i
     JOIN repos r ON i.repo_id = r.id
     LEFT JOIN issue_labels il ON i.id = il.issue_id
@@ -149,7 +150,8 @@ function getIssuesByRepoIds(repoIds = []) {
       il.difficulty,
       il.skill_area as skillArea,
       il.effort,
-      il.confidence
+      il.confidence,
+      il.summary
     FROM issues i
     JOIN repos r ON i.repo_id = r.id
     LEFT JOIN issue_labels il ON i.id = il.issue_id
@@ -181,7 +183,8 @@ function formatIssueRow(row) {
       difficulty: row.difficulty,
       skillArea: row.skillArea,
       effort: row.effort,
-      confidence: row.confidence !== null ? parseFloat(row.confidence) : 0.85
+      confidence: row.confidence !== null ? parseFloat(row.confidence) : 0.85,
+      summary: row.summary || null
     } : null,
     commentsCount: row.commentsCount,
     createdAt: row.createdAt
@@ -189,18 +192,19 @@ function formatIssueRow(row) {
 }
 
 // Labels
-function upsertIssueLabel({ issue_id, difficulty, skill_area, effort, confidence }) {
+function upsertIssueLabel({ issue_id, difficulty, skill_area, effort, confidence, summary }) {
   const stmt = db.prepare(`
-    INSERT INTO issue_labels (issue_id, difficulty, skill_area, effort, confidence, labeled_at)
-    VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+    INSERT INTO issue_labels (issue_id, difficulty, skill_area, effort, confidence, summary, labeled_at)
+    VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
     ON CONFLICT(issue_id) DO UPDATE SET
       difficulty = excluded.difficulty,
       skill_area = excluded.skill_area,
       effort = excluded.effort,
       confidence = excluded.confidence,
+      summary = excluded.summary,
       labeled_at = CURRENT_TIMESTAMP
   `);
-  stmt.run(issue_id, difficulty, skill_area, effort, confidence || 0.85);
+  stmt.run(issue_id, difficulty, skill_area, effort, confidence || 0.85, summary || null);
   return db.prepare('SELECT * FROM issue_labels WHERE issue_id = ?').get(issue_id);
 }
 

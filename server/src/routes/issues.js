@@ -55,13 +55,15 @@ router.post('/:id/reclassify', authMiddleware, async (req, res) => {
   }
 
   try {
-    const classification = await classifyAndEmbedIssue(issue);
+    const groqApiKey = req.headers['x-groq-api-key'] || undefined;
+    const classification = await classifyAndEmbedIssue(issue, groqApiKey);
     queries.upsertIssueLabel({
       issue_id: id,
       difficulty: classification.difficulty,
       skill_area: classification.skillArea,
       effort: classification.effort,
-      confidence: classification.confidence
+      confidence: classification.confidence,
+      summary: classification.summary
     });
 
     cache.flushAll();
@@ -72,7 +74,8 @@ router.post('/:id/reclassify', authMiddleware, async (req, res) => {
         difficulty: classification.difficulty,
         skillArea: classification.skillArea,
         effort: classification.effort,
-        confidence: classification.confidence
+        confidence: classification.confidence,
+        summary: classification.summary
       }
     });
   } catch (err) {

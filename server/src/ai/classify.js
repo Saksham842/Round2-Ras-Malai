@@ -68,14 +68,17 @@ function classifyIssueHeuristic(issue) {
     skillArea = 'Python';
   }
 
-  return { difficulty, skillArea, effort, confidence };
+  const summary = `${difficulty} ${skillArea} task: ${issue.title || 'Investigate and resolve issue'}.`;
+
+  return { difficulty, skillArea, effort, confidence, summary };
 }
 
 /**
  * Classify using Groq LLM if API key is provided, falling back to heuristic
  */
-async function classifyWithGroq(cleanText) {
-  if (!process.env.GROQ_API_KEY) return null;
+async function classifyWithGroq(cleanText, groqApiKey) {
+  const apiKey = groqApiKey || process.env.GROQ_API_KEY;
+  if (!apiKey) return null;
 
   try {
     const prompt = `You are a GitHub issue triage expert. Analyze this issue text and output valid JSON only:
@@ -87,13 +90,14 @@ Output format:
   "difficulty": "Easy" | "Intermediate" | "Advanced",
   "skillArea": "React" | "TypeScript" | "Node.js" | "Next.js" | "CSS / UI" | "Documentation" | "Architecture",
   "effort": "<2 hrs" | "2-4 hrs" | "4-6 hrs" | ">1 day",
-  "confidence": 0.90
+  "confidence": 0.92,
+  "summary": "1-2 sentence actionable summary of what needs to be fixed or built"
 }`;
 
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+        'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -101,7 +105,7 @@ Output format:
         messages: [{ role: 'user', content: prompt }],
         response_format: { type: 'json_object' },
         temperature: 0.1,
-        max_tokens: 150
+        max_tokens: 250
       })
     });
 
@@ -115,7 +119,8 @@ Output format:
           difficulty: parsed.difficulty,
           skillArea: parsed.skillArea,
           effort: parsed.effort || '2-4 hrs',
-          confidence: parsed.confidence || 0.92
+          confidence: parsed.confidence || 0.92,
+          summary: parsed.summary || `${parsed.difficulty} ${parsed.skillArea} task based on issue description.`
         };
       }
     }
@@ -129,11 +134,11 @@ Output format:
 /**
  * Main entrypoint for issue classification
  */
-async function classifyAndEmbedIssue(issue) {
+async function classifyAndEmbedIssue(issue, groqApiKey) {
   const cleanText = sanitizeIssueText(issue.title, issue.body);
 
-  // Try Groq if key exists, otherwise use heuristic
-  let result = await classifyWithGroq(cleanText);
+  // Try Groq if key exists (client-provided or env), otherwise use heuristic
+  let result = await classifyWithGroq(cleanText, groqApiKey);
   if (!result) {
     result = classifyIssueHeuristic(issue);
   }

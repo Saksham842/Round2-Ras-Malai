@@ -59,6 +59,7 @@ function initSchema() {
       skill_area TEXT,
       effort TEXT,
       confidence REAL DEFAULT 0.0,
+      summary TEXT,
       labeled_at TEXT DEFAULT CURRENT_TIMESTAMP
     );
 
@@ -92,6 +93,12 @@ function initSchema() {
     CREATE INDEX IF NOT EXISTS idx_issues_repo_id ON issues(repo_id);
     CREATE INDEX IF NOT EXISTS idx_repos_full_name ON repos(full_name);
   `);
+
+  try {
+    db.exec('ALTER TABLE issue_labels ADD COLUMN summary TEXT');
+  } catch (e) {
+    // Column already exists or table freshly created with summary
+  }
 }
 
 initSchema();

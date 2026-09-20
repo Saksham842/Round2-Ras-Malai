@@ -31,7 +31,8 @@ const SEED_REPOS = [
         difficulty: 'Intermediate',
         skill_area: 'React / Architecture',
         effort: '4-6 hrs',
-        confidence: 0.94
+        confidence: 0.94,
+        summary: 'Preserve slot boundary or add an explicit fallback hook when nested parallel routes skip loading.tsx with cache: no-store.'
       },
       {
         id: 'iss_next_2',
@@ -43,7 +44,8 @@ const SEED_REPOS = [
         difficulty: 'Intermediate',
         skill_area: 'React / Next.js',
         effort: '2-4 hrs',
-        confidence: 0.91
+        confidence: 0.91,
+        summary: 'Prevent duplicate <link rel="preload"> tags in head when Image priority is toggled dynamically during hydration.'
       },
       {
         id: 'iss_next_3',
@@ -55,7 +57,8 @@ const SEED_REPOS = [
         difficulty: 'Easy',
         skill_area: 'Documentation',
         effort: '<1 hr',
-        confidence: 0.98
+        confidence: 0.98,
+        summary: 'Add TypeScript examples explaining how searchParams and catch-all dynamic route segments interact in generateStaticParams.'
       },
       {
         id: 'iss_next_4',
@@ -67,7 +70,8 @@ const SEED_REPOS = [
         difficulty: 'Advanced',
         skill_area: 'Architecture / Rust',
         effort: '>1 day',
-        confidence: 0.95
+        confidence: 0.95,
+        summary: 'Profile Turbopack AST cache eviction during continuous HMR cycles in 50+ package monorepos to stop 8GB memory leak.'
       },
       {
         id: 'iss_next_5',
@@ -79,7 +83,8 @@ const SEED_REPOS = [
         difficulty: 'Easy',
         skill_area: 'CSS / UI',
         effort: '<2 hrs',
-        confidence: 0.96
+        confidence: 0.96,
+        summary: 'Inject aria-current="page" into active navigation Link elements in App Router to satisfy accessibility standards.'
       }
     ]
   },
@@ -234,7 +239,8 @@ async function seed() {
         difficulty: iss.difficulty,
         skill_area: iss.skill_area,
         effort: iss.effort,
-        confidence: iss.confidence
+        confidence: iss.confidence,
+        summary: iss.summary || `${iss.difficulty} priority: ${iss.title.slice(0, 95)}.`
       });
     }
     console.log(`   ↳ Seeded ${r.issues.length} triaged issues for ${savedRepo.full_name}`);
