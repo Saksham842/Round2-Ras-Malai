@@ -3,21 +3,26 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Compass, GitPullRequest, GitFork, Sparkles, Shield, Github, LogOut, CheckCircle2 } from "lucide-react";
-import { getStoredUser, isMockMode, setMockMode } from "../lib/api";
+import { Compass, GitPullRequest, GitFork, Sparkles, Shield, Github, LogOut, CheckCircle2, Settings } from "lucide-react";
+import { getStoredUser, isMockMode, setMockMode, getStoredGithubPat, getStoredGroqKey } from "../lib/api";
+import SettingsModal from "./SettingsModal";
 
 export default function Navbar() {
   const pathname = usePathname();
   const [user, setUser] = useState(null);
   const [mockActive, setMockActive] = useState(true);
+  const [showSettings, setShowSettings] = useState(false);
+  const [hasKeys, setHasKeys] = useState(false);
 
   useEffect(() => {
     setUser(getStoredUser());
     setMockActive(isMockMode());
+    setHasKeys(!!(getStoredGithubPat() || getStoredGroqKey()));
 
     const handleAuthChange = () => {
       setUser(getStoredUser());
       setMockActive(isMockMode());
+      setHasKeys(!!(getStoredGithubPat() || getStoredGroqKey()));
     };
     window.addEventListener("storage", handleAuthChange);
     window.addEventListener("api-mode-change", handleAuthChange);
@@ -50,7 +55,8 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#050a0f]/80 backdrop-blur-xl transition-all">
+    <>
+      <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#050a0f]/80 backdrop-blur-xl transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
         {/* Brand Logo matching Pitch Deck geometry */}
@@ -135,6 +141,18 @@ export default function Navbar() {
                 </div>
               </div>
 
+              {/* Settings / API Keys button */}
+              <button
+                onClick={() => setShowSettings(true)}
+                title="API Keys & Settings"
+                className="relative p-1.5 rounded-lg text-slate-400 hover:text-compass-300 hover:bg-compass-500/10 transition-colors"
+              >
+                <Settings className="w-4 h-4" />
+                {hasKeys && (
+                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-emerald-400 rounded-full border border-[#050a0f]" />
+                )}
+              </button>
+
               <button
                 onClick={handleLogout}
                 title="Sign out"
@@ -144,16 +162,34 @@ export default function Navbar() {
               </button>
             </div>
           ) : (
-            <Link
-              href="/login"
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-compass-500 to-emerald-500 hover:from-compass-400 hover:to-emerald-400 text-slate-950 font-semibold text-xs shadow-glow-teal transition-all active:scale-95"
-            >
-              <Github className="w-3.5 h-3.5" />
-              <span>Sign In</span>
-            </Link>
+            <>
+              {/* Settings available even when logged out */}
+              <button
+                onClick={() => setShowSettings(true)}
+                title="API Keys & Settings"
+                className="relative p-1.5 rounded-lg text-slate-400 hover:text-compass-300 hover:bg-compass-500/10 transition-colors"
+              >
+                <Settings className="w-4 h-4" />
+                {hasKeys && (
+                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-emerald-400 rounded-full border border-[#050a0f]" />
+                )}
+              </button>
+              <Link
+                href="/login"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-compass-500 to-emerald-500 hover:from-compass-400 hover:to-emerald-400 text-slate-950 font-semibold text-xs shadow-glow-teal transition-all active:scale-95"
+              >
+                <Github className="w-3.5 h-3.5" />
+                <span>Sign In</span>
+              </Link>
+            </>
           )}
         </div>
       </div>
     </header>
-  );
+
+    {showSettings && (
+      <SettingsModal onClose={() => { setShowSettings(false); setHasKeys(!!(getStoredGithubPat() || getStoredGroqKey())); }} />
+    )}
+  </>
+);
 }

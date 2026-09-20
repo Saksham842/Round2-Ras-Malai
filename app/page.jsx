@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
@@ -126,7 +127,14 @@ export default function HomePage() {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <div className="w-full max-w-[440px] aspect-square relative flex items-center justify-center">
-              <CompassCanvas3D className="w-full h-full" />
+              <Suspense fallback={
+                <div className="w-full h-full flex flex-col items-center justify-center text-compass-400 gap-2">
+                  <Loader2 className="w-8 h-8 animate-spin" />
+                  <span className="text-xs font-mono">Initializing 3D WebGL Compass...</span>
+                </div>
+              }>
+                <CompassCanvas3D className="w-full h-full" />
+              </Suspense>
               <div className="absolute -bottom-2 text-center">
                 <span className="text-[10px] font-mono uppercase tracking-widest text-compass-400/70 bg-black/60 px-3 py-1 rounded-full border border-compass-500/20">
                   Interactive 3D WebGL Compass • Move Mouse to Tilt
