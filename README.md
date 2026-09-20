@@ -1,143 +1,128 @@
-# 🧭 Contrib Compass
+# Contrib Compass
 
-> **AI-Powered Open-Source Contributor Matching & Issue Triage Platform**  
-> Never let good first issues go unnoticed. Match contributors with high-impact open-source issues aligned with their skills, stack, and available time.
-
----
-
-## 🌟 Core Features
-
-- **Interactive 3D WebGL Compass** — Three.js viewport orienting contributors toward relevant repository domains.
-- **Automated AI Triage** — Multi-factor classification analyzing difficulty (`Easy`, `Intermediate`, `Advanced`), skill area, and estimated effort (`<1 hr`, `2-4 hrs`, `4-6 hrs`, `>1 day`).
-- **Smart Semantic Matching** — Weighted multi-factor scoring matching contributor skill graphs to open issues with 0–100 normalized scores and ≤120 char contextual explanations.
-- **Active Maintainer Feedback Loop** — Maintainers can review and correct AI triaged labels in real-time; corrections immediately override labels in the matching engine.
-- **Live + Demo Mode** — Pre-seeded with curated repositories (`facebook/react`, `vercel/next.js`, `tailwindlabs/tailwindcss`) so the demo works even without a GitHub PAT.
+AI-powered open-source contributor matching and issue triage platform. Contrib Compass automatically triages GitHub issues by difficulty, skill area, and effort using LLM inference and local heuristics, then matches contributors to the best-fit issues based on their skills and preferences.
 
 ---
 
-## 🏗️ Architecture
+## Features
+
+- **3D WebGL Compass Visualizer**: Interactive Three.js canvas orienting contributors toward relevant repository domains.
+- **Automated Issue Triage**: Classifies open issues into difficulty levels (`Easy`, `Intermediate`, `Advanced`), skill areas, and estimated completion time, generating actionable summaries.
+- **Multi-Factor Contributor Matching**: Ranks issues for contributors using weighted skill matching, returning normalized scores (0–100) and contextual match explanations.
+- **Maintainer Feedback Loop**: Maintainers can correct classifications directly in the studio. Corrections are persisted to SQLite and immediately override model labels in the matching engine.
+- **Client-Side Key Management (BYOK)**: Users can enter their own GitHub PAT and Groq API Key in the UI settings. Keys are stored locally in the browser and transmitted via request headers.
+
+---
+
+## Architecture
 
 ```
-                                  ┌────────────────────────┐
-                                  │   Next.js 14 Frontend  │
-                                  │ (Three.js, GSAP, FM)   │
-                                  └───────────┬────────────┘
-                                              │ REST API / JWT
-                                              ▼
-                                  ┌────────────────────────┐
-                                  │   Express API Server   │
-                                  │ (server/src/index.js)  │
-                                  └─────┬────────────┬─────┘
-                                        │            │
-                  ┌─────────────────────┘            └─────────────────────┐
-                  ▼                                                        ▼
-    ┌───────────────────────────┐                            ┌───────────────────────────┐
-    │     AI & Triage Engine    │                            │    SQLite Persistence     │
-    │ - Rule Heuristics         │                            │  (server/data/compass.db) │
-    │ - Groq LLM Classifier     │                            │ - repos, issues, labels   │
-    │ - Semantic Matcher        │                            │ - corrections, matches    │
-    └───────────────────────────┘                            └───────────────────────────┘
+                      +------------------------+
+                      |   Next.js 14 Frontend  |
+                      |  (Three.js, GSAP, FM)  |
+                      +-----------+------------+
+                                  | REST API / JWT
+                                  v
+                      +------------------------+
+                      |   Express API Server   |
+                      |  (server/src/index.js) |
+                      +-----+------------+-----+
+                            |            |
+            +---------------+            +---------------+
+            v                                            v
++-----------------------+                    +-----------------------+
+|  AI & Triage Engine   |                    |   SQLite Persistence  |
+| - Groq LLM Classifier |                    | (server/data/compass) |
+| - Heuristics Fallback |                    | - repos, issues       |
+| - Matching Algorithm  |                    | - labels, corrections |
++-----------------------+                    +-----------------------+
 ```
-
-**Issue Ingestion Flow:**  
-`POST /api/repos/connect` → fetches real issues from the GitHub Issues tab (up to 200, sorted by newest) via REST API → AI classifier assigns difficulty/skill/effort → stored in SQLite → served to the match engine.
 
 ---
 
-## 🚀 Quickstart
+## How to Run
 
-### 1. Prerequisites
-- Node.js v18+ or v20+
-- npm v9+
+### Prerequisites
 
-### 2. Environment Setup
+- Node.js 18+ or 20+
+- npm 9+
+
+### 1. Start Backend Server
 
 ```bash
 cd server
-cp .env.example .env
-```
-
-Open `server/.env` and fill in:
-
-| Variable | Required | Description |
-|---|---|---|
-| `JWT_SECRET` | ✅ | Any random string (32+ chars) |
-| `GITHUB_PAT` | ⚠️ Recommended | GitHub Personal Access Token — **without this, connecting new repos will fail** |
-| `GROQ_API_KEY` | ⚠️ Recommended | Groq API key for live LLM classification — without this, rule-based heuristics are used |
-
-**Getting a `GITHUB_PAT`:**
-1. Go to [github.com/settings/tokens](https://github.com/settings/tokens)
-2. Click **Generate new token (classic)**
-3. Select `public_repo` scope (no other permissions needed)
-4. Paste the token as `GITHUB_PAT=ghp_...` in `server/.env`
-
-> **Without a PAT:** The pre-seeded demo repositories work fine. Connecting *new* repos will return an error asking you to add a PAT.
-
-### 3. Backend Setup
-```bash
-cd server
 npm install
-npm run seed       # Pre-populates SQLite with 3 demo repos & 12 curated issues
-npm start          # Starts API server on http://localhost:5000
+npm run seed
+npm start
 ```
 
-To run the backend test suite:
-```bash
-npm test
-```
+The backend server will start on `http://localhost:5000`.
 
-### 4. Frontend Setup
+### 2. Start Frontend App
+
+In the project root directory:
+
 ```bash
-# In the root repository directory
 npm install
-npm run dev        # Starts Next.js app on http://localhost:3000
+npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 🔄 Live vs Demo Mode
+## Environment Variables & Configuration
 
-| Mode | When | What happens |
+No `.env` file is strictly required to run locally. The application comes pre-seeded with real issues from `vercel/next.js`, `facebook/react`, and `dapr/dapr`.
+
+### Bringing Your Own Keys (Recommended)
+You do not need to configure API keys on the backend server. Instead, click the **Settings** icon in the frontend navigation bar to input:
+- **GitHub Personal Access Token**: Allows connecting any public GitHub repository without hitting rate limits.
+- **Groq API Key**: Enables live LLM-powered issue triage and summaries.
+
+Keys are stored in your browser's local storage and sent via `x-github-pat` and `x-groq-api-key` request headers.
+
+### Deployment Environment Variables
+
+When deploying to production (e.g., Vercel + Render/Railway):
+
+**Frontend (Vercel):**
+| Variable | Description |
+|---|---|
+| `NEXT_PUBLIC_API_URL` | Base URL of your deployed backend (e.g. `https://your-api.onrender.com`) |
+| `NEXT_PUBLIC_GITHUB_CLIENT_ID` | Optional GitHub OAuth Client ID for OAuth login |
+
+**Backend (Render / Railway):**
+| Variable | Default | Description |
 |---|---|---|
-| **Live** | `GITHUB_PAT` is set and valid | Real issues fetched from GitHub Issues tab (up to 200, newest first), then classified |
-| **Demo** | No PAT, or repo already seeded | Pre-classified issues from seeded repos are served instantly |
-| **Error** | PAT missing and repo not in DB | Clear 503 error explaining how to add a PAT |
+| `PORT` | `5000` | Port for Express server |
+| `NODE_ENV` | `production` | Environment mode |
+| `JWT_SECRET` | Provided | Secret used for signing session tokens |
+| `FRONTEND_ORIGIN` | `*` | Allowed CORS origin (permissive in demo mode) |
+| `GROQ_API_KEY` | *(Optional)* | Server-level fallback key if client does not provide one |
+| `GITHUB_PAT` | *(Optional)* | Server-level fallback PAT for repository ingestion |
 
 ---
 
-## 📡 API Endpoints
+## API Reference
 
 | Method | Endpoint | Description |
 |---|---|---|
-| `POST` | `/api/auth/github` | Authenticate via GitHub OAuth or demo credentials |
-| `POST` | `/api/auth/demo` | Instant demo login returning JWT session |
-| `POST` | `/api/repos/connect` | Ingest and auto-triage a GitHub repository (requires PAT for new repos) |
-| `GET` | `/api/repos` | List connected repositories with issue stats |
-| `GET` | `/api/issues?repo=<id>` | Retrieve triaged issues with difficulty/effort tags |
-| `POST` | `/api/match` | Rank top 5 issues for a contributor profile |
-| `POST` | `/api/issues/:id/correct-label` | Maintainer correction loop updating labels & confidence |
-| `POST` | `/api/issues/:id/reclassify` | Re-run AI classifier on a single issue |
-| `GET` | `/health` | Server & database health check |
+| `POST` | `/api/auth/github` | Authenticate via GitHub OAuth code or demo credentials |
+| `POST` | `/api/repos/connect` | Ingest and auto-triage a GitHub repository (`owner/repo` or URL) |
+| `GET` | `/api/repos` | List connected repositories and issue counts |
+| `GET` | `/api/issues?repo=<id>` | Retrieve triaged issues with difficulty, skill, and effort tags |
+| `POST` | `/api/match` | Return ranked issue matches for a contributor skill set |
+| `POST` | `/api/issues/:id/correct-label` | Correct issue labels; immediately overrides match algorithm |
+| `GET` | `/api/health` | Service health check |
 
 ---
 
-## 🧪 Verification & Testing
+## Testing
 
-- **Unit & Integration Tests**: 13 automated tests covering auth, repository ingestion, AI triage heuristics, semantic matching, and maintainer feedback.
-- **Frontend Build**: Verified production static build across all 7 routes.
-- **Test command**: `npm test` inside `server/`
+Run the automated backend test suite:
 
----
-
-## 🔍 Troubleshooting
-
-**"Connecting new repos shows fake/wrong issues"**  
-→ Add a `GITHUB_PAT` to `server/.env`. Without a token, the GitHub API rate-limits unauthenticated requests and connecting new repos will fail.
-
-**"Issues don't match what I see in the GitHub Issues tab"**  
-→ The `/api/repos/connect` endpoint fetches from the same GitHub REST endpoint as the Issues tab (`/repos/{owner}/{repo}/issues?state=open`). If you see seeded data instead, the repo was already connected from the seed. Delete `server/data/compass.db` and re-run `npm run seed` to reset.
-
-**"Groq classification is not working"**  
-→ Set `GROQ_API_KEY` in `server/.env`. Without it, rule-based heuristics are used as a fallback (still functional, slightly less accurate).
+```bash
+cd server
+npm test
+```
