@@ -94,34 +94,46 @@ Output format:
   "summary": "1-2 sentence actionable summary of what needs to be fixed or built"
 }`;
 
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: 'llama-3.1-8b-instant',
-        messages: [{ role: 'user', content: prompt }],
-        response_format: { type: 'json_object' },
-        temperature: 0.1,
-        max_tokens: 250
-      })
-    });
+    const candidateModels = ['groq/compound-mini', 'qwen/qwen3.8-27b', 'llama-3.1-8b-instant'];
 
-    if (!res.ok) return null;
-    const data = await res.json();
-    const content = data.choices?.[0]?.message?.content;
-    if (content) {
-      const parsed = JSON.parse(content);
-      if (parsed.difficulty && parsed.skillArea) {
-        return {
-          difficulty: parsed.difficulty,
-          skillArea: parsed.skillArea,
-          effort: parsed.effort || '2-4 hrs',
-          confidence: parsed.confidence || 0.92,
-          summary: parsed.summary || `${parsed.difficulty} ${parsed.skillArea} task based on issue description.`
-        };
+    for (const model of candidateModels) {
+      try {
+        const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            model,
+            messages: [{ role: 'user', content: prompt }],
+            response_format: { type: 'json_object' },
+            max_tokens: 500
+          })
+        });
+
+        if (!res.ok) {
+          // If 404 model not found, try next candidate model
+          continue;
+        }
+
+        const data = await res.json();
+        const content = data.choices?.[0]?.message?.content;
+        if (content) {
+          const parsed = JSON.parse(content);
+          if (parsed.difficulty && parsed.skillArea) {
+            return {
+              difficulty: parsed.difficulty,
+              skillArea: parsed.skillArea,
+              effort: parsed.effort || '2-4 hrs',
+              confidence: parsed.confidence || 0.92,
+              summary: parsed.summary || `${parsed.difficulty} ${parsed.skillArea} task based on issue description.`
+            };
+          }
+        }
+      } catch (innerErr) {
+        // Try next candidate
+        continue;
       }
     }
   } catch (err) {
