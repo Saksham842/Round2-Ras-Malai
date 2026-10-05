@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { motion } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { 
   Sparkles, 
   GitFork, 
@@ -24,7 +25,10 @@ import {
   ChevronRight,
   TrendingUp,
   RefreshCw,
-  Award
+  Award,
+  Terminal,
+  Layers,
+  Activity
 } from "lucide-react";
 import IssueCard from "../components/IssueCard";
 import { MOCK_ISSUES, MOCK_MATCH_RESULTS } from "../lib/mockData";
@@ -35,7 +39,7 @@ const CompassCanvas3D = dynamic(() => import("../components/CompassCanvas3D"), {
   loading: () => (
     <div className="w-full h-full flex flex-col items-center justify-center text-render-cyan gap-2">
       <Loader2 className="w-7 h-7 animate-spin" />
-      <span className="text-[11px] font-mono">Initializing 3D Compass...</span>
+      <span className="text-[11px] font-mono">Initializing 3D Vector Engine...</span>
     </div>
   ),
 });
@@ -59,6 +63,26 @@ export default function HomePage() {
   const [inputVal, setInputVal] = useState("Saksham842");
   const [sampleIndex, setSampleIndex] = useState(0);
 
+  // GSAP Animation Refs
+  const pageContainerRef = useRef(null);
+  const heroRef = useRef(null);
+  const badgeRef = useRef(null);
+  const headingRef = useRef(null);
+  const descRef = useRef(null);
+  const launchpadRef = useRef(null);
+  const issueShowcaseRef = useRef(null);
+  const compassCardRef = useRef(null);
+  const proofBarRef = useRef(null);
+  const bentoRef = useRef(null);
+  const pipelineRef = useRef(null);
+  const ctaRef = useRef(null);
+
+  // Counter Refs
+  const counterTriageRef = useRef(null);
+  const counterLatencyRef = useRef(null);
+  const counterVectorRef = useRef(null);
+  const counterSelfRef = useRef(null);
+
   const activeIssueSample = MOCK_MATCH_RESULTS[sampleIndex] || MOCK_MATCH_RESULTS[0];
 
   const handleLaunch = (e) => {
@@ -77,45 +101,258 @@ export default function HomePage() {
     setSampleIndex((prev) => (prev + 1) % MOCK_MATCH_RESULTS.length);
   };
 
+  // GSAP + ScrollTrigger Orchestration
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      // 1. Hero Entrance Timeline
+      const heroTl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+      heroTl
+        .fromTo(
+          badgeRef.current,
+          { y: -20, opacity: 0, scale: 0.95 },
+          { y: 0, opacity: 1, scale: 1, duration: 0.7 }
+        )
+        .fromTo(
+          headingRef.current,
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8 },
+          "-=0.4"
+        )
+        .fromTo(
+          descRef.current,
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.7 },
+          "-=0.5"
+        )
+        .fromTo(
+          launchpadRef.current,
+          { y: 25, opacity: 0, scale: 0.98 },
+          { y: 0, opacity: 1, scale: 1, duration: 0.8 },
+          "-=0.4"
+        )
+        .fromTo(
+          issueShowcaseRef.current,
+          { x: -30, opacity: 0 },
+          { x: 0, opacity: 1, duration: 0.8 },
+          "-=0.5"
+        )
+        .fromTo(
+          compassCardRef.current,
+          { x: 30, opacity: 0, scale: 0.95 },
+          { x: 0, opacity: 1, scale: 1, duration: 0.8 },
+          "-=0.6"
+        );
+
+      // 2. Parallax Scrub on 3D Compass with ScrollTrigger
+      if (compassCardRef.current && heroRef.current) {
+        gsap.to(compassCardRef.current, {
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: 1.5,
+          },
+          y: 75,
+          rotationZ: -6,
+          scale: 1.03,
+          ease: "none",
+        });
+      }
+
+      // 3. KPI Proof Bar Counter Scrub Animations
+      if (proofBarRef.current) {
+        // Counter 1: 0 -> 94.3%
+        const c1 = { val: 0 };
+        gsap.to(c1, {
+          val: 94.3,
+          duration: 2,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: proofBarRef.current,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+          onUpdate: () => {
+            if (counterTriageRef.current) {
+              counterTriageRef.current.innerText = c1.val.toFixed(1) + "%";
+            }
+          },
+        });
+
+        // Counter 2: 900ms -> 350ms
+        const c2 = { val: 950 };
+        gsap.to(c2, {
+          val: 350,
+          duration: 1.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: proofBarRef.current,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+          onUpdate: () => {
+            if (counterLatencyRef.current) {
+              counterLatencyRef.current.innerText = "< " + Math.round(c2.val) + "ms";
+            }
+          },
+        });
+
+        // Counter 3: 0 -> 768-D
+        const c3 = { val: 0 };
+        gsap.to(c3, {
+          val: 768,
+          duration: 2.1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: proofBarRef.current,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+          onUpdate: () => {
+            if (counterVectorRef.current) {
+              counterVectorRef.current.innerText = Math.round(c3.val) + "-D";
+            }
+          },
+        });
+
+        // Counter 4: 0 -> 100%
+        const c4 = { val: 0 };
+        gsap.to(c4, {
+          val: 100,
+          duration: 1.9,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: proofBarRef.current,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+          onUpdate: () => {
+            if (counterSelfRef.current) {
+              counterSelfRef.current.innerText = Math.round(c4.val) + "%";
+            }
+          },
+        });
+      }
+
+      // 4. Bento Grid (The 3 Core Pillars) Stagger
+      if (bentoRef.current) {
+        gsap.fromTo(
+          ".bento-pillar-card",
+          { y: 50, opacity: 0, scale: 0.96 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.8,
+            stagger: 0.16,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: bentoRef.current,
+              start: "top 80%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+
+      // 5. Architecture Pipeline Stagger
+      if (pipelineRef.current) {
+        gsap.fromTo(
+          ".pipeline-step-card",
+          { y: 40, opacity: 0, scale: 0.95 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.7,
+            stagger: 0.14,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: pipelineRef.current,
+              start: "top 80%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+
+      // 6. Bottom CTA Entrance
+      if (ctaRef.current) {
+        gsap.fromTo(
+          ctaRef.current,
+          { y: 35, opacity: 0, scale: 0.96 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.9,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: ctaRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+    }, pageContainerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="relative w-full overflow-hidden bg-[#08090f] text-slate-100">
+    <div ref={pageContainerRef} className="relative w-full overflow-hidden bg-[#08090f] text-slate-100">
       {/* Render Signature Atmospheric Aurora Orbs (Cyan, Indigo, Violet) */}
-      <div className="absolute top-0 left-1/4 w-[650px] h-[650px] rounded-full aurora-orb-cyan opacity-80" />
-      <div className="absolute top-24 right-10 w-[600px] h-[600px] rounded-full aurora-orb-indigo opacity-80" />
-      <div className="absolute top-[620px] left-1/3 w-[550px] h-[550px] rounded-full aurora-orb-violet opacity-75" />
+      <div className="absolute top-0 left-1/4 w-[650px] h-[650px] rounded-full aurora-orb-cyan opacity-80 pointer-events-none" />
+      <div className="absolute top-24 right-10 w-[600px] h-[600px] rounded-full aurora-orb-indigo opacity-80 pointer-events-none" />
+      <div className="absolute top-[620px] left-1/3 w-[550px] h-[550px] rounded-full aurora-orb-violet opacity-75 pointer-events-none" />
 
       {/* Render Dot Matrix & Cyber Grid Overlay */}
       <div className="absolute inset-0 dot-matrix-render opacity-60 pointer-events-none" />
       <div className="absolute inset-0 render-grid render-grid-radial opacity-50 pointer-events-none" />
 
       {/* HERO SECTION */}
-      <section className="relative pt-8 pb-16 md:pt-14 md:pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section ref={heroRef} className="relative pt-8 pb-16 md:pt-14 md:pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Top Eyebrow Badge (Render Developer Cloud Style) */}
         <div className="text-center max-w-3xl mx-auto mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#0e101d] border border-[#232742] text-render-cyan text-xs font-mono shadow-sm">
+          <div
+            ref={badgeRef}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-[#0e101d] border border-[#232742] text-render-cyan text-xs font-mono shadow-sm cursor-default"
+          >
             <span className="w-1.5 h-1.5 rounded-full bg-render-cyan animate-pulse" />
             <Sparkles className="w-3.5 h-3.5 text-render-cyan" />
             <span className="font-semibold tracking-wide">
-              3D AI VECTOR MATCH ENGINE • POWERED BY GROQ &amp; RENDER CLOUD
+              3D AI VECTOR MATCH ENGINE • GROQ LLM &amp; RENDER CLOUD
             </span>
           </div>
           
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.08] mt-5 mb-5 font-sans">
+          <h1
+            ref={headingRef}
+            className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.08] mt-5 mb-5 font-sans"
+          >
             Find the right open source issue —{" "}
             <span className="bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet bg-clip-text text-transparent">
               in 10 seconds.
             </span>
           </h1>
 
-          <p className="text-base sm:text-lg text-slate-300 font-normal max-w-2xl mx-auto leading-relaxed">
+          <p
+            ref={descRef}
+            className="text-base sm:text-lg text-slate-300 font-normal max-w-2xl mx-auto leading-relaxed"
+          >
             Groq LLM automatically triages issues by difficulty, skill area, and effort. 768-D vector embeddings match candidates with precision on Render cloud infrastructure.
           </p>
         </div>
 
         {/* 1-CLICK INTERACTIVE LAUNCHPAD (Render Cloud Console Card) */}
-        <div className="max-w-3xl mx-auto mb-14">
-          <div className="rounded-xl border border-[#222842] bg-[#0e101d] p-5 sm:p-7 backdrop-blur-2xl shadow-glow-indigo relative overflow-hidden">
+        <div ref={launchpadRef} className="max-w-3xl mx-auto mb-14">
+          <div className="spotlight-card rounded-xl border border-[#222842] bg-[#0e101d] p-5 sm:p-7 backdrop-blur-2xl shadow-glow-indigo relative overflow-hidden">
             {/* Top Glowing Laser Border */}
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet" />
 
@@ -236,7 +473,7 @@ export default function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center max-w-6xl mx-auto">
           
           {/* Left: Live Interactive Sample Issue Card */}
-          <div className="lg:col-span-7 space-y-3">
+          <div ref={issueShowcaseRef} className="lg:col-span-7 space-y-3">
             <div className="flex items-center justify-between px-1">
               <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
                 <Zap className="w-3.5 h-3.5 text-render-cyan animate-pulse" />
@@ -275,7 +512,10 @@ export default function HomePage() {
 
           {/* Right: 3D Holographic Compass Hero Accent */}
           <div className="lg:col-span-5 relative flex flex-col items-center justify-center">
-            <div className="w-full max-w-[420px] aspect-square relative flex items-center justify-center p-2 rounded-xl bg-[#0e101d] border border-[#222842] shadow-glow-render">
+            <div
+              ref={compassCardRef}
+              className="spotlight-card w-full max-w-[420px] aspect-square relative flex items-center justify-center p-2 rounded-xl bg-[#0e101d] border border-[#222842] shadow-glow-render will-change-transform"
+            >
               <CompassCanvas3D className="w-full h-full" />
             </div>
           </div>
@@ -283,11 +523,14 @@ export default function HomePage() {
       </section>
 
       {/* METRICS & PROOF BAR (Render Cloud Service Metrics) */}
-      <section className="relative py-12 border-y border-[#222842] bg-[#0e101d]/75 backdrop-blur-2xl">
+      <section ref={proofBarRef} className="relative py-12 border-y border-[#222842] bg-[#0e101d]/75 backdrop-blur-2xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div className="p-4 rounded-xl bg-[#131627]/60 border border-[#222842] hover:border-render-cyan/40 transition-colors">
-              <span className="text-3xl sm:text-4xl font-black font-mono text-white block mb-1">
+            <div className="spotlight-card p-5 rounded-xl bg-[#131627]/60 border border-[#222842] hover:border-render-cyan/50 transition-colors">
+              <span
+                ref={counterTriageRef}
+                className="text-3xl sm:text-4xl font-black font-mono text-white block mb-1"
+              >
                 94.3%
               </span>
               <span className="text-xs font-mono text-render-cyan uppercase tracking-wider block font-bold">
@@ -296,8 +539,11 @@ export default function HomePage() {
               <p className="text-[11px] text-slate-400 mt-1">vs 65.7% heuristic baseline (N=35)</p>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#131627]/60 border border-[#222842] hover:border-render-indigo/40 transition-colors">
-              <span className="text-3xl sm:text-4xl font-black font-mono text-render-indigo block mb-1">
+            <div className="spotlight-card p-5 rounded-xl bg-[#131627]/60 border border-[#222842] hover:border-render-indigo/50 transition-colors">
+              <span
+                ref={counterLatencyRef}
+                className="text-3xl sm:text-4xl font-black font-mono text-render-indigo block mb-1"
+              >
                 &lt; 350ms
               </span>
               <span className="text-xs font-mono text-render-indigo uppercase tracking-wider block font-bold">
@@ -306,8 +552,11 @@ export default function HomePage() {
               <p className="text-[11px] text-slate-400 mt-1">llama-3.3-70b-versatile</p>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#131627]/60 border border-[#222842] hover:border-render-violet/40 transition-colors">
-              <span className="text-3xl sm:text-4xl font-black font-mono text-render-violet block mb-1">
+            <div className="spotlight-card p-5 rounded-xl bg-[#131627]/60 border border-[#222842] hover:border-render-violet/50 transition-colors">
+              <span
+                ref={counterVectorRef}
+                className="text-3xl sm:text-4xl font-black font-mono text-render-violet block mb-1"
+              >
                 768-D
               </span>
               <span className="text-xs font-mono text-render-violet uppercase tracking-wider block font-bold">
@@ -316,8 +565,11 @@ export default function HomePage() {
               <p className="text-[11px] text-slate-400 mt-1">Sentence-Transformers</p>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#131627]/60 border border-[#222842] hover:border-pink-500/40 transition-colors">
-              <span className="text-3xl sm:text-4xl font-black font-mono text-pink-400 block mb-1">
+            <div className="spotlight-card p-5 rounded-xl bg-[#131627]/60 border border-[#222842] hover:border-pink-500/50 transition-colors">
+              <span
+                ref={counterSelfRef}
+                className="text-3xl sm:text-4xl font-black font-mono text-pink-400 block mb-1"
+              >
                 100%
               </span>
               <span className="text-xs font-mono text-pink-400 uppercase tracking-wider block font-bold">
@@ -330,7 +582,7 @@ export default function HomePage() {
       </section>
 
       {/* THE 3 CORE PILLARS (Render Bento Grid) */}
-      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section ref={bentoRef} className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="text-xs font-mono text-render-cyan uppercase tracking-widest font-bold">
             End-to-End Intelligence
@@ -342,7 +594,7 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Card 1 */}
-          <div className="group rounded-xl border border-[#222842] bg-[#0e101d] p-6 transition-all duration-300 hover:border-render-cyan/50 hover:bg-[#131627] flex flex-col justify-between">
+          <div className="bento-pillar-card spotlight-card group rounded-xl border border-[#222842] bg-[#0e101d] p-6 transition-all duration-300 hover:border-render-cyan/50 hover:bg-[#131627] flex flex-col justify-between">
             <div>
               <div className="w-10 h-10 rounded-lg bg-[#141729] border border-render-cyan/40 flex items-center justify-center text-render-cyan mb-5 group-hover:scale-105 transition-transform">
                 <Zap className="w-5 h-5" />
@@ -358,7 +610,7 @@ export default function HomePage() {
           </div>
 
           {/* Card 2 */}
-          <div className="group rounded-xl border border-render-indigo/40 bg-[#121626] p-6 transition-all duration-300 hover:border-render-indigo hover:bg-[#181d33] flex flex-col justify-between">
+          <div className="bento-pillar-card spotlight-card group rounded-xl border border-render-indigo/40 bg-[#121626] p-6 transition-all duration-300 hover:border-render-indigo hover:bg-[#181d33] flex flex-col justify-between">
             <div>
               <div className="w-10 h-10 rounded-lg bg-[#181d33] border border-render-indigo/40 flex items-center justify-center text-render-indigo mb-5 group-hover:scale-105 transition-transform">
                 <Sparkles className="w-5 h-5" />
@@ -374,7 +626,7 @@ export default function HomePage() {
           </div>
 
           {/* Card 3 */}
-          <div className="group rounded-xl border border-[#222842] bg-[#0e101d] p-6 transition-all duration-300 hover:border-render-violet/50 hover:bg-[#131627] flex flex-col justify-between">
+          <div className="bento-pillar-card spotlight-card group rounded-xl border border-[#222842] bg-[#0e101d] p-6 transition-all duration-300 hover:border-render-violet/50 hover:bg-[#131627] flex flex-col justify-between">
             <div>
               <div className="w-10 h-10 rounded-lg bg-[#141729] border border-render-violet/40 flex items-center justify-center text-render-violet mb-5 group-hover:scale-105 transition-transform">
                 <ShieldCheck className="w-5 h-5" />
@@ -392,7 +644,7 @@ export default function HomePage() {
       </section>
 
       {/* HOW IT'S BUILT PIPELINE (From Pitch Deck Page 4) */}
-      <section className="py-16 bg-[#06070c] border-t border-[#222842]">
+      <section ref={pipelineRef} className="py-16 bg-[#06070c] border-t border-[#222842]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-xl mx-auto mb-12">
             <span className="text-xs font-mono text-render-cyan uppercase tracking-widest font-bold">Architecture</span>
@@ -401,7 +653,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Step 1 */}
-            <div className="p-5 rounded-xl bg-[#0e101d] border border-[#222842] hover:border-render-cyan/50 transition-all relative overflow-hidden">
+            <div className="pipeline-step-card spotlight-card p-5 rounded-xl bg-[#0e101d] border border-[#222842] hover:border-render-cyan/50 transition-all relative overflow-hidden">
               <span className="text-2xl font-mono font-bold text-render-cyan block mb-2">01</span>
               <h4 className="font-bold text-sm text-white mb-1">GitHub API</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
@@ -410,7 +662,7 @@ export default function HomePage() {
             </div>
 
             {/* Step 2 */}
-            <div className="p-5 rounded-xl bg-[#0e101d] border border-[#222842] hover:border-render-indigo/50 transition-all relative overflow-hidden">
+            <div className="pipeline-step-card spotlight-card p-5 rounded-xl bg-[#0e101d] border border-[#222842] hover:border-render-indigo/50 transition-all relative overflow-hidden">
               <span className="text-2xl font-mono font-bold text-render-indigo block mb-2">02</span>
               <h4 className="font-bold text-sm text-white mb-1">Text Analysis</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
@@ -419,7 +671,7 @@ export default function HomePage() {
             </div>
 
             {/* Step 3 */}
-            <div className="p-5 rounded-xl bg-[#0e101d] border border-[#222842] hover:border-render-violet/50 transition-all relative overflow-hidden">
+            <div className="pipeline-step-card spotlight-card p-5 rounded-xl bg-[#0e101d] border border-[#222842] hover:border-render-violet/50 transition-all relative overflow-hidden">
               <span className="text-2xl font-mono font-bold text-render-violet block mb-2">03</span>
               <h4 className="font-bold text-sm text-white mb-1">AI Classifier</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
@@ -428,7 +680,7 @@ export default function HomePage() {
             </div>
 
             {/* Step 4 */}
-            <div className="p-5 rounded-xl bg-[#0e101d] border border-[#222842] hover:border-pink-500/50 transition-all relative overflow-hidden">
+            <div className="pipeline-step-card spotlight-card p-5 rounded-xl bg-[#0e101d] border border-[#222842] hover:border-pink-500/50 transition-all relative overflow-hidden">
               <span className="text-2xl font-mono font-bold text-pink-400 block mb-2">04</span>
               <h4 className="font-bold text-sm text-white mb-1">Match Engine</h4>
               <p className="text-xs text-slate-400 leading-relaxed">
@@ -441,7 +693,10 @@ export default function HomePage() {
 
       {/* BOTTOM CTA (Render-style Gradient Container) */}
       <section className="py-16 max-w-5xl mx-auto px-4 text-center">
-        <div className="rounded-xl border border-render-cyan/30 bg-gradient-to-b from-[#14172a] via-[#0e101d] to-[#08090f] p-8 sm:p-12 shadow-glow-render relative overflow-hidden">
+        <div
+          ref={ctaRef}
+          className="spotlight-card rounded-xl border border-render-cyan/30 bg-gradient-to-b from-[#14172a] via-[#0e101d] to-[#08090f] p-8 sm:p-12 shadow-glow-render relative overflow-hidden"
+        >
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet" />
           <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">
             Start matching your skills right now

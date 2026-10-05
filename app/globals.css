@@ -12,6 +12,29 @@
   --render-violet: #8b5cf6;
   --render-pink: #f43f5e;
   --render-border: #222842;
+  --mouse-x: 50vw;
+  --mouse-y: 50vh;
+}
+
+/* Lenis Smooth Scroll Configuration */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
 body {
@@ -30,8 +53,8 @@ body {
 
 /* Render Minimal Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -39,20 +62,48 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1c2038;
-  border-radius: 4px;
+  background: #181c30;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #00e5ff;
 }
 
+/* Interactive Spotlight Border on Cards */
+.spotlight-card {
+  position: relative;
+  background-color: #0e101d;
+  border: 1px solid #232742;
+  transition: border-color 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+}
+
+.spotlight-card:hover {
+  border-color: rgba(0, 229, 255, 0.45);
+  box-shadow: 0 10px 35px -5px rgba(0, 229, 255, 0.12), 0 0 20px -2px rgba(99, 102, 241, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Holographic Rotating Laser Border */
+.laser-border-wrap {
+  position: relative;
+  border-radius: 0.75rem;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.4), rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.4));
+  overflow: hidden;
+}
+
+/* Subtle Film Grain Noise Texture */
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
 /* Render High-Tech Grid Background Effect */
 .render-grid {
   background-size: 32px 32px;
   background-image: 
-    linear-gradient(to right, rgba(99, 102, 241, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
 }
 
 .render-grid-radial {
