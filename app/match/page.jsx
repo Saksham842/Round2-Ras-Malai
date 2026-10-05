@@ -177,17 +177,17 @@ function MatchContent() {
     });
 
   return (
-    <div className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10 relative">
-      {/* Background ambient orbs */}
-      <div className="absolute top-10 left-10 w-96 h-96 rounded-full aurora-orb-mongo opacity-50" />
-      <div className="absolute top-20 right-10 w-96 h-96 rounded-full aurora-orb-render opacity-50" />
+    <div className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10 relative bg-[#08090f] text-slate-100">
+      {/* Render Signature Atmospheric Orbs */}
+      <div className="absolute top-10 left-10 w-96 h-96 rounded-full aurora-orb-cyan opacity-60" />
+      <div className="absolute top-20 right-10 w-96 h-96 rounded-full aurora-orb-indigo opacity-60" />
       
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-8 relative z-10">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#001e2b] border border-mongo-green/30 text-mongo-green text-xs font-mono mb-3 shadow-glow-mongo">
-          <span className="w-1.5 h-1.5 rounded-full bg-mongo-green animate-pulse" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#0e101d] border border-render-cyan/40 text-render-cyan text-xs font-mono mb-3 shadow-glow-render">
+          <span className="w-1.5 h-1.5 rounded-full bg-render-cyan animate-pulse" />
           <Sparkles className="w-3.5 h-3.5 text-render-cyan" />
-          <span className="font-semibold">AI Neural Vector Matching Engine</span>
+          <span className="font-semibold">AI Neural Vector Matching Engine • Render Cloud</span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight font-sans">
           Calibrated Contributor Matching
@@ -199,13 +199,13 @@ function MatchContent() {
 
       {/* 1-CLICK GITHUB USERNAME SCANNER LAUNCHPAD */}
       <div className="max-w-4xl mx-auto mb-8 relative z-10">
-        <div className="rounded-3xl border border-[#133549] bg-[#001e2b]/90 p-6 sm:p-7 backdrop-blur-2xl shadow-glow-mongo relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-mongo-green via-render-cyan to-render-violet" />
+        <div className="rounded-3xl border border-[#222842] bg-[#0e101d]/90 p-6 sm:p-7 backdrop-blur-2xl shadow-glow-indigo relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet" />
 
           {/* Persona Quick Chips */}
           <div className="flex flex-wrap items-center justify-between gap-3 mb-5 pb-4 border-b border-white/10">
             <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
-              <UserCheck className="w-4 h-4 text-mongo-green" />
+              <UserCheck className="w-4 h-4 text-render-cyan" />
               <span className="font-semibold">Verified Demo Personas:</span>
             </div>
             <div className="flex flex-wrap items-center gap-2">
@@ -219,8 +219,8 @@ function MatchContent() {
                   }}
                   className={`px-3 py-1 rounded-full text-xs font-mono border transition-all flex items-center gap-1.5 ${
                     githubProfile.toLowerCase() === p.handle.toLowerCase()
-                      ? "bg-mongo-green/20 text-mongo-green border-mongo-green/50 shadow-glow-mongo"
-                      : "bg-[#011422] hover:bg-[#012135] text-slate-300 hover:text-white border-white/10"
+                      ? "bg-render-cyan/20 text-render-cyan border-render-cyan/50 shadow-glow-render"
+                      : "bg-[#121626] hover:bg-[#181d33] text-slate-300 hover:text-white border-[#222842]"
                   }`}
                 >
                   <span className="font-semibold">{p.label}</span>
@@ -239,8 +239,8 @@ function MatchContent() {
           )}
 
           {activeContributor?.isLive && (
-            <div className="mb-4 p-2 rounded-xl bg-mongo-spruce/60 border border-mongo-green/40 text-mongo-green text-xs font-mono flex items-center gap-2">
-              <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 text-mongo-green" />
+            <div className="mb-4 p-2 rounded-xl bg-[#0f282e] border border-render-emerald/40 text-render-emerald text-xs font-mono flex items-center gap-2">
+              <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 text-render-emerald" />
               <span>Live GitHub API connection verified ({activeContributor.repoCountAnalyzed || 30} public repositories analyzed).</span>
             </div>
           )}
@@ -255,19 +255,19 @@ function MatchContent() {
                   1. Your GitHub Username
                 </label>
                 <div className="relative">
-                  <Github className="w-4 h-4 text-mongo-green absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <Github className="w-4 h-4 text-render-cyan absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <input
                     type="text"
                     value={githubProfile}
                     onChange={(e) => setGithubProfile(e.target.value)}
                     placeholder="e.g. Saksham842 or octocat"
-                    className="w-full bg-[#011422] border border-[#133549] rounded-xl pl-10 pr-24 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-mongo-green focus:shadow-glow-mongo font-mono transition-all"
+                    className="w-full bg-[#08090f] border border-[#222842] rounded-xl pl-10 pr-24 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-render-cyan focus:shadow-glow-render font-mono transition-all"
                   />
                   <button
                     type="button"
                     onClick={() => handleScanProfile(githubProfile)}
                     disabled={scanningGithub}
-                    className="absolute right-1.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-mongo-green/20 hover:bg-mongo-green/30 text-mongo-green border border-mongo-green/40 text-[10px] font-mono font-semibold transition-all disabled:opacity-50"
+                    className="absolute right-1.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-render-cyan/20 hover:bg-render-cyan/30 text-render-cyan border border-render-cyan/40 text-[10px] font-mono font-semibold transition-all disabled:opacity-50"
                   >
                     {scanningGithub ? "Scanning..." : "Scan Repos"}
                   </button>
@@ -280,13 +280,13 @@ function MatchContent() {
                   2. Active Skill Graph
                 </label>
                 <div className="relative">
-                  <Tag className="w-4 h-4 text-render-cyan absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <Tag className="w-4 h-4 text-render-indigo absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <input
                     type="text"
                     value={skillsInput}
                     onChange={(e) => setSkillsInput(e.target.value)}
                     placeholder="React, Next.js, TypeScript, Node.js..."
-                    className="w-full bg-[#011422] border border-[#133549] rounded-xl pl-10 pr-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-render-cyan focus:shadow-glow-render font-mono transition-all"
+                    className="w-full bg-[#08090f] border border-[#222842] rounded-xl pl-10 pr-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-render-indigo focus:shadow-glow-indigo font-mono transition-all"
                   />
                 </div>
               </div>
@@ -296,7 +296,7 @@ function MatchContent() {
                 <button
                   type="submit"
                   disabled={loading || scanningGithub}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-mongo-green via-render-cyan to-render-violet hover:opacity-90 text-slate-950 font-black text-xs shadow-glow-render transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet hover:opacity-90 text-slate-950 font-black text-xs shadow-glow-render transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
                 >
                   {loading ? (
                     <>
@@ -317,7 +317,7 @@ function MatchContent() {
             {detectedSkills.length > 0 && (
               <div className="pt-2 flex flex-wrap items-center gap-2">
                 <span className="text-[11px] font-mono text-slate-400 flex items-center gap-1">
-                  <Code2 className="w-3.5 h-3.5 text-mongo-green" />
+                  <Code2 className="w-3.5 h-3.5 text-render-cyan" />
                   Auto-detected from GitHub Repos:
                 </span>
                 {detectedSkills.map((sk) => {

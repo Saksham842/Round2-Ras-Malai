@@ -52,15 +52,15 @@ export default function IssueCard({
   const strokeDashoffset = displayScore ? circumference - (displayScore / 100) * circumference : circumference;
 
   return (
-    <div className="group relative rounded-3xl border border-[#133549] bg-[#001e2b]/85 p-5 backdrop-blur-xl transition-all duration-300 hover:border-mongo-green/50 hover:bg-[#002738] hover:shadow-glow-mongo flex flex-col justify-between">
+    <div className="group relative rounded-3xl border border-[#222842] bg-[#0e101d]/90 p-5 backdrop-blur-2xl transition-all duration-300 hover:border-render-cyan/50 hover:bg-[#131627] hover:shadow-glow-render flex flex-col justify-between">
       <div>
         {/* Top meta row with Repo, Number and Radial Score Meter */}
         <div className="flex items-center justify-between gap-3 mb-3.5">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="flex items-center gap-1.5 text-xs font-mono text-render-cyan bg-[#011627] border border-render-cyan/30 px-2.5 py-1 rounded-full shadow-sm">
+            <span className="flex items-center gap-1.5 text-xs font-mono text-render-cyan bg-[#141729] border border-render-cyan/30 px-2.5 py-1 rounded-full shadow-sm">
               <GitPullRequest className="w-3 h-3 text-render-cyan" />
               <span className="font-semibold">{issue.repoName || "repo"}</span>
-              <span className="text-render-cyan/80">#{issue.number || issue.id}</span>
+              <span className="text-render-cyan/70">#{issue.number || issue.id}</span>
             </span>
 
             {issue.createdAt && (
@@ -74,7 +74,7 @@ export default function IssueCard({
           <div className="flex items-center gap-2.5">
             {/* Radial Match Score Ring if available */}
             {displayScore !== null && (
-              <div className="flex items-center gap-2 bg-[#011422] px-2.5 py-1 rounded-xl border border-mongo-green/40 shadow-glow-mongo" title={`AI Compatibility: ${displayScore}%`}>
+              <div className="flex items-center gap-2 bg-[#090b14] px-2.5 py-1 rounded-xl border border-render-cyan/30 shadow-glow-render" title={`AI Compatibility: ${displayScore}%`}>
                 <div className="relative w-8 h-8 flex items-center justify-center">
                   <svg className="w-8 h-8 -rotate-90 transform" viewBox="0 0 44 44">
                     <circle
@@ -90,7 +90,7 @@ export default function IssueCard({
                       cx="22"
                       cy="22"
                       r={radius}
-                      stroke="url(#radialGradient)"
+                      stroke="url(#radialGradientRender)"
                       strokeWidth="3.5"
                       strokeDasharray={circumference}
                       strokeDashoffset={strokeDashoffset}
@@ -99,9 +99,10 @@ export default function IssueCard({
                       className="transition-all duration-1000 ease-out"
                     />
                     <defs>
-                      <linearGradient id="radialGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#00ED64" />
-                        <stop offset="100%" stopColor="#00F5FF" />
+                      <linearGradient id="radialGradientRender" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#00e5ff" />
+                        <stop offset="50%" stopColor="#6366f1" />
+                        <stop offset="100%" stopColor="#8b5cf6" />
                       </linearGradient>
                     </defs>
                   </svg>
@@ -111,7 +112,7 @@ export default function IssueCard({
                 </div>
                 <div className="flex flex-col text-left">
                   <span className="text-[9px] uppercase font-mono tracking-wider text-slate-400">Match</span>
-                  <span className="text-[11px] font-mono font-bold text-mongo-green">{displayScore}%</span>
+                  <span className="text-[11px] font-mono font-bold text-render-cyan">{displayScore}%</span>
                 </div>
               </div>
             )}

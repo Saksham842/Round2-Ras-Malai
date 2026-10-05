@@ -56,31 +56,31 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-[#133549]/60 bg-[#001420]/80 backdrop-blur-2xl transition-all shadow-2xl">
+      <header className="sticky top-0 z-50 w-full border-b border-[#222842] bg-[#08090f]/85 backdrop-blur-2xl transition-all shadow-2xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        {/* Brand Logo with MongoDB emerald and Render cyan flair */}
+        {/* Brand Logo with Render.com signature cyan, indigo & violet */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="relative flex items-center justify-center w-10 h-10 rounded-2xl bg-gradient-to-br from-mongo-green via-render-cyan to-render-violet p-0.5 shadow-glow-mongo transition-all duration-300 group-hover:scale-105 group-hover:shadow-glow-render">
-            <div className="w-full h-full bg-[#001e2b] rounded-[14px] flex items-center justify-center">
-              <Compass className="w-5 h-5 text-mongo-green group-hover:text-render-cyan animate-spin-slow group-hover:rotate-45 transition-all duration-500" />
+          <div className="relative flex items-center justify-center w-10 h-10 rounded-2xl bg-gradient-to-br from-render-cyan via-render-indigo to-render-violet p-0.5 shadow-glow-render transition-all duration-300 group-hover:scale-105 group-hover:shadow-glow-violet">
+            <div className="w-full h-full bg-[#0d101a] rounded-[14px] flex items-center justify-center">
+              <Compass className="w-5 h-5 text-render-cyan group-hover:rotate-45 transition-all duration-500" />
             </div>
-            <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-mongo-green rounded-full animate-ping" />
-            <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-mongo-green rounded-full" />
+            <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-render-cyan rounded-full animate-ping" />
+            <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-render-cyan rounded-full" />
           </div>
 
           <div className="flex flex-col">
             <span className="font-black text-lg tracking-wider text-white flex items-center gap-1.5 font-sans">
-              CONTRIB <span className="bg-gradient-to-r from-mongo-green to-render-cyan bg-clip-text text-transparent">COMPASS</span>
+              CONTRIB <span className="bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet bg-clip-text text-transparent">COMPASS</span>
             </span>
             <span className="text-[9px] font-mono text-render-cyan/80 tracking-widest uppercase">
-              AI OSS MATCHING • MONGO &amp; RENDER THEME
+              AI OSS MATCHING • RENDER CLOUD UI
             </span>
           </div>
         </Link>
 
         {/* Navigation Links */}
-        <nav className="hidden md:flex items-center gap-1 bg-[#011627]/60 border border-white/5 p-1 rounded-2xl backdrop-blur-md">
+        <nav className="hidden md:flex items-center gap-1 bg-[#0e101d]/80 border border-[#222842] p-1 rounded-2xl backdrop-blur-md">
           {navLinks.map((link) => {
             const Icon = link.icon;
             const isActive = pathname === link.href;
@@ -90,11 +90,11 @@ export default function Navbar() {
                 href={link.href}
                 className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all ${
                   isActive
-                    ? "bg-mongo-green/15 text-mongo-green border border-mongo-green/30 shadow-glow-mongo"
+                    ? "bg-render-cyan/15 text-render-cyan border border-render-cyan/40 shadow-glow-render"
                     : "text-slate-400 hover:text-white hover:bg-white/5"
                 }`}
               >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? "text-mongo-green" : "text-slate-500"}`} />
+                <Icon className={`w-3.5 h-3.5 ${isActive ? "text-render-cyan" : "text-slate-500"}`} />
                 {link.label}
               </Link>
             );
@@ -109,11 +109,11 @@ export default function Navbar() {
             title="Click to toggle between Simulated Mock Fixtures and Real Backend API"
             className={`hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono border transition-all ${
               mockActive
-                ? "bg-amber-950/40 border-amber-500/40 text-amber-300 hover:bg-amber-900/50"
-                : "bg-mongo-spruce/60 border-mongo-green/40 text-mongo-green shadow-glow-mongo hover:bg-mongo-spruce"
+                ? "bg-[#161a2e] border-amber-500/40 text-amber-300 hover:bg-[#1f2440]"
+                : "bg-[#0b1b1f] border-render-emerald/40 text-render-emerald shadow-[0_0_15px_rgba(16,185,129,0.2)] hover:bg-[#0f282e]"
             }`}
           >
-            <span className={`w-1.5 h-1.5 rounded-full ${mockActive ? "bg-amber-400" : "bg-mongo-green animate-pulse"}`} />
+            <span className={`w-1.5 h-1.5 rounded-full ${mockActive ? "bg-amber-400" : "bg-render-emerald animate-pulse"}`} />
             <span>{mockActive ? "MODE: DEMO FIXTURES" : "MODE: LIVE BACKEND"}</span>
           </button>
 
@@ -124,10 +124,10 @@ export default function Navbar() {
                   <img
                     src={user.avatar_url}
                     alt={user.name || user.login}
-                    className="w-7 h-7 rounded-full border border-compass-400/40 object-cover"
+                    className="w-7 h-7 rounded-full border border-render-cyan/40 object-cover"
                   />
                 ) : (
-                  <div className="w-7 h-7 rounded-full bg-compass-600 flex items-center justify-center text-xs font-bold text-white">
+                  <div className="w-7 h-7 rounded-full bg-render-indigo flex items-center justify-center text-xs font-bold text-white">
                     {(user.login || "U").charAt(0).toUpperCase()}
                   </div>
                 )}
@@ -135,7 +135,7 @@ export default function Navbar() {
                   <span className="text-xs font-medium text-white truncate max-w-[100px] leading-tight">
                     {user.name || user.login}
                   </span>
-                  <span className="text-[10px] text-compass-400 font-mono">
+                  <span className="text-[10px] text-render-cyan font-mono">
                     @{user.login}
                   </span>
                 </div>
@@ -145,11 +145,11 @@ export default function Navbar() {
               <button
                 onClick={() => setShowSettings(true)}
                 title="API Keys & Settings"
-                className="relative p-1.5 rounded-lg text-slate-400 hover:text-compass-300 hover:bg-compass-500/10 transition-colors"
+                className="relative p-1.5 rounded-lg text-slate-400 hover:text-render-cyan hover:bg-render-cyan/10 transition-colors"
               >
                 <Settings className="w-4 h-4" />
                 {hasKeys && (
-                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-emerald-400 rounded-full border border-[#050a0f]" />
+                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-render-cyan rounded-full border border-[#08090f]" />
                 )}
               </button>
 
@@ -167,16 +167,16 @@ export default function Navbar() {
               <button
                 onClick={() => setShowSettings(true)}
                 title="API Keys & Settings"
-                className="relative p-1.5 rounded-lg text-slate-400 hover:text-compass-300 hover:bg-compass-500/10 transition-colors"
+                className="relative p-1.5 rounded-lg text-slate-400 hover:text-render-cyan hover:bg-render-cyan/10 transition-colors"
               >
                 <Settings className="w-4 h-4" />
                 {hasKeys && (
-                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-emerald-400 rounded-full border border-[#050a0f]" />
+                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-render-cyan rounded-full border border-[#08090f]" />
                 )}
               </button>
               <Link
                 href="/login"
-                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-compass-500 to-emerald-500 hover:from-compass-400 hover:to-emerald-400 text-slate-950 font-semibold text-xs shadow-glow-teal transition-all active:scale-95"
+                className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet hover:opacity-90 text-slate-950 font-bold text-xs shadow-glow-render transition-all active:scale-95"
               >
                 <Github className="w-3.5 h-3.5" />
                 <span>Sign In</span>
