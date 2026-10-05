@@ -261,27 +261,6 @@ export default function HomePage() {
             </div>
           </div>
 
-<<<<<<< HEAD
-          {/* Right: 3D Holographic Compass */}
-          <motion.div 
-            className="lg:col-span-5 relative flex items-center justify-center"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <div className="w-full max-w-[440px] aspect-square relative flex items-center justify-center">
-              <Suspense fallback={
-                <div className="w-full h-full flex flex-col items-center justify-center text-compass-400 gap-2">
-                  <Loader2 className="w-8 h-8 animate-spin" />
-                  <span className="text-xs font-mono">Initializing 3D WebGL Compass...</span>
-                </div>
-              }>
-                <CompassCanvas3D className="w-full h-full" />
-              </Suspense>
-              <div className="absolute -bottom-2 text-center">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-compass-400/70 bg-black/60 px-3 py-1 rounded-full border border-compass-500/20">
-                  Interactive 3D WebGL Compass • Move Mouse to Tilt
-=======
           {/* Right: 3D Holographic Compass Hero Accent */}
           <div className="lg:col-span-5 relative flex flex-col items-center justify-center">
             <div className="w-full max-w-[340px] aspect-square relative flex items-center justify-center">
@@ -289,7 +268,6 @@ export default function HomePage() {
               <div className="absolute -bottom-2 text-center pointer-events-none">
                 <span className="text-[10px] font-mono uppercase tracking-widest text-compass-400/80 bg-black/70 px-3 py-1 rounded-full border border-compass-500/20 backdrop-blur-sm">
                   Interactive 3D WebGL Vector Compass
->>>>>>> frontend
                 </span>
               </div>
             </div>
@@ -381,13 +359,8 @@ export default function HomePage() {
                 Auto-extracts competencies from your GitHub profile or custom skill tags, projecting them against issue embeddings to score compatibility 0–100.
               </p>
             </div>
-<<<<<<< HEAD
-            <div className="mt-6 pt-4 border-t border-white/5 flex items-center gap-2 text-xs font-mono text-cyan-300">
-              <span>Weighted Multi-Repo Match</span>
-=======
             <div className="mt-6 pt-4 border-t border-white/5 text-xs font-mono text-cyan-300 flex items-center gap-1.5">
               <span>GSAP Interactive Visualizer</span>
->>>>>>> frontend
             </div>
           </div>
 
@@ -399,12 +372,11 @@ export default function HomePage() {
               </div>
               <h3 className="text-xl font-bold text-white mb-2">Maintainer Feedback Loop</h3>
               <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-<<<<<<< HEAD
-                Maintainer corrections and label adjustments update the issue knowledge base, ensuring match accuracy and triage fidelity stay sharp.
+                Maintainers can correct or calibrate any label with one click. Corrections persist and tune future classifications, compounding accuracy.
               </p>
             </div>
-            <div className="mt-6 pt-4 border-t border-white/5 flex items-center gap-2 text-xs font-mono text-emerald-300">
-              <span>Active Feedback Loop</span>
+            <div className="mt-6 pt-4 border-t border-white/5 text-xs font-mono text-emerald-300 flex items-center gap-1.5">
+              <span>Self-Calibrating Pipeline</span>
             </div>
           </div>
         </div>
@@ -453,13 +425,6 @@ export default function HomePage() {
               <p className="text-xs text-slate-400 leading-relaxed">
                 Ranks candidate issues against contributor skills, experience, and past contribution graph.
               </p>
-=======
-                Maintainers can correct or calibrate any label with one click. Corrections persist and tune future classifications, compounding accuracy.
-              </p>
-            </div>
-            <div className="mt-6 pt-4 border-t border-white/5 text-xs font-mono text-emerald-300 flex items-center gap-1.5">
-              <span>Self-Calibrating Pipeline</span>
->>>>>>> frontend
             </div>
           </div>
         </div>

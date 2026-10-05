@@ -410,15 +410,9 @@ function MatchContent() {
               <Zap className="w-6 h-6 animate-pulse" />
             </div>
           </div>
-<<<<<<< HEAD
-          <h3 className="text-lg font-bold text-white mb-2">Executing Issue Match Engine</h3>
-          <p className="text-xs text-slate-400 font-mono max-w-md mx-auto leading-relaxed">
-            Analyzing developer skills and evaluating active open repository issues...
-=======
           <h3 className="text-lg font-bold text-white mb-2">Executing Neural Vector Matching</h3>
           <p className="text-xs text-slate-400 font-mono max-w-md mx-auto leading-relaxed">
             Projecting 768-D sentence-transformer embeddings against GitHub issue difficulty & skill vectors...
->>>>>>> frontend
           </p>
         </div>
       ) : filteredMatches.length > 0 ? (
