@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, Suspense } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
@@ -21,28 +21,37 @@ import {
   Star,
   Clock,
   Tag,
-  ExternalLink,
   ChevronRight,
   TrendingUp,
   RefreshCw,
-  Award,
   Terminal,
   Layers,
-  Activity
+  Code2,
+  Shield,
+  Search,
+  ExternalLink
 } from "lucide-react";
 import IssueCard from "../components/IssueCard";
-import { MOCK_ISSUES, MOCK_MATCH_RESULTS } from "../lib/mockData";
+import StripeMeshGradient from "../components/StripeMeshGradient";
+import StripeDevShowcase from "../components/StripeDevShowcase";
+import { MOCK_MATCH_RESULTS } from "../lib/mockData";
 
-// Dynamically import 3D Three.js canvas with ssr: false for rock-solid SSR & hydration
+// Dynamically import 3D Three.js canvas with ssr: false
 const CompassCanvas3D = dynamic(() => import("../components/CompassCanvas3D"), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-full flex flex-col items-center justify-center text-render-cyan gap-2">
-      <Loader2 className="w-7 h-7 animate-spin" />
-      <span className="text-[11px] font-mono">Initializing 3D Vector Engine...</span>
+    <div className="w-full h-full flex flex-col items-center justify-center text-[#635bff] gap-2">
+      <Loader2 className="w-6 h-6 animate-spin" />
+      <span className="text-[11px] font-mono text-slate-400">Loading 3D Vector Compass...</span>
     </div>
   ),
 });
+
+const QUICK_PERSONAS = [
+  { handle: "Saksham842", role: "Fullstack / AI" },
+  { handle: "shadcn", role: "Design Systems / Radix" },
+  { handle: "leerob", role: "Next.js & Performance" },
+];
 
 const QUICK_REPOS = [
   { name: "vercel/next.js", desc: "React Framework", stars: "125k" },
@@ -51,10 +60,14 @@ const QUICK_REPOS = [
   { name: "tailwindlabs/tailwindcss", desc: "Styling", stars: "82k" },
 ];
 
-const QUICK_PERSONAS = [
-  { handle: "Saksham842", role: "Fullstack / AI" },
-  { handle: "shadcn", role: "Design Systems / Radix" },
-  { handle: "leerob", role: "Next.js & Performance" },
+const ECOSYSTEM_LOGOS = [
+  { name: "Next.js", tag: "App Router" },
+  { name: "React", tag: "v19 Core" },
+  { name: "Groq", tag: "LPU Inference" },
+  { name: "TypeScript", tag: "Typed OSS" },
+  { name: "Supabase", tag: "PostgreSQL" },
+  { name: "Fastify", tag: "High Performance" },
+  { name: "TailwindCSS", tag: "Styling Engine" },
 ];
 
 export default function HomePage() {
@@ -69,19 +82,19 @@ export default function HomePage() {
   const badgeRef = useRef(null);
   const headingRef = useRef(null);
   const descRef = useRef(null);
-  const launchpadRef = useRef(null);
-  const issueShowcaseRef = useRef(null);
-  const compassCardRef = useRef(null);
+  const ctaBarRef = useRef(null);
+  const launcherRef = useRef(null);
+  const showcaseRef = useRef(null);
   const proofBarRef = useRef(null);
-  const bentoRef = useRef(null);
-  const pipelineRef = useRef(null);
-  const ctaRef = useRef(null);
+  const featuresRef = useRef(null);
+  const devShowcaseRef = useRef(null);
+  const bottomCtaRef = useRef(null);
 
   // Counter Refs
-  const counterTriageRef = useRef(null);
-  const counterLatencyRef = useRef(null);
-  const counterVectorRef = useRef(null);
-  const counterSelfRef = useRef(null);
+  const counter1Ref = useRef(null);
+  const counter2Ref = useRef(null);
+  const counter3Ref = useRef(null);
+  const counter4Ref = useRef(null);
 
   const activeIssueSample = MOCK_MATCH_RESULTS[sampleIndex] || MOCK_MATCH_RESULTS[0];
 
@@ -97,7 +110,7 @@ export default function HomePage() {
     }
   };
 
-  const cycleSampleIssue = () => {
+  const cycleSample = () => {
     setSampleIndex((prev) => (prev + 1) % MOCK_MATCH_RESULTS.length);
   };
 
@@ -108,14 +121,14 @@ export default function HomePage() {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      // 1. Hero Entrance Timeline
+      // 1. Hero Stagger Entrance
       const heroTl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
       heroTl
         .fromTo(
           badgeRef.current,
-          { y: -20, opacity: 0, scale: 0.95 },
-          { y: 0, opacity: 1, scale: 1, duration: 0.7 }
+          { y: -20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.7 }
         )
         .fromTo(
           headingRef.current,
@@ -130,43 +143,43 @@ export default function HomePage() {
           "-=0.5"
         )
         .fromTo(
-          launchpadRef.current,
+          ctaBarRef.current,
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.7 },
+          "-=0.5"
+        )
+        .fromTo(
+          launcherRef.current,
           { y: 25, opacity: 0, scale: 0.98 },
           { y: 0, opacity: 1, scale: 1, duration: 0.8 },
           "-=0.4"
         )
         .fromTo(
-          issueShowcaseRef.current,
-          { x: -30, opacity: 0 },
-          { x: 0, opacity: 1, duration: 0.8 },
-          "-=0.5"
-        )
-        .fromTo(
-          compassCardRef.current,
-          { x: 30, opacity: 0, scale: 0.95 },
-          { x: 0, opacity: 1, scale: 1, duration: 0.8 },
+          showcaseRef.current,
+          { x: 30, opacity: 0, scale: 0.96 },
+          { x: 0, opacity: 1, scale: 1, duration: 0.9 },
           "-=0.6"
         );
 
-      // 2. Parallax Scrub on 3D Compass with ScrollTrigger
-      if (compassCardRef.current && heroRef.current) {
-        gsap.to(compassCardRef.current, {
+      // 2. Parallax Scrub on Hero Showcase
+      if (showcaseRef.current && heroRef.current) {
+        gsap.to(showcaseRef.current, {
           scrollTrigger: {
             trigger: heroRef.current,
             start: "top top",
             end: "bottom top",
-            scrub: 1.5,
+            scrub: 1.2,
           },
-          y: 75,
-          rotationZ: -6,
-          scale: 1.03,
+          y: 70,
+          rotationZ: -1.5,
+          scale: 1.02,
           ease: "none",
         });
       }
 
-      // 3. KPI Proof Bar Counter Scrub Animations
+      // 3. Telemetry Counters Animation
       if (proofBarRef.current) {
-        // Counter 1: 0 -> 94.3%
+        // Counter 1: 0% -> 94.3%
         const c1 = { val: 0 };
         gsap.to(c1, {
           val: 94.3,
@@ -178,14 +191,12 @@ export default function HomePage() {
             toggleActions: "play none none none",
           },
           onUpdate: () => {
-            if (counterTriageRef.current) {
-              counterTriageRef.current.innerText = c1.val.toFixed(1) + "%";
-            }
+            if (counter1Ref.current) counter1Ref.current.innerText = c1.val.toFixed(1) + "%";
           },
         });
 
-        // Counter 2: 900ms -> 350ms
-        const c2 = { val: 950 };
+        // Counter 2: 800ms -> 350ms
+        const c2 = { val: 800 };
         gsap.to(c2, {
           val: 350,
           duration: 1.8,
@@ -196,9 +207,7 @@ export default function HomePage() {
             toggleActions: "play none none none",
           },
           onUpdate: () => {
-            if (counterLatencyRef.current) {
-              counterLatencyRef.current.innerText = "< " + Math.round(c2.val) + "ms";
-            }
+            if (counter2Ref.current) counter2Ref.current.innerText = "< " + Math.round(c2.val) + "ms";
           },
         });
 
@@ -214,17 +223,15 @@ export default function HomePage() {
             toggleActions: "play none none none",
           },
           onUpdate: () => {
-            if (counterVectorRef.current) {
-              counterVectorRef.current.innerText = Math.round(c3.val) + "-D";
-            }
+            if (counter3Ref.current) counter3Ref.current.innerText = Math.round(c3.val) + "-D";
           },
         });
 
-        // Counter 4: 0 -> 100%
+        // Counter 4: 0% -> 100%
         const c4 = { val: 0 };
         gsap.to(c4, {
           val: 100,
-          duration: 1.9,
+          duration: 1.8,
           ease: "power2.out",
           scrollTrigger: {
             trigger: proofBarRef.current,
@@ -232,27 +239,25 @@ export default function HomePage() {
             toggleActions: "play none none none",
           },
           onUpdate: () => {
-            if (counterSelfRef.current) {
-              counterSelfRef.current.innerText = Math.round(c4.val) + "%";
-            }
+            if (counter4Ref.current) counter4Ref.current.innerText = Math.round(c4.val) + "%";
           },
         });
       }
 
-      // 4. Bento Grid (The 3 Core Pillars) Stagger
-      if (bentoRef.current) {
+      // 4. Feature Cards Stagger
+      if (featuresRef.current) {
         gsap.fromTo(
-          ".bento-pillar-card",
-          { y: 50, opacity: 0, scale: 0.96 },
+          ".stripe-feature-card",
+          { y: 40, opacity: 0, scale: 0.97 },
           {
             y: 0,
             opacity: 1,
             scale: 1,
             duration: 0.8,
-            stagger: 0.16,
+            stagger: 0.15,
             ease: "power3.out",
             scrollTrigger: {
-              trigger: bentoRef.current,
+              trigger: featuresRef.current,
               start: "top 80%",
               toggleActions: "play none none none",
             },
@@ -260,20 +265,19 @@ export default function HomePage() {
         );
       }
 
-      // 5. Architecture Pipeline Stagger
-      if (pipelineRef.current) {
+      // 5. Developer Showcase Entrance
+      if (devShowcaseRef.current) {
         gsap.fromTo(
-          ".pipeline-step-card",
-          { y: 40, opacity: 0, scale: 0.95 },
+          devShowcaseRef.current,
+          { y: 45, opacity: 0, scale: 0.98 },
           {
             y: 0,
             opacity: 1,
             scale: 1,
-            duration: 0.7,
-            stagger: 0.14,
-            ease: "power2.out",
+            duration: 0.9,
+            ease: "power3.out",
             scrollTrigger: {
-              trigger: pipelineRef.current,
+              trigger: devShowcaseRef.current,
               start: "top 80%",
               toggleActions: "play none none none",
             },
@@ -282,18 +286,18 @@ export default function HomePage() {
       }
 
       // 6. Bottom CTA Entrance
-      if (ctaRef.current) {
+      if (bottomCtaRef.current) {
         gsap.fromTo(
-          ctaRef.current,
-          { y: 35, opacity: 0, scale: 0.96 },
+          bottomCtaRef.current,
+          { y: 35, opacity: 0, scale: 0.97 },
           {
             y: 0,
             opacity: 1,
             scale: 1,
-            duration: 0.9,
+            duration: 0.8,
             ease: "power3.out",
             scrollTrigger: {
-              trigger: ctaRef.current,
+              trigger: bottomCtaRef.current,
               start: "top 85%",
               toggleActions: "play none none none",
             },
@@ -306,416 +310,463 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div ref={pageContainerRef} className="relative w-full overflow-hidden bg-[#08090f] text-slate-100">
-      {/* Render Signature Atmospheric Aurora Orbs (Cyan, Indigo, Violet) */}
-      <div className="absolute top-0 left-1/4 w-[650px] h-[650px] rounded-full aurora-orb-cyan opacity-80 pointer-events-none" />
-      <div className="absolute top-24 right-10 w-[600px] h-[600px] rounded-full aurora-orb-indigo opacity-80 pointer-events-none" />
-      <div className="absolute top-[620px] left-1/3 w-[550px] h-[550px] rounded-full aurora-orb-violet opacity-75 pointer-events-none" />
-
-      {/* Render Dot Matrix & Cyber Grid Overlay */}
-      <div className="absolute inset-0 dot-matrix-render opacity-60 pointer-events-none" />
-      <div className="absolute inset-0 render-grid render-grid-radial opacity-50 pointer-events-none" />
+    <div ref={pageContainerRef} className="relative w-full overflow-hidden bg-[#070913] text-slate-100">
+      
+      {/* Stripe Signature Animated Liquid Mesh Gradient Background */}
+      <div className="absolute top-0 left-0 right-0 h-[880px] overflow-hidden pointer-events-none z-0">
+        <StripeMeshGradient className="opacity-90" />
+        {/* Subtle Stripe diagonal sweep overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#070913]/60 to-[#070913]" />
+      </div>
 
       {/* HERO SECTION */}
-      <section ref={heroRef} className="relative pt-8 pb-16 md:pt-14 md:pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Top Eyebrow Badge (Render Developer Cloud Style) */}
-        <div className="text-center max-w-3xl mx-auto mb-6">
-          <div
-            ref={badgeRef}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-[#0e101d] border border-[#232742] text-render-cyan text-xs font-mono shadow-sm cursor-default"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-render-cyan animate-pulse" />
-            <Sparkles className="w-3.5 h-3.5 text-render-cyan" />
-            <span className="font-semibold tracking-wide">
-              3D AI VECTOR MATCH ENGINE • GROQ LLM &amp; RENDER CLOUD
-            </span>
-          </div>
+      <section ref={heroRef} className="relative z-10 pt-12 pb-20 md:pt-20 md:pb-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
-          <h1
-            ref={headingRef}
-            className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.08] mt-5 mb-5 font-sans"
-          >
-            Find the right open source issue —{" "}
-            <span className="bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet bg-clip-text text-transparent">
-              in 10 seconds.
-            </span>
-          </h1>
-
-          <p
-            ref={descRef}
-            className="text-base sm:text-lg text-slate-300 font-normal max-w-2xl mx-auto leading-relaxed"
-          >
-            Groq LLM automatically triages issues by difficulty, skill area, and effort. 768-D vector embeddings match candidates with precision on Render cloud infrastructure.
-          </p>
-        </div>
-
-        {/* 1-CLICK INTERACTIVE LAUNCHPAD (Render Cloud Console Card) */}
-        <div ref={launchpadRef} className="max-w-3xl mx-auto mb-14">
-          <div className="spotlight-card rounded-xl border border-[#222842] bg-[#0e101d] p-5 sm:p-7 backdrop-blur-2xl shadow-glow-indigo relative overflow-hidden">
-            {/* Top Glowing Laser Border */}
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet" />
-
-            {/* Mode Tabs */}
-            <div className="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-white/10">
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveTab("username");
-                    setInputVal("Saksham842");
-                  }}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all ${
-                    activeTab === "username"
-                      ? "bg-[#181d33] text-render-cyan border border-render-cyan/50"
-                      : "text-slate-400 hover:text-white border border-transparent"
-                  }`}
-                >
-                  <Github className="w-4 h-4" />
-                  <span>Match by GitHub Profile</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveTab("repo");
-                    setInputVal("vercel/next.js");
-                  }}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all ${
-                    activeTab === "repo"
-                      ? "bg-[#181d33] text-render-indigo border border-render-indigo/50"
-                      : "text-slate-400 hover:text-white border border-transparent"
-                  }`}
-                >
-                  <GitFork className="w-4 h-4" />
-                  <span>Triage by Target Repo</span>
-                </button>
-              </div>
-              <span className="hidden sm:inline-flex items-center gap-1.5 text-[11px] font-mono text-slate-300 bg-[#141729] border border-[#232742] px-2.5 py-1 rounded-md shadow-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-render-cyan" />
-                Zero Setup Needed
-              </span>
+          {/* Left Column: Stripe Typography & Action Console */}
+          <div className="lg:col-span-6 space-y-6">
+            
+            {/* Pill Announcement Badge (Stripe style) */}
+            <div ref={badgeRef}>
+              <Link
+                href="/match"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.08] hover:bg-white/[0.12] border border-white/10 text-xs font-medium text-slate-200 shadow-sm transition-all group"
+              >
+                <span className="w-2 h-2 rounded-full bg-[#00d4b6] animate-pulse" />
+                <span>Introducing Contrib Compass 2.0</span>
+                <span className="text-[#635bff] font-semibold flex items-center group-hover:translate-x-0.5 transition-transform">
+                  Explore <ChevronRight className="w-3.5 h-3.5 inline ml-0.5" />
+                </span>
+              </Link>
             </div>
 
-            {/* Big Instant Input Box */}
-            <form onSubmit={handleLaunch} className="flex flex-col sm:flex-row gap-3 items-stretch">
-              <div className="relative flex-1">
-                {activeTab === "username" ? (
-                  <Github className="w-5 h-5 text-render-cyan absolute left-4 top-1/2 -translate-y-1/2" />
-                ) : (
-                  <GitFork className="w-5 h-5 text-render-indigo absolute left-4 top-1/2 -translate-y-1/2" />
-                )}
-                <input
-                  type="text"
-                  value={inputVal}
-                  onChange={(e) => setInputVal(e.target.value)}
-                  placeholder={
-                    activeTab === "username"
-                      ? "Enter GitHub username (e.g. Saksham842, shadcn, leerob)"
-                      : "Enter GitHub repo (e.g. vercel/next.js, facebook/react)"
-                  }
-                  className="w-full h-12 bg-[#08090f] border border-[#222842] rounded-lg pl-12 pr-4 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-render-cyan font-mono transition-all"
+            {/* Iconic Stripe Bold Headline */}
+            <h1
+              ref={headingRef}
+              className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.05]"
+            >
+              Neural infrastructure{" "}
+              <span className="stripe-gradient-text block mt-1">for open source.</span>
+            </h1>
+
+            {/* Stripe Descriptive Value Proposition */}
+            <p
+              ref={descRef}
+              className="text-base sm:text-lg text-slate-300 font-normal leading-relaxed max-w-xl"
+            >
+              Millions of developer hours are lost triaging stagnant issues. Contrib Compass automatically classifies difficulty, effort, and skills via Groq LLM and projects 768-D vector embeddings to match contributors in seconds.
+            </p>
+
+            {/* Double Action Button Bar */}
+            <div ref={ctaBarRef} className="flex flex-wrap items-center gap-3 pt-2">
+              <Link
+                href="/match"
+                className="stripe-btn-primary px-6 py-3 rounded-full text-sm font-semibold flex items-center gap-2 shadow-lg cursor-pointer"
+              >
+                <span>Start matching now</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+
+              <Link
+                href="/connect"
+                className="stripe-btn-secondary px-5 py-3 rounded-full text-sm font-medium flex items-center gap-1.5"
+              >
+                <span>Connect a repository</span>
+                <ChevronRight className="w-4 h-4 text-slate-400" />
+              </Link>
+            </div>
+
+            {/* Stripe Interactive Launchpad Console */}
+            <div ref={launcherRef} className="pt-4">
+              <div className="stripe-glass-card rounded-2xl p-5 border border-white/10">
+                <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setActiveTab("username");
+                        setInputVal("Saksham842");
+                      }}
+                      className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${
+                        activeTab === "username"
+                          ? "bg-[#635bff] text-white shadow-sm"
+                          : "text-slate-400 hover:text-white"
+                      }`}
+                    >
+                      Contributor Handle
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setActiveTab("repo");
+                        setInputVal("vercel/next.js");
+                      }}
+                      className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${
+                        activeTab === "repo"
+                          ? "bg-[#635bff] text-white shadow-sm"
+                          : "text-slate-400 hover:text-white"
+                      }`}
+                    >
+                      Repository URL
+                    </button>
+                  </div>
+
+                  <span className="text-[11px] font-mono text-[#00d4b6] flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#00d4b6]" />
+                    Instant Evaluation
+                  </span>
+                </div>
+
+                <form onSubmit={handleLaunch} className="flex flex-col sm:flex-row gap-2">
+                  <div className="relative flex-1">
+                    <input
+                      type="text"
+                      value={inputVal}
+                      onChange={(e) => setInputVal(e.target.value)}
+                      placeholder={
+                        activeTab === "username"
+                          ? "Enter GitHub user (e.g. Saksham842, shadcn)"
+                          : "Enter repo (e.g. vercel/next.js)"
+                      }
+                      className="w-full h-11 bg-[#060814] border border-white/10 rounded-xl px-4 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#635bff] font-mono transition-all"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="h-11 px-5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-white font-semibold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 active:scale-95"
+                  >
+                    <span>Run Query</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </form>
+
+                {/* Instant Persona Chips */}
+                <div className="mt-3 flex flex-wrap items-center gap-1.5 text-xs font-mono">
+                  <span className="text-slate-400 text-[11px]">Quick Picks:</span>
+                  {activeTab === "username" ? (
+                    <>
+                      {QUICK_PERSONAS.map((p) => (
+                        <button
+                          key={p.handle}
+                          type="button"
+                          onClick={() => {
+                            setInputVal(p.handle);
+                            router.push(`/match?user=${p.handle}`);
+                          }}
+                          className="px-2.5 py-0.5 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 text-[11px] transition-all"
+                        >
+                          @{p.handle}
+                        </button>
+                      ))}
+                    </>
+                  ) : (
+                    <>
+                      {QUICK_REPOS.map((r) => (
+                        <button
+                          key={r.name}
+                          type="button"
+                          onClick={() => {
+                            setInputVal(r.name);
+                            router.push(`/connect`);
+                          }}
+                          className="px-2.5 py-0.5 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 text-[11px] transition-all"
+                        >
+                          {r.name}
+                        </button>
+                      ))}
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Stripe Interactive Card Showcase & 3D Compass */}
+          <div ref={showcaseRef} className="lg:col-span-6 relative">
+            <div className="space-y-4">
+              
+              {/* Header Bar for Live Sample */}
+              <div className="flex items-center justify-between px-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#635bff] animate-ping" />
+                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-300 font-mono">
+                    Live Triaged Telemetry
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={cycleSample}
+                  className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 text-xs font-mono text-slate-300 border border-white/10 transition-all cursor-pointer"
+                >
+                  <RefreshCw className="w-3 h-3 text-[#00d4b6]" />
+                  <span>Cycle Issue</span>
+                </button>
+              </div>
+
+              {/* Real Issue Card */}
+              <div className="stripe-glass-card rounded-2xl overflow-hidden p-1">
+                <IssueCard
+                  issue={activeIssueSample.issue}
+                  score={activeIssueSample.score}
+                  matchReason={activeIssueSample.matchReason}
                 />
               </div>
 
-              <button
-                type="submit"
-                className="h-12 px-6 rounded-lg bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet hover:opacity-95 text-slate-950 font-bold text-xs sm:text-sm shadow-none flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer"
-              >
-                <span>Discover Matches</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </form>
-
-            {/* Clickable Quick-Start Chips */}
-            <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-mono">
-              <span className="text-slate-400 text-[11px]">Instant Examples:</span>
-              {activeTab === "username" ? (
-                <>
-                  {QUICK_PERSONAS.map((p) => (
-                    <button
-                      key={p.handle}
-                      type="button"
-                      onClick={() => {
-                        setInputVal(p.handle);
-                        router.push(`/match?user=${p.handle}`);
-                      }}
-                      className="px-2.5 py-1 rounded-md bg-[#121626] hover:bg-[#1a1f36] text-slate-300 hover:text-render-cyan border border-[#222842] hover:border-render-cyan/50 transition-all flex items-center gap-1.5"
-                    >
-                      <span className="font-semibold text-white">@{p.handle}</span>
-                      <span className="text-[10px] text-render-cyan">({p.role})</span>
-                    </button>
-                  ))}
-                </>
-              ) : (
-                <>
-                  {QUICK_REPOS.map((r) => (
-                    <button
-                      key={r.name}
-                      type="button"
-                      onClick={() => {
-                        setInputVal(r.name);
-                        router.push(`/connect`);
-                      }}
-                      className="px-2.5 py-1 rounded-md bg-[#121626] hover:bg-[#1a1f36] text-slate-300 hover:text-render-indigo border border-[#222842] hover:border-render-indigo/50 transition-all flex items-center gap-1"
-                    >
-                      <span>{r.name}</span>
-                      <span className="text-[10px] text-amber-400">★{r.stars}</span>
-                    </button>
-                  ))}
-                </>
-              )}
+              {/* 3D Holographic Vector Compass Accent Frame */}
+              <div className="stripe-glass-card rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white/10">
+                <div className="w-full sm:w-48 h-44 relative flex items-center justify-center">
+                  <CompassCanvas3D className="w-full h-full" />
+                </div>
+                <div className="flex-1 space-y-2 text-xs">
+                  <div className="flex items-center gap-2 text-[#00d4b6] font-mono font-semibold">
+                    <CheckCircle2 className="w-4 h-4" />
+                    <span>Benchmark Eval (N=35) Verified</span>
+                  </div>
+                  <p className="text-slate-300 leading-relaxed text-[11px]">
+                    Groq LLM 3-stage heuristic &amp; 768-D embedding projection achieves 94.3% agreement against real maintainer annotations in <code className="text-[#ff5b79]">/eval</code>.
+                  </p>
+                  <div className="flex items-center gap-2 pt-1 font-mono text-[10px] text-slate-400">
+                    <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">768 Dim</span>
+                    <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">Cosine Dist</span>
+                    <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">Llama 3.3</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* HERO INTERACTIVE SHOWCASE: Live Triaged Issue + 3D Holographic Compass Visualizer */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center max-w-6xl mx-auto">
-          
-          {/* Left: Live Interactive Sample Issue Card */}
-          <div ref={issueShowcaseRef} className="lg:col-span-7 space-y-3">
-            <div className="flex items-center justify-between px-1">
-              <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
-                <Zap className="w-3.5 h-3.5 text-render-cyan animate-pulse" />
-                <span className="font-bold text-white">Live Triaged Candidate</span>
-                <span className="text-[10px] text-render-cyan bg-[#141729] border border-render-cyan/40 px-2 py-0.5 rounded-md font-mono">
-                  Sample #{sampleIndex + 1} of {MOCK_MATCH_RESULTS.length}
+      {/* ECOSYSTEM PARTNERS RIBBON (Stripe Logo Banner) */}
+      <section className="py-8 border-y border-white/5 bg-[#050711]/60 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-center text-xs font-mono uppercase tracking-widest text-slate-400 mb-6 font-semibold">
+            Trained and calibrated for modern open source stacks
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-12 opacity-80">
+            {ECOSYSTEM_LOGOS.map((item) => (
+              <div key={item.name} className="flex items-center gap-2 group cursor-default">
+                <div className="w-2 h-2 rounded-full bg-[#635bff] group-hover:scale-125 transition-transform" />
+                <span className="font-bold text-sm text-slate-200 tracking-tight group-hover:text-white transition-colors">
+                  {item.name}
+                </span>
+                <span className="text-[10px] font-mono text-slate-400 border border-white/10 px-1.5 py-0.5 rounded-md">
+                  {item.tag}
                 </span>
               </div>
-              
-              <button
-                type="button"
-                onClick={cycleSampleIssue}
-                className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-[#121626] hover:bg-[#1a1f36] text-xs font-mono text-render-cyan border border-render-cyan/30 transition-all cursor-pointer"
-              >
-                <RefreshCw className="w-3 h-3" />
-                <span>Next Sample</span>
-              </button>
-            </div>
-
-            <IssueCard
-              issue={activeIssueSample.issue}
-              score={activeIssueSample.score}
-              matchReason={activeIssueSample.matchReason}
-            />
-
-            <div className="flex flex-wrap items-center justify-between gap-2 px-2 text-[11px] font-mono text-slate-400">
-              <span className="flex items-center gap-1.5 text-render-cyan font-semibold">
-                <CheckCircle2 className="w-3.5 h-3.5 text-render-cyan" />
-                <span>94.3% Agreement on Hand-Labeled Eval Benchmark (N=35 in /eval)</span>
-              </span>
-              <span className="text-render-indigo font-medium">
-                Powered by Groq LLM + 768-D Vector Embeddings
-              </span>
-            </div>
+            ))}
           </div>
+        </div>
+      </section>
 
-          {/* Right: 3D Holographic Compass Hero Accent */}
-          <div className="lg:col-span-5 relative flex flex-col items-center justify-center">
-            <div
-              ref={compassCardRef}
-              className="spotlight-card w-full max-w-[420px] aspect-square relative flex items-center justify-center p-2 rounded-xl bg-[#0e101d] border border-[#222842] shadow-glow-render will-change-transform"
+      {/* STRIPE TELEMETRY PROOF BAR */}
+      <section ref={proofBarRef} className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="stripe-glass-card p-6 rounded-2xl border border-white/10 text-center">
+            <span
+              ref={counter1Ref}
+              className="text-4xl sm:text-5xl font-extrabold text-white block tracking-tight mb-1"
             >
-              <CompassCanvas3D className="w-full h-full" />
-            </div>
+              94.3%
+            </span>
+            <span className="text-xs font-semibold text-[#00d4b6] uppercase tracking-wider block font-mono">
+              Triage Agreement
+            </span>
+            <p className="text-[11px] text-slate-400 mt-2">vs 65.7% heuristic baseline (N=35 in /eval)</p>
+          </div>
+
+          <div className="stripe-glass-card p-6 rounded-2xl border border-white/10 text-center">
+            <span
+              ref={counter2Ref}
+              className="text-4xl sm:text-5xl font-extrabold text-[#635bff] block tracking-tight mb-1"
+            >
+              &lt; 350ms
+            </span>
+            <span className="text-xs font-semibold text-[#635bff] uppercase tracking-wider block font-mono">
+              Groq LLM Latency
+            </span>
+            <p className="text-[11px] text-slate-400 mt-2">llama-3.3-70b-versatile LPU</p>
+          </div>
+
+          <div className="stripe-glass-card p-6 rounded-2xl border border-white/10 text-center">
+            <span
+              ref={counter3Ref}
+              className="text-4xl sm:text-5xl font-extrabold text-[#ff5b79] block tracking-tight mb-1"
+            >
+              768-D
+            </span>
+            <span className="text-xs font-semibold text-[#ff5b79] uppercase tracking-wider block font-mono">
+              Vector Space
+            </span>
+            <p className="text-[11px] text-slate-400 mt-2">Sentence-Transformers embeddings</p>
+          </div>
+
+          <div className="stripe-glass-card p-6 rounded-2xl border border-white/10 text-center">
+            <span
+              ref={counter4Ref}
+              className="text-4xl sm:text-5xl font-extrabold text-[#ffa154] block tracking-tight mb-1"
+            >
+              100%
+            </span>
+            <span className="text-xs font-semibold text-[#ffa154] uppercase tracking-wider block font-mono">
+              Self-Improving
+            </span>
+            <p className="text-[11px] text-slate-400 mt-2">Maintainer human-in-the-loop overrides</p>
           </div>
         </div>
       </section>
 
-      {/* METRICS & PROOF BAR (Render Cloud Service Metrics) */}
-      <section ref={proofBarRef} className="relative py-12 border-y border-[#222842] bg-[#0e101d]/75 backdrop-blur-2xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div className="spotlight-card p-5 rounded-xl bg-[#131627]/60 border border-[#222842] hover:border-render-cyan/50 transition-colors">
-              <span
-                ref={counterTriageRef}
-                className="text-3xl sm:text-4xl font-black font-mono text-white block mb-1"
-              >
-                94.3%
-              </span>
-              <span className="text-xs font-mono text-render-cyan uppercase tracking-wider block font-bold">
-                Triage Agreement
-              </span>
-              <p className="text-[11px] text-slate-400 mt-1">vs 65.7% heuristic baseline (N=35)</p>
-            </div>
-
-            <div className="spotlight-card p-5 rounded-xl bg-[#131627]/60 border border-[#222842] hover:border-render-indigo/50 transition-colors">
-              <span
-                ref={counterLatencyRef}
-                className="text-3xl sm:text-4xl font-black font-mono text-render-indigo block mb-1"
-              >
-                &lt; 350ms
-              </span>
-              <span className="text-xs font-mono text-render-indigo uppercase tracking-wider block font-bold">
-                Groq LLM Latency
-              </span>
-              <p className="text-[11px] text-slate-400 mt-1">llama-3.3-70b-versatile</p>
-            </div>
-
-            <div className="spotlight-card p-5 rounded-xl bg-[#131627]/60 border border-[#222842] hover:border-render-violet/50 transition-colors">
-              <span
-                ref={counterVectorRef}
-                className="text-3xl sm:text-4xl font-black font-mono text-render-violet block mb-1"
-              >
-                768-D
-              </span>
-              <span className="text-xs font-mono text-render-violet uppercase tracking-wider block font-bold">
-                Vector Dimensions
-              </span>
-              <p className="text-[11px] text-slate-400 mt-1">Sentence-Transformers</p>
-            </div>
-
-            <div className="spotlight-card p-5 rounded-xl bg-[#131627]/60 border border-[#222842] hover:border-pink-500/50 transition-colors">
-              <span
-                ref={counterSelfRef}
-                className="text-3xl sm:text-4xl font-black font-mono text-pink-400 block mb-1"
-              >
-                100%
-              </span>
-              <span className="text-xs font-mono text-pink-400 uppercase tracking-wider block font-bold">
-                Self-Improving
-              </span>
-              <p className="text-[11px] text-slate-400 mt-1">Maintainer calibration override</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* THE 3 CORE PILLARS (Render Bento Grid) */}
-      <section ref={bentoRef} className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-14">
-          <span className="text-xs font-mono text-render-cyan uppercase tracking-widest font-bold">
-            End-to-End Intelligence
+      {/* STRIPE MODULAR SUITE FEATURES */}
+      <section ref={featuresRef} className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
+          <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#635bff]">
+            Unified Open Source Platform
           </span>
-          <h2 className="text-3xl sm:text-4xl font-black text-white mt-1">
-            Engineered for contributors &amp; maintainers alike.
+          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+            A complete suite for contributors &amp; maintainers.
           </h2>
+          <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+            Eliminate friction between developers looking for meaningful contributions and maintainers drowning in issue triage.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Card 1 */}
-          <div className="bento-pillar-card spotlight-card group rounded-xl border border-[#222842] bg-[#0e101d] p-6 transition-all duration-300 hover:border-render-cyan/50 hover:bg-[#131627] flex flex-col justify-between">
+          {/* Feature 1 */}
+          <div className="stripe-feature-card stripe-glass-card rounded-2xl p-7 flex flex-col justify-between">
             <div>
-              <div className="w-10 h-10 rounded-lg bg-[#141729] border border-render-cyan/40 flex items-center justify-center text-render-cyan mb-5 group-hover:scale-105 transition-transform">
-                <Zap className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-xl bg-[#635bff]/20 border border-[#635bff]/40 flex items-center justify-center text-[#635bff] mb-6">
+                <Zap className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-white mb-2">Automated Issue Triage</h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Ingests GitHub issues and classifies difficulty (Easy, Intermediate, Advanced), skill area, and effort with confidence ratings.
+              <h3 className="text-xl font-bold text-white mb-2.5">Automated Issue Radar</h3>
+              <p className="text-sm text-slate-300 leading-relaxed">
+                Connect your repository to immediately parse issues, sanitize markdown, and classify difficulty (Easy, Intermediate, Advanced) and estimated effort.
               </p>
             </div>
-            <div className="mt-6 pt-4 border-t border-white/10 text-xs font-mono text-render-cyan flex items-center gap-1.5 font-semibold">
-              <span>Groq LLM + Heuristic Fallback</span>
+            <div className="mt-8 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono text-[#00d4b6]">
+              <span>Groq LPU Triaging</span>
+              <ChevronRight className="w-4 h-4" />
             </div>
           </div>
 
-          {/* Card 2 */}
-          <div className="bento-pillar-card spotlight-card group rounded-xl border border-render-indigo/40 bg-[#121626] p-6 transition-all duration-300 hover:border-render-indigo hover:bg-[#181d33] flex flex-col justify-between">
+          {/* Feature 2 */}
+          <div className="stripe-feature-card stripe-glass-card rounded-2xl p-7 flex flex-col justify-between">
             <div>
-              <div className="w-10 h-10 rounded-lg bg-[#181d33] border border-render-indigo/40 flex items-center justify-center text-render-indigo mb-5 group-hover:scale-105 transition-transform">
-                <Sparkles className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-xl bg-[#ff5b79]/20 border border-[#ff5b79]/40 flex items-center justify-center text-[#ff5b79] mb-6">
+                <Compass className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-white mb-2">Neural Skill Matching</h3>
-              <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
-                Auto-extracts competencies from your GitHub profile or custom skill tags, projecting them against issue embeddings to score compatibility 0–100.
+              <h3 className="text-xl font-bold text-white mb-2.5">Neural Skill Matching</h3>
+              <p className="text-sm text-slate-300 leading-relaxed">
+                Extract competencies from your GitHub profile or custom skill tags, projecting them against 768-D issue vectors to compute precise 0–100 compatibility scores.
               </p>
             </div>
-            <div className="mt-6 pt-4 border-t border-white/10 text-xs font-mono text-render-indigo flex items-center gap-1.5 font-semibold">
-              <span>GSAP Interactive Visualizer</span>
+            <div className="mt-8 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono text-[#ff5b79]">
+              <span>Vector Similarity Engine</span>
+              <ChevronRight className="w-4 h-4" />
             </div>
           </div>
 
-          {/* Card 3 */}
-          <div className="bento-pillar-card spotlight-card group rounded-xl border border-[#222842] bg-[#0e101d] p-6 transition-all duration-300 hover:border-render-violet/50 hover:bg-[#131627] flex flex-col justify-between">
+          {/* Feature 3 */}
+          <div className="stripe-feature-card stripe-glass-card rounded-2xl p-7 flex flex-col justify-between">
             <div>
-              <div className="w-10 h-10 rounded-lg bg-[#141729] border border-render-violet/40 flex items-center justify-center text-render-violet mb-5 group-hover:scale-105 transition-transform">
-                <ShieldCheck className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-xl bg-[#00d4b6]/20 border border-[#00d4b6]/40 flex items-center justify-center text-[#00d4b6] mb-6">
+                <ShieldCheck className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-white mb-2">Maintainer Feedback Loop</h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Maintainers can correct or calibrate any label with one click. Corrections persist and tune future classifications, compounding accuracy.
+              <h3 className="text-xl font-bold text-white mb-2.5">Maintainer Feedback Studio</h3>
+              <p className="text-sm text-slate-300 leading-relaxed">
+                Maintainers can correct or calibrate any label with one click. Corrections persist and tune future classifications, compounding accuracy over time.
               </p>
             </div>
-            <div className="mt-6 pt-4 border-t border-white/10 text-xs font-mono text-render-violet flex items-center gap-1.5 font-semibold">
+            <div className="mt-8 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono text-[#00d4b6]">
               <span>Self-Calibrating Pipeline</span>
+              <ChevronRight className="w-4 h-4" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* HOW IT'S BUILT PIPELINE (From Pitch Deck Page 4) */}
-      <section ref={pipelineRef} className="py-16 bg-[#06070c] border-t border-[#222842]">
+      {/* STRIPE DEVELOPER INTERACTIVE CODE SANDBOX */}
+      <section ref={devShowcaseRef} className="py-20 bg-[#050711] border-y border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-xl mx-auto mb-12">
-            <span className="text-xs font-mono text-render-cyan uppercase tracking-widest font-bold">Architecture</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">How It&apos;s Built</h2>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Step 1 */}
-            <div className="pipeline-step-card spotlight-card p-5 rounded-xl bg-[#0e101d] border border-[#222842] hover:border-render-cyan/50 transition-all relative overflow-hidden">
-              <span className="text-2xl font-mono font-bold text-render-cyan block mb-2">01</span>
-              <h4 className="font-bold text-sm text-white mb-1">GitHub API</h4>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Ingests issues, PR discussions, and metadata from connected repos via REST &amp; GraphQL.
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <div className="lg:col-span-5 space-y-5">
+              <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#00d4b6]">
+                Developer First Architecture
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-black text-white leading-tight">
+                Designed for engineers, built with open standards.
+              </h2>
+              <p className="text-sm text-slate-300 leading-relaxed">
+                Integrate Contrib Compass into your CI/CD pipeline or GitHub Actions. Access REST and GraphQL endpoints with standard Bearer authentication.
               </p>
+
+              <div className="space-y-3 pt-2 text-xs font-mono text-slate-300">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-5 h-5 rounded-full bg-[#635bff]/20 flex items-center justify-center text-[#635bff]">
+                    ✓
+                  </div>
+                  <span>Deterministic error shapes with structured error codes</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-5 h-5 rounded-full bg-[#00d4b6]/20 flex items-center justify-center text-[#00d4b6]">
+                    ✓
+                  </div>
+                  <span>In-memory 60s cache TTL to respect GitHub API limits</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-5 h-5 rounded-full bg-[#ff5b79]/20 flex items-center justify-center text-[#ff5b79]">
+                    ✓
+                  </div>
+                  <span>Deployable on Render, Vercel, or custom Docker containers</span>
+                </div>
+              </div>
+
+              <div className="pt-3">
+                <Link
+                  href="/maintainer"
+                  className="stripe-btn-secondary px-5 py-2.5 rounded-full text-xs font-semibold inline-flex items-center gap-2"
+                >
+                  <span>Explore Developer Studio</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
             </div>
 
-            {/* Step 2 */}
-            <div className="pipeline-step-card spotlight-card p-5 rounded-xl bg-[#0e101d] border border-[#222842] hover:border-render-indigo/50 transition-all relative overflow-hidden">
-              <span className="text-2xl font-mono font-bold text-render-indigo block mb-2">02</span>
-              <h4 className="font-bold text-sm text-white mb-1">Text Analysis</h4>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Sanitizes issue bodies, extracts technical keywords, and normalizes stack taxonomy.
-              </p>
-            </div>
-
-            {/* Step 3 */}
-            <div className="pipeline-step-card spotlight-card p-5 rounded-xl bg-[#0e101d] border border-[#222842] hover:border-render-violet/50 transition-all relative overflow-hidden">
-              <span className="text-2xl font-mono font-bold text-render-violet block mb-2">03</span>
-              <h4 className="font-bold text-sm text-white mb-1">AI Classifier</h4>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Evaluates difficulty, skill area, and effort with microsecond triage execution.
-              </p>
-            </div>
-
-            {/* Step 4 */}
-            <div className="pipeline-step-card spotlight-card p-5 rounded-xl bg-[#0e101d] border border-[#222842] hover:border-pink-500/50 transition-all relative overflow-hidden">
-              <span className="text-2xl font-mono font-bold text-pink-400 block mb-2">04</span>
-              <h4 className="font-bold text-sm text-white mb-1">Match Engine</h4>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Ranks candidate issues against contributor skills, experience, and past contribution graph.
-              </p>
+            <div className="lg:col-span-7">
+              <StripeDevShowcase />
             </div>
           </div>
         </div>
       </section>
 
-      {/* BOTTOM CTA (Render-style Gradient Container) */}
-      <section className="py-16 max-w-5xl mx-auto px-4 text-center">
-        <div
-          ref={ctaRef}
-          className="spotlight-card rounded-xl border border-render-cyan/30 bg-gradient-to-b from-[#14172a] via-[#0e101d] to-[#08090f] p-8 sm:p-12 shadow-glow-render relative overflow-hidden"
-        >
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet" />
-          <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">
-            Start matching your skills right now
+      {/* STRIPE BOTTOM HORIZON CTA */}
+      <section ref={bottomCtaRef} className="py-24 max-w-5xl mx-auto px-4 text-center relative z-10">
+        <div className="stripe-glass-card rounded-3xl p-10 sm:p-14 border border-white/10 shadow-[0_20px_60px_rgba(99,91,255,0.2)] relative overflow-hidden">
+          {/* Vibrant Stripe top beam */}
+          <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#00d4b6] via-[#635bff] to-[#ff5b79]" />
+
+          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight mb-4">
+            Ready to find your next open-source contribution?
           </h2>
-          <p className="text-slate-300 text-sm max-w-xl mx-auto mb-8 leading-relaxed">
-            Skip the noise of scrolling through hundreds of stagnant issues. Let Contrib Compass steer you directly to issues you can solve today.
+          <p className="text-slate-300 text-sm sm:text-base max-w-xl mx-auto mb-8 leading-relaxed">
+            Join thousands of developers using AI-powered matching to make impactful contributions across GitHub.
           </p>
+
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/match"
-              className="px-6 py-3 rounded-lg bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet hover:opacity-95 text-slate-950 font-bold text-sm shadow-none transition-all active:scale-95"
+              className="stripe-btn-primary px-7 py-3.5 rounded-full text-sm font-semibold shadow-xl flex items-center gap-2"
             >
-              Launch Smart Matcher
+              <span>Get started for free</span>
+              <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
-              href="/maintainer"
-              className="px-6 py-3 rounded-lg bg-[#08090f] hover:bg-[#131627] text-white font-medium text-sm border border-[#222842] transition-all hover:border-render-cyan/40"
+              href="/dashboard"
+              className="stripe-btn-secondary px-6 py-3.5 rounded-full text-sm font-medium"
             >
-              Maintainer Feedback Studio
+              Browse live issues
             </Link>
           </div>
         </div>
