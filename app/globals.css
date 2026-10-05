@@ -60,18 +60,46 @@ body {
 
 /* Glassmorphism Classes */
 .glass-panel {
-  background: rgba(12, 21, 32, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(10, 29, 40, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .glass-panel-glow {
-  background: rgba(17, 29, 44, 0.75);
+  background: rgba(8, 22, 32, 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(0, 237, 100, 0.25);
+  box-shadow: 0 0 35px -5px rgba(0, 237, 100, 0.15), 0 0 20px -5px rgba(0, 245, 255, 0.1);
+}
+
+.glass-card-render {
+  background: linear-gradient(135deg, rgba(12, 16, 36, 0.85) 0%, rgba(7, 9, 19, 0.9) 100%);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(20, 184, 166, 0.25);
-  box-shadow: 0 0 25px -5px rgba(20, 184, 166, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-render:hover {
+  border-color: rgba(0, 245, 255, 0.4);
+  box-shadow: 0 12px 40px -10px rgba(0, 245, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.glass-card-mongo {
+  background: linear-gradient(135deg, rgba(10, 29, 40, 0.85) 0%, rgba(2, 18, 28, 0.9) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 237, 100, 0.15);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-mongo:hover {
+  border-color: rgba(0, 237, 100, 0.5);
+  box-shadow: 0 12px 40px -10px rgba(0, 237, 100, 0.22);
+  transform: translateY(-2px);
 }
 
 /* Glowing text */
@@ -80,7 +108,11 @@ body {
 }
 
 .text-glow-cyan {
-  text-shadow: 0 0 20px rgba(6, 182, 212, 0.6);
+  text-shadow: 0 0 20px rgba(0, 245, 255, 0.6);
+}
+
+.text-glow-mongo {
+  text-shadow: 0 0 25px rgba(0, 237, 100, 0.65);
 }
 
 /* Scanning Beam Animation Keyframes */
@@ -100,4 +132,29 @@ body {
 
 .laser-line {
   animation: laserSweep 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* MongoDB / Render Aurora Orbs */
+.aurora-orb-mongo {
+  background: radial-gradient(circle, rgba(0, 237, 100, 0.18) 0%, rgba(2, 52, 48, 0.08) 50%, transparent 75%);
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.aurora-orb-render {
+  background: radial-gradient(circle, rgba(0, 245, 255, 0.16) 0%, rgba(99, 102, 241, 0.1) 50%, transparent 75%);
+  filter: blur(70px);
+  pointer-events: none;
+}
+
+.aurora-orb-violet {
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, rgba(236, 72, 153, 0.05) 50%, transparent 75%);
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+/* Subtle dot matrix grid */
+.dot-matrix {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
 }

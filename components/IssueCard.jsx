@@ -52,15 +52,15 @@ export default function IssueCard({
   const strokeDashoffset = displayScore ? circumference - (displayScore / 100) * circumference : circumference;
 
   return (
-    <div className="group relative rounded-2xl border border-white/10 bg-[#0c1520]/85 p-5 backdrop-blur-md transition-all duration-300 hover:border-compass-500/50 hover:bg-[#111e2f]/95 hover:shadow-[0_8px_30px_rgba(20,184,166,0.15)] flex flex-col justify-between">
+    <div className="group relative rounded-3xl border border-[#133549] bg-[#001e2b]/85 p-5 backdrop-blur-xl transition-all duration-300 hover:border-mongo-green/50 hover:bg-[#002738] hover:shadow-glow-mongo flex flex-col justify-between">
       <div>
         {/* Top meta row with Repo, Number and Radial Score Meter */}
         <div className="flex items-center justify-between gap-3 mb-3.5">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="flex items-center gap-1.5 text-xs font-mono text-cyan-300 bg-cyan-950/60 border border-cyan-500/30 px-2.5 py-1 rounded-full shadow-sm">
-              <GitPullRequest className="w-3 h-3 text-cyan-400" />
+            <span className="flex items-center gap-1.5 text-xs font-mono text-render-cyan bg-[#011627] border border-render-cyan/30 px-2.5 py-1 rounded-full shadow-sm">
+              <GitPullRequest className="w-3 h-3 text-render-cyan" />
               <span className="font-semibold">{issue.repoName || "repo"}</span>
-              <span className="text-cyan-500">#{issue.number || issue.id}</span>
+              <span className="text-render-cyan/80">#{issue.number || issue.id}</span>
             </span>
 
             {issue.createdAt && (
@@ -74,7 +74,7 @@ export default function IssueCard({
           <div className="flex items-center gap-2.5">
             {/* Radial Match Score Ring if available */}
             {displayScore !== null && (
-              <div className="flex items-center gap-2 bg-[#06101c] px-2.5 py-1 rounded-xl border border-compass-500/30 shadow-sm" title={`AI Compatibility: ${displayScore}%`}>
+              <div className="flex items-center gap-2 bg-[#011422] px-2.5 py-1 rounded-xl border border-mongo-green/40 shadow-glow-mongo" title={`AI Compatibility: ${displayScore}%`}>
                 <div className="relative w-8 h-8 flex items-center justify-center">
                   <svg className="w-8 h-8 -rotate-90 transform" viewBox="0 0 44 44">
                     <circle
@@ -100,8 +100,8 @@ export default function IssueCard({
                     />
                     <defs>
                       <linearGradient id="radialGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#14b8a6" />
-                        <stop offset="100%" stopColor="#06b6d4" />
+                        <stop offset="0%" stopColor="#00ED64" />
+                        <stop offset="100%" stopColor="#00F5FF" />
                       </linearGradient>
                     </defs>
                   </svg>
@@ -111,7 +111,7 @@ export default function IssueCard({
                 </div>
                 <div className="flex flex-col text-left">
                   <span className="text-[9px] uppercase font-mono tracking-wider text-slate-400">Match</span>
-                  <span className="text-[11px] font-mono font-bold text-compass-300">{displayScore}%</span>
+                  <span className="text-[11px] font-mono font-bold text-mongo-green">{displayScore}%</span>
                 </div>
               </div>
             )}
@@ -121,7 +121,7 @@ export default function IssueCard({
               href={issue.url || `https://github.com/search?q=${encodeURIComponent(issue.title)}`}
               target="_blank"
               rel="noreferrer"
-              className="text-slate-400 hover:text-compass-300 hover:bg-white/5 p-1.5 rounded-lg transition-all"
+              className="text-slate-400 hover:text-render-cyan hover:bg-white/5 p-1.5 rounded-lg transition-all"
               title="Open Issue on GitHub"
             >
               <ExternalLink className="w-4 h-4" />
@@ -130,7 +130,7 @@ export default function IssueCard({
         </div>
 
         {/* Issue Title */}
-        <h3 className="font-semibold text-base sm:text-lg text-white group-hover:text-compass-200 transition-colors leading-snug mb-2">
+        <h3 className="font-bold text-base sm:text-lg text-white group-hover:text-render-cyan transition-colors leading-snug mb-2 font-sans">
           {issue.title}
         </h3>
 

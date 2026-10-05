@@ -56,31 +56,31 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#050a0f]/80 backdrop-blur-xl transition-all">
+      <header className="sticky top-0 z-50 w-full border-b border-[#133549]/60 bg-[#001420]/80 backdrop-blur-2xl transition-all shadow-2xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        {/* Brand Logo matching Pitch Deck geometry */}
+        {/* Brand Logo with MongoDB emerald and Render cyan flair */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-compass-400 to-compass-700 shadow-glow-teal p-0.5 transition-transform group-hover:scale-105">
-            <div className="w-full h-full bg-[#07131e] rounded-[10px] flex items-center justify-center">
-              <Compass className="w-5 h-5 text-compass-400 animate-spin-slow group-hover:rotate-45 transition-transform duration-500" />
+          <div className="relative flex items-center justify-center w-10 h-10 rounded-2xl bg-gradient-to-br from-mongo-green via-render-cyan to-render-violet p-0.5 shadow-glow-mongo transition-all duration-300 group-hover:scale-105 group-hover:shadow-glow-render">
+            <div className="w-full h-full bg-[#001e2b] rounded-[14px] flex items-center justify-center">
+              <Compass className="w-5 h-5 text-mongo-green group-hover:text-render-cyan animate-spin-slow group-hover:rotate-45 transition-all duration-500" />
             </div>
-            <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping" />
-            <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full" />
+            <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-mongo-green rounded-full animate-ping" />
+            <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-mongo-green rounded-full" />
           </div>
 
           <div className="flex flex-col">
-            <span className="font-extrabold text-lg tracking-wider text-white flex items-center gap-1.5">
-              CONTRIB <span className="text-compass-400">COMPASS</span>
+            <span className="font-black text-lg tracking-wider text-white flex items-center gap-1.5 font-sans">
+              CONTRIB <span className="bg-gradient-to-r from-mongo-green to-render-cyan bg-clip-text text-transparent">COMPASS</span>
             </span>
-            <span className="text-[10px] font-mono text-cyan-400/80 tracking-widest uppercase">
-              AI OSS MATCHING
+            <span className="text-[9px] font-mono text-render-cyan/80 tracking-widest uppercase">
+              AI OSS MATCHING • MONGO &amp; RENDER THEME
             </span>
           </div>
         </Link>
 
         {/* Navigation Links */}
-        <nav className="hidden md:flex items-center gap-1 bg-white/[0.03] border border-white/5 p-1 rounded-xl">
+        <nav className="hidden md:flex items-center gap-1 bg-[#011627]/60 border border-white/5 p-1 rounded-2xl backdrop-blur-md">
           {navLinks.map((link) => {
             const Icon = link.icon;
             const isActive = pathname === link.href;
@@ -88,13 +88,13 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all ${
                   isActive
-                    ? "bg-compass-500/20 text-compass-300 border border-compass-500/30 shadow-sm"
+                    ? "bg-mongo-green/15 text-mongo-green border border-mongo-green/30 shadow-glow-mongo"
                     : "text-slate-400 hover:text-white hover:bg-white/5"
                 }`}
               >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? "text-compass-400" : "text-slate-500"}`} />
+                <Icon className={`w-3.5 h-3.5 ${isActive ? "text-mongo-green" : "text-slate-500"}`} />
                 {link.label}
               </Link>
             );
@@ -107,13 +107,13 @@ export default function Navbar() {
           <button
             onClick={toggleMock}
             title="Click to toggle between Simulated Mock Fixtures and Real Backend API"
-            className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono border transition-all ${
+            className={`hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono border transition-all ${
               mockActive
                 ? "bg-amber-950/40 border-amber-500/40 text-amber-300 hover:bg-amber-900/50"
-                : "bg-emerald-950/40 border-emerald-500/40 text-emerald-300 hover:bg-emerald-900/50"
+                : "bg-mongo-spruce/60 border-mongo-green/40 text-mongo-green shadow-glow-mongo hover:bg-mongo-spruce"
             }`}
           >
-            <span className={`w-1.5 h-1.5 rounded-full ${mockActive ? "bg-amber-400" : "bg-emerald-400 animate-pulse"}`} />
+            <span className={`w-1.5 h-1.5 rounded-full ${mockActive ? "bg-amber-400" : "bg-mongo-green animate-pulse"}`} />
             <span>{mockActive ? "MODE: DEMO FIXTURES" : "MODE: LIVE BACKEND"}</span>
           </button>
 
