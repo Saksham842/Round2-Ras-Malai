@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { Activity, Cpu, Sparkles, Terminal, Cloud, ShieldCheck } from "lucide-react";
 
-export default function CompassCanvas3D({ className = "w-full h-[480px]" }) {
+export default function CompassCanvas3D({ className = "w-full h-[440px]" }) {
   const mountRef = useRef(null);
   const [hudStats, setHudStats] = useState({
     tokensPerSec: 752,
@@ -17,57 +17,72 @@ export default function CompassCanvas3D({ className = "w-full h-[480px]" }) {
     const currentMount = mountRef.current;
     if (!currentMount) return;
 
-    // 1. Scene, Camera, High-performance Renderer
+    // Dimensions with fallback
+    let width = currentMount.clientWidth || 400;
+    let height = currentMount.clientHeight || 440;
+    if (height < 250) height = 400;
+
+    // 1. Scene, Camera, High-performance WebGL Renderer
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       42,
-      currentMount.clientWidth / currentMount.clientHeight,
+      width / height,
       0.1,
       1000
     );
-    camera.position.set(0, 0, 8.2);
+    camera.position.set(0, 0, 7.8);
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
-    renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const renderer = new THREE.WebGLRenderer({ 
+      alpha: true, 
+      antialias: true, 
+      powerPreference: "high-performance" 
+    });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.25;
+    renderer.toneMappingExposure = 1.35;
+    
+    // Ensure canvas expands nicely
+    renderer.domElement.style.width = "100%";
+    renderer.domElement.style.height = "100%";
+    renderer.domElement.style.display = "block";
+    renderer.domElement.style.outline = "none";
     currentMount.appendChild(renderer.domElement);
 
     // Main 3D Container Group
     const universeGroup = new THREE.Group();
     scene.add(universeGroup);
 
-    // 2. Render.com Official Signature Colors
-    const RENDER_CYAN = 0x00e5ff;
-    const RENDER_INDIGO = 0x6366f1;
-    const RENDER_VIOLET = 0x8b5cf6;
-    const RENDER_PINK = 0xf43f5e;
-    const RENDER_EMERALD = 0x10b981;
+    // 2. Stripe & Cyber Signature Colors
+    const RENDER_CYAN = 0x00d4b6;
+    const RENDER_BLURPLE = 0x635bff;
+    const RENDER_MAGENTA = 0xff5b79;
+    const RENDER_AMBER = 0xff805d;
+    const RENDER_INDIGO = 0x4f46e5;
 
-    // 3. Central Crystalline Deployment Polyhedron (Render Iconic Crystal)
+    // 3. Central Crystalline Polyhedron Core
     const gemGroup = new THREE.Group();
     universeGroup.add(gemGroup);
 
-    // Outer Geodesic / Icosahedron Hologram Cage
-    const outerGeo = new THREE.IcosahedronGeometry(1.25, 1);
+    // Outer Geodesic Icosahedron Hologram Cage
+    const outerGeo = new THREE.IcosahedronGeometry(1.3, 1);
     const outerMat = new THREE.MeshStandardMaterial({
       color: RENDER_CYAN,
-      emissive: 0x071e33,
+      emissive: 0x03282b,
       roughness: 0.15,
       metalness: 0.9,
       wireframe: true,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.85,
     });
     const outerGem = new THREE.Mesh(outerGeo, outerMat);
     gemGroup.add(outerGem);
 
-    // Inner Faceted Core Gem (Render Violet / Indigo Crystalline Center)
-    const innerGeo = new THREE.OctahedronGeometry(0.78, 0);
+    // Inner Faceted Core Gem
+    const innerGeo = new THREE.OctahedronGeometry(0.82, 0);
     const innerMat = new THREE.MeshStandardMaterial({
-      color: RENDER_INDIGO,
-      emissive: 0x312e81,
+      color: RENDER_BLURPLE,
+      emissive: 0x221c6e,
       roughness: 0.1,
       metalness: 0.95,
       wireframe: false,
@@ -75,62 +90,62 @@ export default function CompassCanvas3D({ className = "w-full h-[480px]" }) {
     const innerGem = new THREE.Mesh(innerGeo, innerMat);
     gemGroup.add(innerGem);
 
-    // 4. Tri-Ring Precision Gimbal (Render Electric Rings)
+    // 4. Tri-Ring Precision Gyroscope Gimbal
     const ringGroup = new THREE.Group();
     universeGroup.add(ringGroup);
 
-    // Outer Render Cyan Laser Ring
-    const ring1Geo = new THREE.TorusGeometry(2.5, 0.022, 16, 120);
+    // Outer Cyan Laser Ring
+    const ring1Geo = new THREE.TorusGeometry(2.5, 0.025, 16, 120);
     const ring1Mat = new THREE.MeshBasicMaterial({
       color: RENDER_CYAN,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.85,
     });
     const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
     ringGroup.add(ring1);
 
-    // Middle Render Indigo Ring (Tilted 55 deg)
-    const ring2Geo = new THREE.TorusGeometry(2.1, 0.02, 16, 100);
+    // Middle Blurple Ring (Tilted 55 deg)
+    const ring2Geo = new THREE.TorusGeometry(2.1, 0.022, 16, 100);
     const ring2Mat = new THREE.MeshBasicMaterial({
-      color: RENDER_INDIGO,
+      color: RENDER_BLURPLE,
       transparent: true,
-      opacity: 0.75,
+      opacity: 0.8,
     });
     const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
     ring2.rotation.x = Math.PI / 3.2;
     ringGroup.add(ring2);
 
-    // Inner Render Violet Ring (Tilted 70 deg)
-    const ring3Geo = new THREE.TorusGeometry(1.68, 0.018, 16, 80);
+    // Inner Magenta Ring (Tilted 70 deg)
+    const ring3Geo = new THREE.TorusGeometry(1.7, 0.02, 16, 80);
     const ring3Mat = new THREE.MeshBasicMaterial({
-      color: RENDER_VIOLET,
+      color: RENDER_MAGENTA,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.75,
     });
     const ring3 = new THREE.Mesh(ring3Geo, ring3Mat);
     ring3.rotation.y = Math.PI / 2.8;
     ringGroup.add(ring3);
 
-    // 5. Render Service Satellites (Representing Deployed Microservices & Repos)
+    // 5. Service Satellites (Representing Repos & Contributors)
     const satellites = [];
     const satelliteCount = 6;
-    const satelliteColors = [RENDER_CYAN, RENDER_INDIGO, RENDER_VIOLET, RENDER_CYAN, RENDER_PINK, RENDER_EMERALD];
+    const satelliteColors = [RENDER_CYAN, RENDER_BLURPLE, RENDER_MAGENTA, RENDER_AMBER, RENDER_CYAN, RENDER_INDIGO];
 
     for (let i = 0; i < satelliteCount; i++) {
-      const satGeo = new THREE.SphereGeometry(0.12, 16, 16);
+      const satGeo = new THREE.SphereGeometry(0.13, 16, 16);
       const satMat = new THREE.MeshStandardMaterial({
         color: satelliteColors[i],
         emissive: satelliteColors[i],
-        emissiveIntensity: 0.7,
+        emissiveIntensity: 0.8,
         roughness: 0.2,
       });
       const satMesh = new THREE.Mesh(satGeo, satMat);
       
-      const orbitRadius = 2.8 + (i % 3) * 0.42;
+      const orbitRadius = 2.9 + (i % 3) * 0.45;
       const angle = (i / satelliteCount) * Math.PI * 2;
-      satMesh.position.set(Math.cos(angle) * orbitRadius, Math.sin(angle * 2) * 0.8, Math.sin(angle) * orbitRadius);
+      satMesh.position.set(Math.cos(angle) * orbitRadius, Math.sin(angle * 2) * 0.85, Math.sin(angle) * orbitRadius);
 
-      // Render Laser Fiber Line linking satellite to core
+      // Laser Line linking satellite to core
       const lineGeo = new THREE.BufferGeometry().setFromPoints([
         new THREE.Vector3(0, 0, 0),
         satMesh.position,
@@ -138,7 +153,7 @@ export default function CompassCanvas3D({ className = "w-full h-[480px]" }) {
       const lineMat = new THREE.LineBasicMaterial({
         color: satelliteColors[i],
         transparent: true,
-        opacity: 0.25,
+        opacity: 0.35,
       });
       const lineMesh = new THREE.Line(lineGeo, lineMat);
 
@@ -149,23 +164,23 @@ export default function CompassCanvas3D({ className = "w-full h-[480px]" }) {
         mesh: satMesh,
         line: lineMesh,
         orbitRadius,
-        speed: 0.38 + (i * 0.1),
+        speed: 0.35 + (i * 0.12),
         phase: angle,
       });
     }
 
-    // 6. Glowing Render Particle Cloud (400 points)
-    const particleCount = 420;
+    // 6. Vector Embedding Point Nebula (768-D representation)
+    const particleCount = 220;
     const particlesGeo = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
 
     const cCyan = new THREE.Color(RENDER_CYAN);
-    const cIndigo = new THREE.Color(RENDER_INDIGO);
-    const cViolet = new THREE.Color(RENDER_VIOLET);
+    const cBlurple = new THREE.Color(RENDER_BLURPLE);
+    const cMagenta = new THREE.Color(RENDER_MAGENTA);
 
     for (let i = 0; i < particleCount * 3; i += 3) {
-      const radius = 1.3 + Math.random() * 4.0;
+      const radius = 1.8 + Math.random() * 2.8;
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(Math.random() * 2 - 1);
 
@@ -174,7 +189,7 @@ export default function CompassCanvas3D({ className = "w-full h-[480px]" }) {
       positions[i + 2] = radius * Math.cos(phi);
 
       const colorPick = Math.random();
-      const chosenColor = colorPick > 0.6 ? cCyan : colorPick > 0.3 ? cIndigo : cViolet;
+      const chosenColor = colorPick > 0.6 ? cCyan : colorPick > 0.3 ? cBlurple : cMagenta;
       colors[i] = chosenColor.r;
       colors[i + 1] = chosenColor.g;
       colors[i + 2] = chosenColor.b;
@@ -184,30 +199,30 @@ export default function CompassCanvas3D({ className = "w-full h-[480px]" }) {
     particlesGeo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
     const particleMat = new THREE.PointsMaterial({
-      size: 0.045,
+      size: 0.05,
       vertexColors: true,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.9,
       blending: THREE.AdditiveBlending,
     });
     const particleField = new THREE.Points(particlesGeo, particleMat);
     scene.add(particleField);
 
-    // 7. Render Atmospheric Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
+    // 7. Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambientLight);
 
-    const cyanPoint = new THREE.PointLight(RENDER_CYAN, 4.0, 35);
+    const cyanPoint = new THREE.PointLight(RENDER_CYAN, 5.0, 40);
     cyanPoint.position.set(4, 5, 4);
     scene.add(cyanPoint);
 
-    const indigoPoint = new THREE.PointLight(RENDER_INDIGO, 4.0, 35);
-    indigoPoint.position.set(-4, -4, 4);
-    scene.add(indigoPoint);
+    const blurplePoint = new THREE.PointLight(RENDER_BLURPLE, 5.0, 40);
+    blurplePoint.position.set(-4, -4, 4);
+    scene.add(blurplePoint);
 
-    const violetRim = new THREE.DirectionalLight(RENDER_VIOLET, 2.2);
-    violetRim.position.set(0, 6, -5);
-    scene.add(violetRim);
+    const magentaRim = new THREE.DirectionalLight(RENDER_MAGENTA, 2.5);
+    magentaRim.position.set(0, 6, -5);
+    scene.add(magentaRim);
 
     // 8. Mouse Parallax & Dynamic Dragging
     let targetX = 0;
@@ -217,6 +232,7 @@ export default function CompassCanvas3D({ className = "w-full h-[480px]" }) {
     let prevMouseY = 0;
 
     const handleMouseMove = (e) => {
+      if (!currentMount) return;
       const rect = currentMount.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
@@ -244,21 +260,27 @@ export default function CompassCanvas3D({ className = "w-full h-[480px]" }) {
       isDragging = false;
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     currentMount.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mouseup", handleMouseUp);
 
-    // 9. Resize Handling
-    const handleResize = () => {
+    // 9. Resize Handling via ResizeObserver & Window Resize
+    const updateSize = () => {
       if (!currentMount) return;
       const w = currentMount.clientWidth;
       const h = currentMount.clientHeight;
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
+      if (w > 0 && h > 0) {
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      }
     };
 
-    window.addEventListener("resize", handleResize);
+    const resizeObserver = new ResizeObserver(() => {
+      updateSize();
+    });
+    resizeObserver.observe(currentMount);
+    window.addEventListener("resize", updateSize);
 
     // 10. Animation Loop
     let animationId;
@@ -323,10 +345,11 @@ export default function CompassCanvas3D({ className = "w-full h-[480px]" }) {
     return () => {
       cancelAnimationFrame(animationId);
       clearInterval(interval);
+      resizeObserver.disconnect();
       window.removeEventListener("mousemove", handleMouseMove);
       currentMount.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", updateSize);
       if (currentMount && renderer.domElement) {
         currentMount.removeChild(renderer.domElement);
       }
@@ -336,42 +359,40 @@ export default function CompassCanvas3D({ className = "w-full h-[480px]" }) {
 
   return (
     <div className={`relative flex items-center justify-center select-none ${className}`}>
-      {/* Render Signature Cyan & Indigo Aurora Orbs */}
-      <div className="absolute w-72 h-72 rounded-full aurora-orb-cyan top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute w-80 h-80 rounded-full aurora-orb-indigo bottom-1/4 right-1/4 translate-x-1/4 translate-y-1/4" />
-      <div className="absolute w-64 h-64 rounded-full aurora-orb-violet top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-
-      {/* Floating Render Dashboard HUD Badges */}
-      <div className="absolute top-2 left-3 z-10 hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#0d101d] border border-render-cyan/40 backdrop-blur-md shadow-sm">
-        <div className="w-1.5 h-1.5 rounded-full bg-render-cyan animate-pulse" />
-        <span className="text-[10px] font-mono font-semibold text-render-cyan tracking-wide">
+      {/* Floating HUD Badges */}
+      <div className="absolute top-3 left-4 z-10 flex items-center gap-2 px-3 py-1 rounded-full bg-[#0a0e1e]/85 border border-[#00d4b6]/40 backdrop-blur-md shadow-md">
+        <div className="w-2 h-2 rounded-full bg-[#00d4b6] animate-pulse" />
+        <span className="text-[11px] font-mono font-semibold text-[#00d4b6] tracking-wide">
           Vector Engine: 768-D Live
         </span>
       </div>
 
-      <div className="absolute top-2 right-3 z-10 hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#0d101d] border border-render-indigo/40 backdrop-blur-md shadow-sm">
-        <Cpu className="w-3.5 h-3.5 text-render-indigo animate-pulse" />
-        <span className="text-[10px] font-mono text-slate-300">
-          Inference: <strong className="text-render-cyan">{hudStats.tokensPerSec} tps</strong>
+      <div className="absolute top-3 right-4 z-10 hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-[#0a0e1e]/85 border border-[#635bff]/40 backdrop-blur-md shadow-md">
+        <Cpu className="w-3.5 h-3.5 text-[#635bff] animate-pulse" />
+        <span className="text-[11px] font-mono text-slate-300">
+          Inference: <strong className="text-[#00d4b6]">{hudStats.tokensPerSec} tps</strong>
         </span>
       </div>
 
-      <div className="absolute bottom-2 left-4 z-10 hidden md:flex items-center gap-3 px-3 py-1 rounded-md bg-[#08090f] border border-[#222842] backdrop-blur-md text-[10px] font-mono text-slate-400">
-        <span className="flex items-center gap-1.5 text-render-cyan">
-          <span className="w-1.5 h-1.5 rounded-full bg-render-cyan animate-pulse" />
+      <div className="absolute bottom-3 left-4 z-10 hidden md:flex items-center gap-3 px-3.5 py-1.5 rounded-full bg-[#070913]/90 border border-white/10 backdrop-blur-md text-[11px] font-mono text-slate-300">
+        <span className="flex items-center gap-1.5 text-[#00d4b6]">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#00d4b6] animate-pulse" />
           <span>Latency: {hudStats.latency}ms</span>
         </span>
         <span className="text-white/20">|</span>
-        <span className="text-slate-300">Nodes Active: {hudStats.activeNodes}</span>
+        <span>Active Nodes: {hudStats.activeNodes}</span>
       </div>
 
-      {/* 3D WebGL Canvas Mount */}
-      <div ref={mountRef} className="w-full h-full cursor-grab active:cursor-grabbing relative z-0" />
+      {/* 3D WebGL Canvas Mount with explicit min-height */}
+      <div 
+        ref={mountRef} 
+        className="w-full h-full min-h-[360px] cursor-grab active:cursor-grabbing relative z-0" 
+      />
 
-      {/* Render Drag Hint Footer */}
-      <div className="absolute -bottom-1 pointer-events-none text-center">
-        <span className="text-[9px] font-mono uppercase tracking-widest text-slate-400 bg-[#0d101d] px-2.5 py-0.5 rounded-md border border-[#222842] backdrop-blur-md">
-          ✦ Click &amp; Drag 3D Vector Compass • Render WebGL Runtime
+      {/* Drag Hint Footer */}
+      <div className="absolute bottom-3 right-4 pointer-events-none hidden sm:block">
+        <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 bg-[#0a0e1e]/80 px-2.5 py-1 rounded-full border border-white/10 backdrop-blur-md">
+          ✦ Interactive 3D Vector Gyroscope
         </span>
       </div>
     </div>
