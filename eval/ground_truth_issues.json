@@ -1,0 +1,352 @@
+[
+  {
+    "id": "gt-01",
+    "repo": "vercel/next.js",
+    "number": 62455,
+    "title": "Docs: Clarify Server Actions cache invalidation with revalidateTag()",
+    "body": "The current documentation does not explicitly demonstrate how revalidateTag affects client-side router cache versus server-side fetch cache. Needs a small diagram and sample recipe.",
+    "groundTruthDifficulty": "Easy",
+    "groundTruthSkill": "Documentation / Next.js",
+    "groundTruthEffort": "1-2 hrs"
+  },
+  {
+    "id": "gt-02",
+    "repo": "fastify/fastify",
+    "number": 5412,
+    "title": "TypeScript typing for schema validator options is missing strictNullChecks union",
+    "body": "When enabling strictNullChecks in tsconfig, the FastifyInstance RouteShorthandMethod produces a type error when schema.querystring allows nullish value.",
+    "groundTruthDifficulty": "Easy",
+    "groundTruthSkill": "TypeScript / Node.js",
+    "groundTruthEffort": "1-3 hrs"
+  },
+  {
+    "id": "gt-03",
+    "repo": "tailwindlabs/tailwindcss",
+    "number": 12890,
+    "title": "Fix typo in CLI help text for --minify flag description",
+    "body": "The help text says 'minfies output CSS' instead of 'minifies output CSS'. One line fix in packages/tailwindcss/src/cli.ts.",
+    "groundTruthDifficulty": "Easy",
+    "groundTruthSkill": "Documentation / CLI",
+    "groundTruthEffort": "< 1 hr"
+  },
+  {
+    "id": "gt-04",
+    "repo": "vercel/next.js",
+    "number": 61200,
+    "title": "Add README link to Turbopack migration troubleshooting guide",
+    "body": "Developers frequently ask in issues where the full migration checklist is located. Add an anchor link directly under the Getting Started section of the README.",
+    "groundTruthDifficulty": "Easy",
+    "groundTruthSkill": "Documentation / Markdown",
+    "groundTruthEffort": "< 1 hr"
+  },
+  {
+    "id": "gt-05",
+    "repo": "facebook/react",
+    "number": 28410,
+    "title": "Update deprecated console warning in useDebugValue when argument is undefined",
+    "body": "Adjust the warning message string to point to the new react.dev/reference/react/useDebugValue URL instead of legacy reactjs.org.",
+    "groundTruthDifficulty": "Easy",
+    "groundTruthSkill": "React / DevTools",
+    "groundTruthEffort": "1-2 hrs"
+  },
+  {
+    "id": "gt-06",
+    "repo": "fastify/fastify",
+    "number": 5390,
+    "title": "Export missing FastifyReplyFromOptions interface in types index",
+    "body": "TypeScript users cannot import FastifyReplyFromOptions directly without deep-importing internal path. Export it in fastify/types/reply.",
+    "groundTruthDifficulty": "Easy",
+    "groundTruthSkill": "TypeScript / Node.js",
+    "groundTruthEffort": "1-2 hrs"
+  },
+  {
+    "id": "gt-07",
+    "repo": "vercel/next.js",
+    "number": 62410,
+    "title": "Support custom loading state inside nested parallel route slot",
+    "body": "When navigating between nested parallel routes with intercepting routes, the default loading.tsx fallback is skipped if cache header is set to no-store. We should provide an explicit fallback hook or preserve the slot boundary.",
+    "groundTruthDifficulty": "Intermediate",
+    "groundTruthSkill": "React / Architecture",
+    "groundTruthEffort": "4-6 hrs"
+  },
+  {
+    "id": "gt-08",
+    "repo": "fastify/fastify",
+    "number": 5430,
+    "title": "Add benchmark script for HTTP/2 multiplexed stream throughput",
+    "body": "We need an automated benchmark suite measuring request throughput under 1000 concurrent HTTP/2 streams using autocannon and collecting latency percentiles.",
+    "groundTruthDifficulty": "Intermediate",
+    "groundTruthSkill": "Performance / Benchmarking",
+    "groundTruthEffort": "4-8 hrs"
+  },
+  {
+    "id": "gt-09",
+    "repo": "tailwindlabs/tailwindcss",
+    "number": 13010,
+    "title": "Arbitrary variant parsing fails when selector contains escaped brackets",
+    "body": "Using selectors like `[&_[data-state=\\[open\\]]]:opacity-100` breaks regex parsing in the candidate scanner. Needs token-level escape boundary handling.",
+    "groundTruthDifficulty": "Intermediate",
+    "groundTruthSkill": "CSS / Compilers",
+    "groundTruthEffort": "4-6 hrs"
+  },
+  {
+    "id": "gt-10",
+    "repo": "vercel/next.js",
+    "number": 62110,
+    "title": "Middleware request cloning drops custom response headers on rewrite",
+    "body": "When NextResponse.rewrite is returned with custom set-cookie headers, the rewritten request strips downstream headers if next-auth session cookie is present.",
+    "groundTruthDifficulty": "Intermediate",
+    "groundTruthSkill": "Next.js / Networking",
+    "groundTruthEffort": "3-5 hrs"
+  },
+  {
+    "id": "gt-11",
+    "repo": "facebook/react",
+    "number": 29400,
+    "title": "useId hydration mismatch when components are rendered in differing React subtrees",
+    "body": "Subtree boundary isolation causes the deterministic prefix counter to skip an index if an error boundary catches during concurrent render and falls back to client render.",
+    "groundTruthDifficulty": "Intermediate",
+    "groundTruthSkill": "React Core / Hydration",
+    "groundTruthEffort": "6-10 hrs"
+  },
+  {
+    "id": "gt-12",
+    "repo": "fastify/fastify",
+    "number": 5210,
+    "title": "Implement rate limiting plugin sliding window counter using Redis Lua script",
+    "body": "Replace the fixed-window counter in fastify-rate-limit with a sliding log Lua script to prevent window boundary bursting.",
+    "groundTruthDifficulty": "Intermediate",
+    "groundTruthSkill": "Node.js / Redis",
+    "groundTruthEffort": "5-8 hrs"
+  },
+  {
+    "id": "gt-13",
+    "repo": "facebook/react",
+    "number": 29810,
+    "title": "Refactor useActionState error boundary bubbling in concurrent transitions",
+    "body": "In high-frequency form submissions wrapped in startTransition, unhandled rejections inside useActionState can bypass nearest component error boundaries under specific suspense timing.",
+    "groundTruthDifficulty": "Advanced",
+    "groundTruthSkill": "React Core / Concurrency",
+    "groundTruthEffort": "2-3 days"
+  },
+  {
+    "id": "gt-14",
+    "repo": "vercel/next.js",
+    "number": 62499,
+    "title": "Turbopack HMR websocket reconnect loop during network throttling",
+    "body": "Newly submitted bug: When dev server runs under 3G simulation, the WebSocket connection drops and enters a rapid 100ms reconnect loop that spikes CPU usage and crashes the worker.",
+    "groundTruthDifficulty": "Advanced",
+    "groundTruthSkill": "Rust / Turbopack",
+    "groundTruthEffort": "2-4 days"
+  },
+  {
+    "id": "gt-15",
+    "repo": "tailwindlabs/tailwindcss",
+    "number": 13200,
+    "title": "LightningCSS integration segfaults when compiling nested custom media queries in v4 alpha",
+    "body": "When media queries are nested within `@utility` blocks, the native N-API bridge crashes due to unmanaged string memory pointers on Linux x64.",
+    "groundTruthDifficulty": "Advanced",
+    "groundTruthSkill": "C++ / Rust / N-API",
+    "groundTruthEffort": "3-5 days"
+  },
+  {
+    "id": "gt-16",
+    "repo": "facebook/react",
+    "number": 30100,
+    "title": "Offscreen component cache preservation leaks DOM nodes during fiber tree unmount",
+    "body": "Persistent memoization of hidden Offscreen fibers does not correctly detach native event listeners, causing detached window DOM node accumulation in single page apps.",
+    "groundTruthDifficulty": "Advanced",
+    "groundTruthSkill": "React Internals / Fiber",
+    "groundTruthEffort": "3-5 days"
+  },
+  {
+    "id": "gt-17",
+    "repo": "vercel/next.js",
+    "number": 60920,
+    "title": "Docs: Fix broken link to internationalization (i18n) routing guide",
+    "body": "In app/building-your-application/routing/internationalization, the link to the sub-path routing section points to a 404 URL. Update anchor link.",
+    "groundTruthDifficulty": "Easy",
+    "groundTruthSkill": "Documentation / Next.js",
+    "groundTruthEffort": "< 1 hr"
+  },
+  {
+    "id": "gt-18",
+    "repo": "fastify/fastify",
+    "number": 5100,
+    "title": "Add test assertion for onRequest hook aborting request with 401 status",
+    "body": "Missing unit test in test/hooks.test.js asserting that sending reply inside onRequest halts subsequent preHandler execution.",
+    "groundTruthDifficulty": "Easy",
+    "groundTruthSkill": "Testing / Node.js",
+    "groundTruthEffort": "1-2 hrs"
+  },
+  {
+    "id": "gt-19",
+    "repo": "tailwindlabs/tailwindcss",
+    "number": 12500,
+    "title": "Add missing type declaration for plugin creator API in index.d.ts",
+    "body": "The PluginCreator type does not export the addVariant method overload that accepts a string array. Fix type signature.",
+    "groundTruthDifficulty": "Easy",
+    "groundTruthSkill": "TypeScript / CSS",
+    "groundTruthEffort": "1-2 hrs"
+  },
+  {
+    "id": "gt-20",
+    "repo": "facebook/react",
+    "number": 28990,
+    "title": "Typo in ESLint rule message for react-hooks/exhaustive-deps",
+    "body": "Fix grammatical typo 'an dependencies' -> 'a dependency' in eslint-plugin-react-hooks.",
+    "groundTruthDifficulty": "Easy",
+    "groundTruthSkill": "Linting / Tooling",
+    "groundTruthEffort": "< 1 hr"
+  },
+  {
+    "id": "gt-21",
+    "repo": "vercel/next.js",
+    "number": 61990,
+    "title": "Implement cache tag wildcard matching for on-demand revalidation",
+    "body": "Allow revalidateTag('products-*') using a prefix trie data structure in the Next.js cache handler.",
+    "groundTruthDifficulty": "Intermediate",
+    "groundTruthSkill": "Caching / Architecture",
+    "groundTruthEffort": "6-8 hrs"
+  },
+  {
+    "id": "gt-22",
+    "repo": "fastify/fastify",
+    "number": 5310,
+    "title": "Support HTTP/3 (QUIC) datagram socket binding via experimental node:quic",
+    "body": "Implement an experimental protocol bridge allowing Fastify server instances to accept UDP quic datagrams.",
+    "groundTruthDifficulty": "Advanced",
+    "groundTruthSkill": "Networking / Node.js",
+    "groundTruthEffort": "3-5 days"
+  },
+  {
+    "id": "gt-23",
+    "repo": "tailwindlabs/tailwindcss",
+    "number": 12900,
+    "title": "Add support for CSS scroll-timeline and view-timeline utility classes",
+    "body": "Introduce `timeline-scroll-*` and `timeline-view-*` core utilities matching CSS Scroll-driven Animations Level 1 spec.",
+    "groundTruthDifficulty": "Intermediate",
+    "groundTruthSkill": "CSS / Specifications",
+    "groundTruthEffort": "4-6 hrs"
+  },
+  {
+    "id": "gt-24",
+    "repo": "facebook/react",
+    "number": 29120,
+    "title": "DevTools: Profiler flamegraph incorrect commit duration calculation in nested Suspense",
+    "body": "When a suspended boundary resolves during a background transition, the duration bar is attributed to the parent root instead of the suspended sub-tree.",
+    "groundTruthDifficulty": "Intermediate",
+    "groundTruthSkill": "DevTools / React",
+    "groundTruthEffort": "4-6 hrs"
+  },
+  {
+    "id": "gt-25",
+    "repo": "vercel/next.js",
+    "number": 62700,
+    "title": "Server Component serialization error on circular WeakMap references",
+    "body": "Flight client deserializer crashes with Maximum call stack exceeded if a Server Action returns an object with self-referencing WeakMaps.",
+    "groundTruthDifficulty": "Advanced",
+    "groundTruthSkill": "RSC / Serialization",
+    "groundTruthEffort": "2-4 days"
+  },
+  {
+    "id": "gt-26",
+    "repo": "fastify/fastify",
+    "number": 5480,
+    "title": "Document how to configure trustProxy with IPv6 CIDR blocks",
+    "body": "Users are confused when setting trustProxy with IPv6 subnet notation like '2001:db8::/32'. Add a recipe in the documentation.",
+    "groundTruthDifficulty": "Easy",
+    "groundTruthSkill": "Documentation / Fastify",
+    "groundTruthEffort": "1-2 hrs"
+  },
+  {
+    "id": "gt-27",
+    "repo": "tailwindlabs/tailwindcss",
+    "number": 13150,
+    "title": "Optimize AST traversal in oxide Rust scanner for multi-gigabyte mono-repos",
+    "body": "The parallel file scanner blocks on threadpool mutex lock when encountering node_modules with cyclic symlinks. Implement lock-free work-stealing queue.",
+    "groundTruthDifficulty": "Advanced",
+    "groundTruthSkill": "Rust / Concurrency",
+    "groundTruthEffort": "3-5 days"
+  },
+  {
+    "id": "gt-28",
+    "repo": "facebook/react",
+    "number": 28650,
+    "title": "Add note about React 19 forwardRef deprecation in reference documentation",
+    "body": "Update the forwardRef documentation page to explain that ref is now passed as a regular prop in function components in React 19.",
+    "groundTruthDifficulty": "Easy",
+    "groundTruthSkill": "Documentation / React",
+    "groundTruthEffort": "1-2 hrs"
+  },
+  {
+    "id": "gt-29",
+    "repo": "vercel/next.js",
+    "number": 62200,
+    "title": "Intermittent EPIPE error when piping streaming SSR output to compression middleware",
+    "body": "When client closes HTTP connection early, the Node.js Writable stream fails to emit finish and leaks memory if gzip compression stream is active.",
+    "groundTruthDifficulty": "Intermediate",
+    "groundTruthSkill": "Streams / Node.js",
+    "groundTruthEffort": "5-8 hrs"
+  },
+  {
+    "id": "gt-30",
+    "repo": "fastify/fastify",
+    "number": 5460,
+    "title": "Fix JSON schema serialization for nullable BigInt in fast-json-stringify",
+    "body": "Serializing null on a BigInt schema field outputs '0n' instead of 'null'. Fix serializer branch.",
+    "groundTruthDifficulty": "Intermediate",
+    "groundTruthSkill": "JSON / Performance",
+    "groundTruthEffort": "3-5 hrs"
+  },
+  {
+    "id": "gt-31",
+    "repo": "tailwindlabs/tailwindcss",
+    "number": 12700,
+    "title": "Add aria-current variant utilities to core accessibility plugins",
+    "body": "Add support for `aria-current-page`, `aria-current-step`, `aria-current-location` variants.",
+    "groundTruthDifficulty": "Easy",
+    "groundTruthSkill": "CSS / Accessibility",
+    "groundTruthEffort": "1-2 hrs"
+  },
+  {
+    "id": "gt-32",
+    "repo": "facebook/react",
+    "number": 30300,
+    "title": "Atomic state batching race condition across multiple microtask queues in React Native Fabric",
+    "body": "Concurrent touch responder events scheduled across C++ bridge can interleave state updates before React finishWork executes.",
+    "groundTruthDifficulty": "Advanced",
+    "groundTruthSkill": "C++ / React Native",
+    "groundTruthEffort": "3-5 days"
+  },
+  {
+    "id": "gt-33",
+    "repo": "vercel/next.js",
+    "number": 62850,
+    "title": "Add clear error message when font loader is invoked inside client component",
+    "body": "next/font can only be used in Server Components. Throw a user-friendly error with link to docs instead of cryptic undefined variable error.",
+    "groundTruthDifficulty": "Easy",
+    "groundTruthSkill": "Tooling / DX",
+    "groundTruthEffort": "1-2 hrs"
+  },
+  {
+    "id": "gt-34",
+    "repo": "fastify/fastify",
+    "number": 5495,
+    "title": "Support custom route constraint strategies with async evaluation",
+    "body": "Currently route constraints in find-my-way are strictly synchronous. Add support for async strategy return via Promise.",
+    "groundTruthDifficulty": "Intermediate",
+    "groundTruthSkill": "Routing / Architecture",
+    "groundTruthEffort": "6-10 hrs"
+  },
+  {
+    "id": "gt-35",
+    "repo": "tailwindlabs/tailwindcss",
+    "number": 13320,
+    "title": "Fix sub-pixel border rendering issue in Firefox on fractional DPI scaling",
+    "body": "Using 1px borders with border-collapse table layout produces missing border lines on 125% and 150% Windows scaling.",
+    "groundTruthDifficulty": "Intermediate",
+    "groundTruthSkill": "CSS / Browser Quirks",
+    "groundTruthEffort": "3-5 hrs"
+  }
+]
