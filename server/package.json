@@ -12,6 +12,9 @@
     "seed": "node scripts/seed.js",
     "test": "node --test tests/*.test.js"
   },
+  "engines": {
+    "node": "20.x"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
