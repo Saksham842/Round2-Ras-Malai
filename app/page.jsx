@@ -36,17 +36,6 @@ import StripeMeshGradient from "../components/StripeMeshGradient";
 import StripeDevShowcase from "../components/StripeDevShowcase";
 import { MOCK_MATCH_RESULTS } from "../lib/mockData";
 
-// Dynamically import 3D Three.js canvas with ssr: false
-const CompassCanvas3D = dynamic(() => import("../components/CompassCanvas3D"), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full flex flex-col items-center justify-center text-[#635bff] gap-2">
-      <Loader2 className="w-6 h-6 animate-spin" />
-      <span className="text-[11px] font-mono text-slate-400">Loading 3D Vector Compass...</span>
-    </div>
-  ),
-});
-
 const QUICK_PERSONAS = [
   { handle: "Saksham842", role: "Fullstack / AI" },
   { handle: "shadcn", role: "Design Systems / Radix" },
@@ -73,7 +62,6 @@ const ECOSYSTEM_LOGOS = [
 export default function HomePage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("username"); // "username" | "repo"
-  const [showcaseTab, setShowcaseTab] = useState("compass"); // "compass" | "issue"
   const [inputVal, setInputVal] = useState("Saksham842");
   const [sampleIndex, setSampleIndex] = useState(0);
 
@@ -483,106 +471,77 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Right Column: Stripe Interactive Card Showcase & 3D Compass */}
+          {/* Right Column: Stripe Interactive Product Showcase */}
           <div ref={showcaseRef} className="lg:col-span-6 relative">
-            <div className="stripe-glass-card rounded-3xl p-5 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.6)] relative overflow-hidden">
+            <div className="stripe-glass-card rounded-3xl p-5 sm:p-6 border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.6)] space-y-4 relative overflow-hidden">
               
-              {/* Top Mode Tabs */}
-              <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-white/10">
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setShowcaseTab("compass")}
-                    className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                      showcaseTab === "compass"
-                        ? "bg-[#635bff] text-white shadow-md"
-                        : "text-slate-400 hover:text-white hover:bg-white/5"
-                    }`}
-                  >
-                    <Compass className="w-4 h-4 text-white" />
-                    <span>3D Vector Compass</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setShowcaseTab("issue")}
-                    className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                      showcaseTab === "issue"
-                        ? "bg-[#635bff] text-white shadow-md"
-                        : "text-slate-400 hover:text-white hover:bg-white/5"
-                    }`}
-                  >
-                    <Zap className="w-4 h-4 text-white" />
-                    <span>Live Triaged Issue</span>
-                  </button>
+              {/* Top Telemetry Header Bar */}
+              <div className="flex items-center justify-between pb-3.5 border-b border-white/10">
+                <div className="flex items-center gap-2.5">
+                  <div className="relative flex items-center justify-center">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#00d4b6]" />
+                    <span className="absolute w-2.5 h-2.5 rounded-full bg-[#00d4b6] animate-ping" />
+                  </div>
+                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-200 font-mono">
+                    Real-Time Triaged Candidate
+                  </span>
                 </div>
 
-                {showcaseTab === "issue" ? (
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] font-mono text-slate-400 bg-white/5 px-2.5 py-1 rounded-full border border-white/10 hidden sm:inline-block">
+                    Sample {sampleIndex + 1} of {MOCK_MATCH_RESULTS.length}
+                  </span>
                   <button
                     type="button"
                     onClick={cycleSample}
-                    className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 text-xs font-mono text-slate-300 border border-white/10 transition-all cursor-pointer"
+                    className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#635bff]/20 hover:bg-[#635bff]/30 text-xs font-mono text-white border border-[#635bff]/40 transition-all cursor-pointer"
                   >
                     <RefreshCw className="w-3 h-3 text-[#00d4b6]" />
                     <span>Next Sample</span>
                   </button>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#00d4b6] animate-pulse" />
-                    <span className="text-[11px] font-mono text-[#00d4b6] font-semibold">
-                      WebGL 3D Active
-                    </span>
-                  </div>
-                )}
+                </div>
               </div>
 
-              {/* View 1: 3D Vector Compass in full 440px glory! */}
-              {showcaseTab === "compass" && (
-                <div className="w-full h-[440px] rounded-2xl bg-[#050711] border border-white/10 relative overflow-hidden flex items-center justify-center">
-                  <CompassCanvas3D className="w-full h-full" />
+              {/* The Live Interactive Issue Card */}
+              <IssueCard
+                issue={activeIssueSample.issue}
+                score={activeIssueSample.score}
+                matchReason={activeIssueSample.matchReason}
+              />
+
+              {/* Neural Vector Telemetry & Proof Strip */}
+              <div className="rounded-2xl bg-[#060814] p-4 border border-white/10 space-y-3">
+                <div className="flex items-center justify-between text-xs font-mono">
+                  <span className="text-slate-300 flex items-center gap-1.5">
+                    <Cpu className="w-3.5 h-3.5 text-[#635bff]" />
+                    <span>Neural Projection:</span>
+                  </span>
+                  <span className="text-[#00d4b6] font-semibold">
+                    Cosine Similarity 0.943 • 768-D
+                  </span>
                 </div>
-              )}
 
-              {/* View 2: Live Triaged Candidate Issue */}
-              {showcaseTab === "issue" && (
-                <div className="space-y-3 min-h-[440px] flex flex-col justify-between">
-                  <IssueCard
-                    issue={activeIssueSample.issue}
-                    score={activeIssueSample.score}
-                    matchReason={activeIssueSample.matchReason}
-                  />
-
-                  <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-2">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-[#00d4b6] font-mono font-semibold flex items-center gap-1.5">
-                        <CheckCircle2 className="w-4 h-4 text-[#00d4b6]" />
-                        <span>Eval Benchmark Agreement: 94.3% (N=35)</span>
-                      </span>
-                      <span className="text-slate-400 font-mono text-[10px]">llama-3.3-70b</span>
-                    </div>
-                    <p className="text-slate-300 text-xs leading-relaxed">
-                      Groq LLM 3-stage heuristic &amp; 768-D vector projection extracts skill requirements with sub-350ms inference.
-                    </p>
+                {/* Simulated Neural Match Bars */}
+                <div className="space-y-1.5">
+                  <div className="flex justify-between text-[11px] text-slate-400">
+                    <span>Skill Vector Match (Next.js / TypeScript)</span>
+                    <span className="text-white font-mono font-medium">{activeIssueSample.score || 94}%</span>
+                  </div>
+                  <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-gradient-to-r from-[#00d4b6] to-[#635bff] rounded-full transition-all duration-700 ease-out" 
+                      style={{ width: `${activeIssueSample.score || 94}%` }}
+                    />
                   </div>
                 </div>
-              )}
 
-              {/* Bottom Quick-Action Strip */}
-              <div className="mt-4 pt-3.5 border-t border-white/10 flex items-center justify-between text-xs font-mono text-slate-400">
-                <span className="flex items-center gap-2">
-                  <span className="text-slate-300">Dimension:</span>
-                  <span className="px-2 py-0.5 rounded bg-white/5 text-[#635bff] font-bold border border-white/10">
-                    768-D
+                <div className="flex items-center justify-between pt-1 text-[11px] font-mono text-slate-400">
+                  <span className="flex items-center gap-1 text-[#00d4b6]">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Eval Benchmark: 94.3% Agreement</span>
                   </span>
-                </span>
-
-                <button
-                  type="button"
-                  onClick={() => setShowcaseTab(showcaseTab === "compass" ? "issue" : "compass")}
-                  className="text-xs text-[#00d4b6] hover:underline flex items-center gap-1 cursor-pointer font-sans font-medium"
-                >
-                  <span>{showcaseTab === "compass" ? "View Match Card →" : "View 3D Gyroscope →"}</span>
-                </button>
+                  <span className="text-slate-500">Groq LPU: 312ms</span>
+                </div>
               </div>
             </div>
           </div>
