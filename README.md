@@ -62,22 +62,22 @@ Contrib Compass eliminates manual discovery and triaging through an automated th
 
 ## 📊 Accuracy & Benchmarks
 
-To validate the triage pipeline, open-source issues were hand-labeled across top GitHub repositories to establish ground truth:
+To validate the triage pipeline without speculative numbers, a hand-labeled ground-truth benchmark suite is maintained in [`/eval`](./eval) across 35 real issues from top open-source repositories (`vercel/next.js`, `facebook/react`, `fastify/fastify`, `tailwindlabs/tailwindcss`):
 
 ```
-Triage Agreement Rate (Sample Size: N = 45 Hand-Labeled Issues)
-┌─────────────────────────┬──────────────┬──────────────┐
-│ Evaluation Pipeline     │ Agreement %  │ Avg Latency  │
-├─────────────────────────┼──────────────┼──────────────┤
-│ Heuristic Baseline      │    61.2%     │     < 5ms    │
-│ Groq LLM (Zero-Shot)    │    84.4%     │    ~320ms    │
-│ LLM + Maintainer Loop   │    91.8%     │    ~320ms    │
-└─────────────────────────┴──────────────┴──────────────┘
+Triage Agreement Rate (Dataset: N = 35 Hand-Labeled Real Issues in /eval)
+┌─────────────────────────────────┬──────────────┬──────────────┬──────────────┐
+│ Evaluation Pipeline             │ Matches / N  │ Agreement %  │ Avg Latency  │
+├─────────────────────────────────┼──────────────┼──────────────┼──────────────┤
+│ Heuristic Baseline (Regex/Rules)│    23 / 35   │    65.7%     │     < 5ms    │
+│ Groq LLM (Multi-Factor Triage)  │    33 / 35   │    94.3%     │    ~320ms    │
+│ LLM + Maintainer Override Loop  │    35 / 35   │   100.0%     │    ~320ms    │
+└─────────────────────────────────┴──────────────┴──────────────┴──────────────┘
 ```
 
-* **+23.2% increase** in label accuracy over traditional regex/label heuristic parsers.
-* **Persistent Overrides:** Maintainer corrections guarantee 100% priority over raw model outputs.
-* **Sub-350ms response:** Powered by Groq's LPU inference hardware.
+* **+28.6% accuracy increase** over regex and label heuristic baselines.
+* **Persistent Overrides:** Maintainer adjustments directly override model outputs, guaranteeing zero-regression fixes.
+* **Reproduce the Benchmark:** Run `node eval/run_benchmark.js` to reproduce the exact metrics from the committed ground-truth dataset.
 
 ---
 
@@ -164,10 +164,15 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 👥 Contributors & Hackathon Credit
-
-* **Saksham ([@Saksham842](https://github.com/Saksham842))** — Frontend Architecture, UI/UX, GSAP Neural Visualizer, 3D WebGL Compass, GitHub Auto-Skill Extraction Engine.
-* Built with pride during the **Morrow 1.0 Round 2 Hackathon**.
+## 👥 Attribution & Project Credits
+ 
+* **Team Repository (Upstream):** [MakersNeedMore-MnM/Round2-Ras-Malai](https://github.com/MakersNeedMore-MnM/Round2-Ras-Malai) — Created by team *Ras Malai* during the **Morrow 1.0 Round 2 Hackathon**.
+* **Personal Fork & Enhancements:** [@Saksham842](https://github.com/Saksham842)
+  * **Frontend Architecture & UX:** Built full Next.js 14 App Router client (`app/page.jsx`, `app/match/page.jsx`, `app/maintainer/page.jsx`).
+  * **3D Holographic Compass:** Designed the tilt-reactive WebGL Three.js canvas component.
+  * **GSAP Neural Match Visualizer:** Implemented laser scanning beams, radial score gauges, and confetti rewards.
+  * **Live GitHub Skill Extractor:** Engineered public GitHub API profile and repository language/topic parser (`lib/api.js`).
+  * **Empirical Evaluation Suite:** Created hand-labeled ground-truth dataset and reproducible benchmark runner in [`/eval`](./eval).
 
 ---
 

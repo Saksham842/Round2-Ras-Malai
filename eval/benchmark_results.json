@@ -1,0 +1,338 @@
+{
+  "evaluatedAt": "2026-10-05T12:24:51.166Z",
+  "datasetSize": 35,
+  "results": {
+    "heuristicBaseline": {
+      "correct": 23,
+      "total": 35,
+      "agreementPercentage": 65.7
+    },
+    "groqLLM": {
+      "correct": 33,
+      "total": 35,
+      "agreementPercentage": 94.3
+    },
+    "groqLLMPlusMaintainerLoop": {
+      "correct": 35,
+      "total": 35,
+      "agreementPercentage": 100
+    }
+  },
+  "itemBreakdown": [
+    {
+      "id": "gt-01",
+      "repo": "vercel/next.js",
+      "title": "Docs: Clarify Server Actions cache invalidation with revalidateTag()",
+      "groundTruth": "Easy",
+      "heuristic": "Easy",
+      "llm": "Easy",
+      "llmWithCorrections": "Easy"
+    },
+    {
+      "id": "gt-02",
+      "repo": "fastify/fastify",
+      "title": "TypeScript typing for schema validator options is missing strictNullChecks union",
+      "groundTruth": "Easy",
+      "heuristic": "Intermediate",
+      "llm": "Easy",
+      "llmWithCorrections": "Easy"
+    },
+    {
+      "id": "gt-03",
+      "repo": "tailwindlabs/tailwindcss",
+      "title": "Fix typo in CLI help text for --minify flag description",
+      "groundTruth": "Easy",
+      "heuristic": "Easy",
+      "llm": "Easy",
+      "llmWithCorrections": "Easy"
+    },
+    {
+      "id": "gt-04",
+      "repo": "vercel/next.js",
+      "title": "Add README link to Turbopack migration troubleshooting guide",
+      "groundTruth": "Easy",
+      "heuristic": "Easy",
+      "llm": "Intermediate",
+      "llmWithCorrections": "Easy"
+    },
+    {
+      "id": "gt-05",
+      "repo": "facebook/react",
+      "title": "Update deprecated console warning in useDebugValue when argument is undefined",
+      "groundTruth": "Easy",
+      "heuristic": "Intermediate",
+      "llm": "Easy",
+      "llmWithCorrections": "Easy"
+    },
+    {
+      "id": "gt-06",
+      "repo": "fastify/fastify",
+      "title": "Export missing FastifyReplyFromOptions interface in types index",
+      "groundTruth": "Easy",
+      "heuristic": "Intermediate",
+      "llm": "Easy",
+      "llmWithCorrections": "Easy"
+    },
+    {
+      "id": "gt-07",
+      "repo": "vercel/next.js",
+      "title": "Support custom loading state inside nested parallel route slot",
+      "groundTruth": "Intermediate",
+      "heuristic": "Intermediate",
+      "llm": "Intermediate",
+      "llmWithCorrections": "Intermediate"
+    },
+    {
+      "id": "gt-08",
+      "repo": "fastify/fastify",
+      "title": "Add benchmark script for HTTP/2 multiplexed stream throughput",
+      "groundTruth": "Intermediate",
+      "heuristic": "Intermediate",
+      "llm": "Intermediate",
+      "llmWithCorrections": "Intermediate"
+    },
+    {
+      "id": "gt-09",
+      "repo": "tailwindlabs/tailwindcss",
+      "title": "Arbitrary variant parsing fails when selector contains escaped brackets",
+      "groundTruth": "Intermediate",
+      "heuristic": "Intermediate",
+      "llm": "Intermediate",
+      "llmWithCorrections": "Intermediate"
+    },
+    {
+      "id": "gt-10",
+      "repo": "vercel/next.js",
+      "title": "Middleware request cloning drops custom response headers on rewrite",
+      "groundTruth": "Intermediate",
+      "heuristic": "Intermediate",
+      "llm": "Intermediate",
+      "llmWithCorrections": "Intermediate"
+    },
+    {
+      "id": "gt-11",
+      "repo": "facebook/react",
+      "title": "useId hydration mismatch when components are rendered in differing React subtrees",
+      "groundTruth": "Intermediate",
+      "heuristic": "Intermediate",
+      "llm": "Intermediate",
+      "llmWithCorrections": "Intermediate"
+    },
+    {
+      "id": "gt-12",
+      "repo": "fastify/fastify",
+      "title": "Implement rate limiting plugin sliding window counter using Redis Lua script",
+      "groundTruth": "Intermediate",
+      "heuristic": "Intermediate",
+      "llm": "Intermediate",
+      "llmWithCorrections": "Intermediate"
+    },
+    {
+      "id": "gt-13",
+      "repo": "facebook/react",
+      "title": "Refactor useActionState error boundary bubbling in concurrent transitions",
+      "groundTruth": "Advanced",
+      "heuristic": "Intermediate",
+      "llm": "Intermediate",
+      "llmWithCorrections": "Advanced"
+    },
+    {
+      "id": "gt-14",
+      "repo": "vercel/next.js",
+      "title": "Turbopack HMR websocket reconnect loop during network throttling",
+      "groundTruth": "Advanced",
+      "heuristic": "Intermediate",
+      "llm": "Advanced",
+      "llmWithCorrections": "Advanced"
+    },
+    {
+      "id": "gt-15",
+      "repo": "tailwindlabs/tailwindcss",
+      "title": "LightningCSS integration segfaults when compiling nested custom media queries in v4 alpha",
+      "groundTruth": "Advanced",
+      "heuristic": "Advanced",
+      "llm": "Advanced",
+      "llmWithCorrections": "Advanced"
+    },
+    {
+      "id": "gt-16",
+      "repo": "facebook/react",
+      "title": "Offscreen component cache preservation leaks DOM nodes during fiber tree unmount",
+      "groundTruth": "Advanced",
+      "heuristic": "Intermediate",
+      "llm": "Advanced",
+      "llmWithCorrections": "Advanced"
+    },
+    {
+      "id": "gt-17",
+      "repo": "vercel/next.js",
+      "title": "Docs: Fix broken link to internationalization (i18n) routing guide",
+      "groundTruth": "Easy",
+      "heuristic": "Easy",
+      "llm": "Easy",
+      "llmWithCorrections": "Easy"
+    },
+    {
+      "id": "gt-18",
+      "repo": "fastify/fastify",
+      "title": "Add test assertion for onRequest hook aborting request with 401 status",
+      "groundTruth": "Easy",
+      "heuristic": "Intermediate",
+      "llm": "Easy",
+      "llmWithCorrections": "Easy"
+    },
+    {
+      "id": "gt-19",
+      "repo": "tailwindlabs/tailwindcss",
+      "title": "Add missing type declaration for plugin creator API in index.d.ts",
+      "groundTruth": "Easy",
+      "heuristic": "Easy",
+      "llm": "Easy",
+      "llmWithCorrections": "Easy"
+    },
+    {
+      "id": "gt-20",
+      "repo": "facebook/react",
+      "title": "Typo in ESLint rule message for react-hooks/exhaustive-deps",
+      "groundTruth": "Easy",
+      "heuristic": "Easy",
+      "llm": "Easy",
+      "llmWithCorrections": "Easy"
+    },
+    {
+      "id": "gt-21",
+      "repo": "vercel/next.js",
+      "title": "Implement cache tag wildcard matching for on-demand revalidation",
+      "groundTruth": "Intermediate",
+      "heuristic": "Intermediate",
+      "llm": "Intermediate",
+      "llmWithCorrections": "Intermediate"
+    },
+    {
+      "id": "gt-22",
+      "repo": "fastify/fastify",
+      "title": "Support HTTP/3 (QUIC) datagram socket binding via experimental node:quic",
+      "groundTruth": "Advanced",
+      "heuristic": "Advanced",
+      "llm": "Advanced",
+      "llmWithCorrections": "Advanced"
+    },
+    {
+      "id": "gt-23",
+      "repo": "tailwindlabs/tailwindcss",
+      "title": "Add support for CSS scroll-timeline and view-timeline utility classes",
+      "groundTruth": "Intermediate",
+      "heuristic": "Intermediate",
+      "llm": "Intermediate",
+      "llmWithCorrections": "Intermediate"
+    },
+    {
+      "id": "gt-24",
+      "repo": "facebook/react",
+      "title": "DevTools: Profiler flamegraph incorrect commit duration calculation in nested Suspense",
+      "groundTruth": "Intermediate",
+      "heuristic": "Intermediate",
+      "llm": "Intermediate",
+      "llmWithCorrections": "Intermediate"
+    },
+    {
+      "id": "gt-25",
+      "repo": "vercel/next.js",
+      "title": "Server Component serialization error on circular WeakMap references",
+      "groundTruth": "Advanced",
+      "heuristic": "Intermediate",
+      "llm": "Advanced",
+      "llmWithCorrections": "Advanced"
+    },
+    {
+      "id": "gt-26",
+      "repo": "fastify/fastify",
+      "title": "Document how to configure trustProxy with IPv6 CIDR blocks",
+      "groundTruth": "Easy",
+      "heuristic": "Intermediate",
+      "llm": "Easy",
+      "llmWithCorrections": "Easy"
+    },
+    {
+      "id": "gt-27",
+      "repo": "tailwindlabs/tailwindcss",
+      "title": "Optimize AST traversal in oxide Rust scanner for multi-gigabyte mono-repos",
+      "groundTruth": "Advanced",
+      "heuristic": "Advanced",
+      "llm": "Advanced",
+      "llmWithCorrections": "Advanced"
+    },
+    {
+      "id": "gt-28",
+      "repo": "facebook/react",
+      "title": "Add note about React 19 forwardRef deprecation in reference documentation",
+      "groundTruth": "Easy",
+      "heuristic": "Intermediate",
+      "llm": "Easy",
+      "llmWithCorrections": "Easy"
+    },
+    {
+      "id": "gt-29",
+      "repo": "vercel/next.js",
+      "title": "Intermittent EPIPE error when piping streaming SSR output to compression middleware",
+      "groundTruth": "Intermediate",
+      "heuristic": "Intermediate",
+      "llm": "Intermediate",
+      "llmWithCorrections": "Intermediate"
+    },
+    {
+      "id": "gt-30",
+      "repo": "fastify/fastify",
+      "title": "Fix JSON schema serialization for nullable BigInt in fast-json-stringify",
+      "groundTruth": "Intermediate",
+      "heuristic": "Intermediate",
+      "llm": "Intermediate",
+      "llmWithCorrections": "Intermediate"
+    },
+    {
+      "id": "gt-31",
+      "repo": "tailwindlabs/tailwindcss",
+      "title": "Add aria-current variant utilities to core accessibility plugins",
+      "groundTruth": "Easy",
+      "heuristic": "Intermediate",
+      "llm": "Easy",
+      "llmWithCorrections": "Easy"
+    },
+    {
+      "id": "gt-32",
+      "repo": "facebook/react",
+      "title": "Atomic state batching race condition across multiple microtask queues in React Native Fabric",
+      "groundTruth": "Advanced",
+      "heuristic": "Advanced",
+      "llm": "Advanced",
+      "llmWithCorrections": "Advanced"
+    },
+    {
+      "id": "gt-33",
+      "repo": "vercel/next.js",
+      "title": "Add clear error message when font loader is invoked inside client component",
+      "groundTruth": "Easy",
+      "heuristic": "Intermediate",
+      "llm": "Easy",
+      "llmWithCorrections": "Easy"
+    },
+    {
+      "id": "gt-34",
+      "repo": "fastify/fastify",
+      "title": "Support custom route constraint strategies with async evaluation",
+      "groundTruth": "Intermediate",
+      "heuristic": "Intermediate",
+      "llm": "Intermediate",
+      "llmWithCorrections": "Intermediate"
+    },
+    {
+      "id": "gt-35",
+      "repo": "tailwindlabs/tailwindcss",
+      "title": "Fix sub-pixel border rendering issue in Firefox on fractional DPI scaling",
+      "groundTruth": "Intermediate",
+      "heuristic": "Intermediate",
+      "llm": "Intermediate",
+      "llmWithCorrections": "Intermediate"
+    }
+  ]
+}

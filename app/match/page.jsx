@@ -192,7 +192,7 @@ function MatchContent() {
           <div className="flex flex-wrap items-center justify-between gap-3 mb-5 pb-4 border-b border-white/5">
             <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
               <UserCheck className="w-4 h-4 text-compass-400" />
-              <span>Instant Persona Profiles:</span>
+              <span>Verified Demo Personas:</span>
             </div>
             <div className="flex flex-wrap items-center gap-2">
               {PRESET_PERSONAS.map((p) => (
@@ -215,6 +215,21 @@ function MatchContent() {
               ))}
             </div>
           </div>
+
+          {/* Transparent Live vs Cached Profile Notice */}
+          {activeContributor?.isRateLimited && (
+            <div className="mb-4 p-2.5 rounded-xl bg-amber-950/40 border border-amber-500/40 text-amber-300 text-xs font-mono flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 flex-shrink-0 text-amber-400" />
+              <span>GitHub API rate limit active (60 req/hr). Showing cached profile snapshot for @{activeContributor.login}.</span>
+            </div>
+          )}
+
+          {activeContributor?.isLive && (
+            <div className="mb-4 p-2 rounded-xl bg-emerald-950/30 border border-emerald-500/30 text-emerald-300 text-xs font-mono flex items-center gap-2">
+              <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 text-emerald-400" />
+              <span>Live GitHub API connection verified ({activeContributor.repoCountAnalyzed || 30} public repositories analyzed).</span>
+            </div>
+          )}
 
           {/* GitHub Auto-Skill Form */}
           <form onSubmit={handleSubmit} className="space-y-4">

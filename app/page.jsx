@@ -230,8 +230,9 @@ export default function HomePage() {
             <div className="flex items-center justify-between px-1">
               <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
                 <Zap className="w-3.5 h-3.5 text-compass-400 animate-pulse" />
-                <span className="font-semibold">Live AI Triage Output</span>
-                <span className="text-slate-400">• Sample #{sampleIndex + 1} of {MOCK_MATCH_RESULTS.length}</span>
+                <span className="font-semibold">Sample Issue Preview</span>
+                <span className="text-[10px] text-amber-400/90 bg-amber-950/40 border border-amber-500/30 px-2 py-0.5 rounded-full">Interactive Demo</span>
+                <span className="text-slate-400">• #{sampleIndex + 1} of {MOCK_MATCH_RESULTS.length}</span>
               </div>
               
               <button
@@ -240,7 +241,7 @@ export default function HomePage() {
                 className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-xs font-mono text-compass-300 border border-white/10 transition-all"
               >
                 <RefreshCw className="w-3 h-3" />
-                <span>Next Sample Issue</span>
+                <span>Next Sample</span>
               </button>
             </div>
 
@@ -253,7 +254,7 @@ export default function HomePage() {
             <div className="flex flex-wrap items-center justify-between gap-2 px-2 text-[11px] font-mono text-slate-400">
               <span className="flex items-center gap-1 text-emerald-400">
                 <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>84% Maintainer Agreement Baseline</span>
+                <span>94.3% Agreement on Hand-Labeled Eval Dataset (N=35 in /eval)</span>
               </span>
               <span className="text-slate-400">
                 Powered by Groq LLM + 768-D Vector Embeddings
@@ -281,12 +282,12 @@ export default function HomePage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div>
               <span className="text-3xl sm:text-4xl font-black font-mono text-white block mb-1">
-                84%
+                94.3%
               </span>
               <span className="text-xs font-mono text-compass-400 uppercase tracking-wider block">
                 Triage Agreement
               </span>
-              <p className="text-[11px] text-slate-400 mt-1">vs 61% heuristic baseline</p>
+              <p className="text-[11px] text-slate-400 mt-1">vs 65.7% heuristic baseline (N=35)</p>
             </div>
 
             <div>
@@ -316,7 +317,7 @@ export default function HomePage() {
               <span className="text-xs font-mono text-amber-400 uppercase tracking-wider block">
                 Self-Improving
               </span>
-              <p className="text-[11px] text-slate-400 mt-1">Maintainer Feedback Loop</p>
+              <p className="text-[11px] text-slate-400 mt-1">Maintainer calibration override</p>
             </div>
           </div>
         </div>
