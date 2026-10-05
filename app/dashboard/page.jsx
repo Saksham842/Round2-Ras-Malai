@@ -106,12 +106,12 @@ export default function DashboardPage() {
   });
 
   return (
-    <div className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
+    <div className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10 bg-[#08090f] text-slate-100">
       
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-8 right-8 z-50 p-4 rounded-2xl bg-emerald-950 border border-emerald-500/50 text-emerald-300 text-xs font-mono flex items-center gap-2 shadow-glow-emerald animate-bounce">
-          <CheckCircle className="w-4 h-4 text-emerald-400" />
+        <div className="fixed bottom-8 right-8 z-50 p-3 rounded-lg bg-[#121526] border border-render-cyan/40 text-render-cyan text-xs font-mono flex items-center gap-2 shadow-glow-render">
+          <CheckCircle className="w-4 h-4 text-render-cyan" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -119,21 +119,21 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-compass-500/10 border border-compass-500/30 text-compass-300 text-xs font-mono mb-2">
-            <GitPullRequest className="w-3.5 h-3.5 text-compass-400" />
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-[#121526] border border-[#232742] text-render-cyan text-xs font-mono mb-2">
+            <GitPullRequest className="w-3.5 h-3.5 text-render-cyan" />
             <span>AI Triage Feed</span>
           </div>
-          <h1 className="text-3xl font-extrabold text-white">Classified Open-Source Issues</h1>
+          <h1 className="text-3xl font-bold text-white tracking-tight font-sans">Classified Open-Source Issues</h1>
           <p className="text-xs sm:text-sm text-slate-400 mt-1">
             Real-time feed classified by difficulty, required skill area, and estimated effort using Groq LLMs.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <button
             onClick={loadDashboardData}
             disabled={loading}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white font-mono text-xs border border-white/10 transition-all active:scale-95 disabled:opacity-50"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#121526] hover:bg-[#181d33] text-slate-300 font-mono text-xs border border-[#232742] hover:border-slate-500 transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
           >
             <RefreshCcw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
             <span>Sync Issues</span>
@@ -141,7 +141,7 @@ export default function DashboardPage() {
 
           <Link
             href="/match"
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-compass-500 to-emerald-500 hover:from-compass-400 hover:to-emerald-400 text-slate-950 font-bold text-xs shadow-glow-teal transition-all active:scale-95"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet hover:opacity-90 text-slate-950 font-bold text-xs shadow-glow-render transition-all active:scale-95 cursor-pointer"
           >
             <Sparkles className="w-3.5 h-3.5" />
             <span>Smart Match My Skills</span>
@@ -150,29 +150,29 @@ export default function DashboardPage() {
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="rounded-2xl border border-white/10 bg-[#0c1520]/80 p-4 backdrop-blur-xl mb-8 flex flex-col md:flex-row gap-4 items-center justify-between">
+      <div className="rounded-xl border border-[#232742] bg-[#0e101d] p-3 mb-6 flex flex-col md:flex-row gap-3 items-center justify-between">
         
         {/* Search Input */}
         <div className="relative w-full md:w-80">
-          <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by title or skill (e.g. React, Docs)..."
-            className="w-full bg-[#070e17] border border-white/10 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-compass-400 font-mono transition-colors"
+            className="w-full bg-[#08090f] border border-[#232742] rounded-lg pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-render-cyan font-mono transition-colors"
           />
         </div>
 
         {/* Dropdown Filters */}
-        <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+        <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto">
           {/* Repo Filter */}
           <div className="flex items-center gap-1.5 text-xs text-slate-400 font-mono">
-            <Layers className="w-3.5 h-3.5 text-compass-400" />
+            <Layers className="w-3.5 h-3.5 text-render-cyan" />
             <select
               value={selectedRepoFilter}
               onChange={(e) => setSelectedRepoFilter(e.target.value)}
-              className="bg-[#070e17] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-compass-400"
+              className="bg-[#08090f] border border-[#232742] rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-render-cyan cursor-pointer font-mono"
             >
               <option value="all">All Connected Repos</option>
               {repos.map((r) => (
@@ -185,11 +185,11 @@ export default function DashboardPage() {
 
           {/* Difficulty Filter */}
           <div className="flex items-center gap-1.5 text-xs text-slate-400 font-mono">
-            <Filter className="w-3.5 h-3.5 text-compass-400" />
+            <Filter className="w-3.5 h-3.5 text-render-indigo" />
             <select
               value={selectedDifficulty}
               onChange={(e) => setSelectedDifficulty(e.target.value)}
-              className="bg-[#070e17] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-compass-400"
+              className="bg-[#08090f] border border-[#232742] rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-render-indigo cursor-pointer font-mono"
             >
               <option value="all">All Difficulties</option>
               <option value="Easy">Easy (Beginner)</option>
@@ -202,14 +202,14 @@ export default function DashboardPage() {
 
       {/* Error state with retry */}
       {error && (
-        <div className="mb-8 p-4 rounded-2xl bg-rose-950/40 border border-rose-500/40 text-rose-300 text-xs flex items-center justify-between">
+        <div className="mb-8 p-3 rounded-lg bg-rose-950/40 border border-rose-500/40 text-rose-300 text-xs flex items-center justify-between">
           <div className="flex items-center gap-2">
             <AlertCircle className="w-4 h-4 flex-shrink-0" />
             <span>{error}</span>
           </div>
           <button
             onClick={loadDashboardData}
-            className="px-3 py-1 bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 rounded-lg text-xs font-mono"
+            className="px-3 py-1 bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 rounded-md text-xs font-mono"
           >
             Retry Call
           </button>
@@ -222,7 +222,7 @@ export default function DashboardPage() {
           {[1, 2, 3, 4, 5, 6].map((idx) => (
             <div
               key={idx}
-              className="rounded-2xl border border-white/5 bg-[#0a121a] p-6 animate-pulse space-y-4"
+              className="rounded-xl border border-[#232742] bg-[#0e101d] p-6 animate-pulse space-y-4"
             >
               <div className="h-4 bg-white/10 rounded w-1/3" />
               <div className="h-6 bg-white/10 rounded w-4/5" />
@@ -235,12 +235,12 @@ export default function DashboardPage() {
           ))}
         </div>
       ) : filteredIssues.length === 0 ? (
-        /* Empty state as requested in Phase 4 */
-        <div className="rounded-3xl border border-dashed border-white/10 bg-[#070e17]/50 p-12 text-center max-w-lg mx-auto">
-          <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-4 text-slate-500">
-            <FolderOpen className="w-8 h-8 text-compass-400/60" />
+        /* Empty state */
+        <div className="rounded-xl border border-dashed border-[#232742] bg-[#0e101d] p-12 text-center max-w-lg mx-auto">
+          <div className="w-12 h-12 rounded-lg bg-[#141729] border border-[#232742] flex items-center justify-center mx-auto mb-4 text-slate-500">
+            <FolderOpen className="w-6 h-6 text-render-cyan/80" />
           </div>
-          <h3 className="text-lg font-bold text-white mb-1">No issues found matching your filters</h3>
+          <h3 className="text-base font-bold text-white mb-1">No issues found matching your filters</h3>
           <p className="text-xs text-slate-400 mb-6 leading-relaxed">
             Try adjusting your difficulty or repository filters, or connect a new GitHub repository to ingest more open issues.
           </p>
@@ -251,13 +251,13 @@ export default function DashboardPage() {
                 setSelectedRepoFilter("all");
                 setSearchQuery("");
               }}
-              className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-white font-mono text-xs border border-white/10 transition-colors"
+              className="px-3.5 py-1.5 rounded-lg bg-[#141729] hover:bg-[#1a1f36] text-white font-mono text-xs border border-[#232742] transition-colors"
             >
               Reset Filters
             </button>
             <Link
               href="/connect"
-              className="px-4 py-2 rounded-xl bg-compass-500 hover:bg-compass-400 text-slate-950 font-semibold text-xs transition-all shadow-glow-teal"
+              className="px-3.5 py-1.5 rounded-lg bg-render-cyan hover:bg-cyan-400 text-slate-950 font-bold text-xs transition-all shadow-glow-render"
             >
               Connect More Repos
             </Link>

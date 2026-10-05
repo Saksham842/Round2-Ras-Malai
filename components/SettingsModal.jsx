@@ -81,16 +81,16 @@ export default function SettingsModal({ onClose }) {
           overflow: "hidden",
         }}
         onClick={(e) => e.stopPropagation()}
-        className="rounded-3xl border border-white/15 bg-[#0c1520] shadow-2xl"
+        className="rounded-xl border border-[#232742] bg-[#0e101d] shadow-2xl relative"
       >
         {/* Top glow border */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-compass-400 to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet" />
 
         {/* Header - Fixed */}
-        <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4 border-b border-white/5 bg-[#0c1520]">
+        <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4 border-b border-[#232742] bg-[#0e101d]">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-compass-500/15 border border-compass-500/30 flex items-center justify-center">
-              <Key className="w-4.5 h-4.5 text-compass-400" />
+            <div className="w-8 h-8 rounded-lg bg-[#141729] border border-render-cyan/40 flex items-center justify-center">
+              <Key className="w-4 h-4 text-render-cyan" />
             </div>
             <div>
               <h2 className="text-sm font-bold text-white">API Keys &amp; Settings</h2>
@@ -99,7 +99,7 @@ export default function SettingsModal({ onClose }) {
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+            className="p-1.5 rounded-md text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
             title="Close modal (Esc)"
           >
             <X className="w-4 h-4" />
@@ -109,7 +109,7 @@ export default function SettingsModal({ onClose }) {
         {/* Body - Scrollable with min-h-0 */}
         <div className="p-5 sm:p-6 space-y-4 overflow-y-auto min-h-0 flex-1 overscroll-contain">
           {/* Privacy notice */}
-          <div className="p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/20 text-emerald-300 text-[11px] leading-relaxed">
+          <div className="p-3 rounded-lg bg-[#121526] border border-[#232742] text-slate-300 text-[11px] leading-relaxed">
             🔒 Keys are stored <strong>only in your browser&apos;s localStorage</strong>. They are never retained on the server, only forwarded as headers for your GitHub API queries and Groq AI triage.
           </div>
 
@@ -118,7 +118,7 @@ export default function SettingsModal({ onClose }) {
             <label className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-slate-300 font-semibold">
               <Github className="w-3.5 h-3.5 text-slate-400" />
               GitHub Personal Access Token
-              {hasPat && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 ml-auto" />}
+              {hasPat && <CheckCircle2 className="w-3.5 h-3.5 text-render-cyan ml-auto" />}
             </label>
             <div className="relative">
               <input
@@ -126,7 +126,7 @@ export default function SettingsModal({ onClose }) {
                 value={githubPat}
                 onChange={(e) => setGithubPat(e.target.value)}
                 placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                className="w-full bg-[#070e17] border border-white/10 rounded-xl px-3 py-2.5 pr-20 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-compass-400 font-mono transition-colors"
+                className="w-full bg-[#08090f] border border-[#232742] rounded-lg px-3 py-2 pr-20 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-render-cyan font-mono transition-colors"
               />
               <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
                 <button
@@ -142,20 +142,20 @@ export default function SettingsModal({ onClose }) {
                     type="button"
                     onClick={() => handleClear("github")}
                     className="p-1 text-slate-500 hover:text-rose-400 transition-colors"
-                    title="Clear GitHub token"
+                    title="Clear GitHub PAT"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 )}
               </div>
             </div>
-            <p className="text-[11px] text-slate-500 leading-relaxed">
+            <p className="text-[11px] text-slate-400 leading-relaxed">
               Needed to fetch real GitHub issues without hitting anonymous rate limits (60/hr → 5,000/hr).{" "}
               <a
                 href="https://github.com/settings/tokens"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-compass-400 hover:text-compass-300 inline-flex items-center gap-0.5"
+                className="text-render-cyan hover:underline inline-flex items-center gap-0.5"
               >
                 Generate one <ExternalLink className="w-2.5 h-2.5" />
               </a>{" "}
@@ -166,9 +166,9 @@ export default function SettingsModal({ onClose }) {
           {/* Groq API Key */}
           <div className="space-y-1.5">
             <label className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-slate-300 font-semibold">
-              <Cpu className="w-3.5 h-3.5 text-slate-400" />
+              <Cpu className="w-3.5 h-3.5 text-render-cyan" />
               Groq API Key
-              {hasGroq && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 ml-auto" />}
+              {hasGroq && <CheckCircle2 className="w-3.5 h-3.5 text-render-cyan ml-auto" />}
             </label>
             <div className="relative">
               <input
@@ -176,7 +176,7 @@ export default function SettingsModal({ onClose }) {
                 value={groqKey}
                 onChange={(e) => setGroqKey(e.target.value)}
                 placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                className="w-full bg-[#070e17] border border-white/10 rounded-xl px-3 py-2.5 pr-20 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-compass-400 font-mono transition-colors"
+                className="w-full bg-[#08090f] border border-[#232742] rounded-lg px-3 py-2 pr-20 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-render-cyan font-mono transition-colors"
               />
               <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
                 <button
@@ -199,13 +199,13 @@ export default function SettingsModal({ onClose }) {
                 )}
               </div>
             </div>
-            <p className="text-[11px] text-slate-500 leading-relaxed">
+            <p className="text-[11px] text-slate-400 leading-relaxed">
               Powers real-time LLM issue triage with llama-3.1-8b.{" "}
               <a
                 href="https://console.groq.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-compass-400 hover:text-compass-300 inline-flex items-center gap-0.5"
+                className="text-render-cyan hover:underline inline-flex items-center gap-0.5"
               >
                 Get one free at console.groq.com <ExternalLink className="w-2.5 h-2.5" />
               </a>
@@ -214,20 +214,20 @@ export default function SettingsModal({ onClose }) {
         </div>
 
         {/* Footer - Fixed */}
-        <div className="shrink-0 px-6 py-4 border-t border-white/5 bg-[#080e16]/90 flex items-center justify-between gap-3">
+        <div className="shrink-0 px-6 py-4 border-t border-[#232742] bg-[#0a0c16] flex items-center justify-between gap-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-xl text-xs text-slate-400 hover:text-white hover:bg-white/5 border border-white/5 transition-all"
+            className="px-3.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-white/5 border border-transparent transition-all"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
               saved
-                ? "bg-emerald-500 text-white"
-                : "bg-gradient-to-r from-compass-500 to-emerald-500 hover:from-compass-400 hover:to-emerald-400 text-slate-950"
-            } shadow-glow-teal`}
+                ? "bg-render-cyan text-slate-950"
+                : "bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet hover:opacity-95 text-slate-950"
+            }`}
           >
             {saved ? (
               <>

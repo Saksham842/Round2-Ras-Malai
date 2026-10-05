@@ -342,27 +342,27 @@ export default function CompassCanvas3D({ className = "w-full h-[480px]" }) {
       <div className="absolute w-64 h-64 rounded-full aurora-orb-violet top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
 
       {/* Floating Render Dashboard HUD Badges */}
-      <div className="absolute top-2 left-3 z-10 hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#0d101d]/90 border border-render-cyan/40 backdrop-blur-md shadow-glow-render">
-        <div className="w-2 h-2 rounded-full bg-render-cyan animate-ping" />
-        <span className="text-[11px] font-mono font-semibold text-render-cyan tracking-wide">
+      <div className="absolute top-2 left-3 z-10 hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#0d101d] border border-render-cyan/40 backdrop-blur-md shadow-sm">
+        <div className="w-1.5 h-1.5 rounded-full bg-render-cyan animate-pulse" />
+        <span className="text-[10px] font-mono font-semibold text-render-cyan tracking-wide">
           Vector Engine: 768-D Live
         </span>
       </div>
 
-      <div className="absolute top-2 right-3 z-10 hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#0d101d]/90 border border-render-indigo/40 backdrop-blur-md shadow-glow-indigo">
+      <div className="absolute top-2 right-3 z-10 hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#0d101d] border border-render-indigo/40 backdrop-blur-md shadow-sm">
         <Cpu className="w-3.5 h-3.5 text-render-indigo animate-pulse" />
-        <span className="text-[11px] font-mono text-slate-300">
+        <span className="text-[10px] font-mono text-slate-300">
           Inference: <strong className="text-render-cyan">{hudStats.tokensPerSec} tps</strong>
         </span>
       </div>
 
-      <div className="absolute bottom-2 left-4 z-10 hidden md:flex items-center gap-3 px-3.5 py-1.5 rounded-xl bg-[#08090f]/80 border border-render-border backdrop-blur-md text-[10px] font-mono text-slate-400">
-        <span className="flex items-center gap-1.5 text-render-emerald">
-          <span className="w-1.5 h-1.5 rounded-full bg-render-emerald animate-pulse" />
+      <div className="absolute bottom-2 left-4 z-10 hidden md:flex items-center gap-3 px-3 py-1 rounded-md bg-[#08090f] border border-[#222842] backdrop-blur-md text-[10px] font-mono text-slate-400">
+        <span className="flex items-center gap-1.5 text-render-cyan">
+          <span className="w-1.5 h-1.5 rounded-full bg-render-cyan animate-pulse" />
           <span>Latency: {hudStats.latency}ms</span>
         </span>
         <span className="text-white/20">|</span>
-        <span className="text-render-cyan">Nodes Active: {hudStats.activeNodes}</span>
+        <span className="text-slate-300">Nodes Active: {hudStats.activeNodes}</span>
       </div>
 
       {/* 3D WebGL Canvas Mount */}
@@ -370,7 +370,7 @@ export default function CompassCanvas3D({ className = "w-full h-[480px]" }) {
 
       {/* Render Drag Hint Footer */}
       <div className="absolute -bottom-1 pointer-events-none text-center">
-        <span className="text-[9px] font-mono uppercase tracking-widest text-slate-400 bg-[#0d101d]/90 px-3 py-1 rounded-full border border-render-border backdrop-blur-md">
+        <span className="text-[9px] font-mono uppercase tracking-widest text-slate-400 bg-[#0d101d] px-2.5 py-0.5 rounded-md border border-[#222842] backdrop-blur-md">
           ✦ Click &amp; Drag 3D Vector Compass • Render WebGL Runtime
         </span>
       </div>

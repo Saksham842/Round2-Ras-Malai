@@ -108,8 +108,8 @@ export default function ConnectRepoPage() {
       
       {/* Page Header */}
       <div className="mb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-compass-500/10 border border-compass-500/30 text-compass-300 text-xs font-mono mb-3">
-          <GitFork className="w-3.5 h-3.5 text-compass-400" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#121526] border border-[#232742] text-render-cyan text-xs font-mono mb-3">
+          <GitFork className="w-3.5 h-3.5 text-render-cyan" />
           <span>Repository Ingestion Gateway</span>
         </div>
         <h1 className="text-3xl font-extrabold text-white">Connect Open-Source Repositories</h1>
@@ -119,7 +119,8 @@ export default function ConnectRepoPage() {
       </div>
 
       {/* Connect Form Card */}
-      <div className="rounded-3xl border border-white/10 bg-[#0c1520]/80 p-6 sm:p-8 backdrop-blur-xl mb-10 shadow-xl">
+      <div className="rounded-xl border border-[#232742] bg-[#0e101d] p-6 sm:p-8 backdrop-blur-xl mb-10 shadow-xl relative overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet" />
         <form onSubmit={handleConnect} className="space-y-4">
           <label className="block text-xs font-mono uppercase tracking-wider text-slate-300 font-semibold">
             GitHub Repository URL
@@ -132,14 +133,14 @@ export default function ConnectRepoPage() {
                 onChange={(e) => setRepoUrl(e.target.value)}
                 placeholder="https://github.com/organization/repository"
                 required
-                className="w-full bg-[#070e17] border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-compass-400 focus:ring-1 focus:ring-compass-400 font-mono transition-all"
+                className="w-full bg-[#08090f] border border-[#232742] rounded-lg px-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-render-cyan font-mono transition-all"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-compass-500 to-emerald-500 hover:from-compass-400 hover:to-emerald-400 text-slate-950 font-bold text-sm shadow-glow-teal transition-all active:scale-95 disabled:opacity-50 whitespace-nowrap"
+              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet hover:opacity-95 text-slate-950 font-bold text-xs transition-all active:scale-95 disabled:opacity-50 whitespace-nowrap cursor-pointer"
             >
               {loading ? (
                 <>
@@ -163,7 +164,7 @@ export default function ConnectRepoPage() {
                 key={preset.name}
                 type="button"
                 onClick={() => setRepoUrl(preset.url)}
-                className="px-2.5 py-1 rounded-lg text-xs font-mono bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 transition-colors"
+                className="px-2.5 py-1 rounded-md text-xs font-mono bg-[#141729] hover:bg-[#1a1f36] text-slate-300 hover:text-render-cyan border border-[#232742] transition-colors"
               >
                 {preset.name}
               </button>
@@ -173,15 +174,15 @@ export default function ConnectRepoPage() {
 
         {/* Feedback states */}
         {error && (
-          <div className="mt-4 p-3 rounded-xl bg-rose-950/40 border border-rose-500/40 text-rose-300 text-xs flex items-center gap-2">
+          <div className="mt-4 p-3 rounded-lg bg-rose-950/40 border border-rose-500/40 text-rose-300 text-xs flex items-center gap-2">
             <AlertCircle className="w-4 h-4 flex-shrink-0" />
             <span>{error}</span>
           </div>
         )}
 
         {successToast && (
-          <div className="mt-4 p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+          <div className="mt-4 p-3 rounded-lg bg-[#121526] border border-render-cyan/40 text-render-cyan text-xs flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 flex-shrink-0 text-render-cyan" />
             <span>{successToast}</span>
           </div>
         )}
@@ -191,9 +192,9 @@ export default function ConnectRepoPage() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Layers className="w-4 h-4 text-compass-400" />
+            <Layers className="w-4 h-4 text-render-cyan" />
             <h2 className="text-lg font-bold text-white">Active Connected Repositories</h2>
-            <span className="px-2 py-0.5 rounded-full text-xs font-mono bg-compass-500/10 text-compass-300 border border-compass-500/20">
+            <span className="px-2.5 py-0.5 rounded-md text-xs font-mono bg-[#141729] text-render-cyan border border-[#232742]">
               {selectedRepoIds.length} of {connectedRepos.length} selected
             </span>
           </div>
@@ -201,7 +202,7 @@ export default function ConnectRepoPage() {
           <button
             type="button"
             onClick={selectAll}
-            className="text-xs font-mono text-compass-400 hover:text-white transition-colors"
+            className="text-xs font-mono text-render-cyan hover:underline transition-colors"
           >
             Select All Repos
           </button>
@@ -215,10 +216,10 @@ export default function ConnectRepoPage() {
               <div
                 key={repo.id}
                 onClick={() => toggleRepoSelection(repo.id)}
-                className={`cursor-pointer rounded-2xl border p-5 transition-all duration-200 relative select-none ${
+                className={`cursor-pointer rounded-xl border p-5 transition-all duration-200 relative select-none ${
                   isSelected
-                    ? "bg-[#0e1c2b] border-compass-400/60 shadow-glow-teal"
-                    : "bg-[#09111b]/80 border-white/10 opacity-75 hover:opacity-100"
+                    ? "bg-[#121526] border-render-cyan/50 shadow-glow-render"
+                    : "bg-[#0e101d] border-[#232742] opacity-75 hover:opacity-100"
                 }`}
               >
                 <div className="flex items-start justify-between gap-2 mb-2">
@@ -226,13 +227,13 @@ export default function ConnectRepoPage() {
                     <div
                       className={`w-5 h-5 rounded-md border flex items-center justify-center transition-colors ${
                         isSelected
-                          ? "bg-compass-500 border-compass-400 text-slate-950"
-                          : "border-white/20 bg-transparent"
+                          ? "bg-render-cyan border-render-cyan text-slate-950"
+                          : "border-[#232742] bg-transparent"
                       }`}
                     >
                       {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                     </div>
-                    <span className="font-bold text-sm text-white hover:text-compass-300 transition-colors truncate max-w-[180px]">
+                    <span className="font-bold text-sm text-white hover:text-render-cyan transition-colors truncate max-w-[180px]">
                       {repo.name}
                     </span>
                   </div>
@@ -257,7 +258,7 @@ export default function ConnectRepoPage() {
                     <Star className="w-3 h-3 fill-amber-300" />
                     {repo.stars?.toLocaleString() || "1.2k"}
                   </span>
-                  <span className="text-compass-400">
+                  <span className="text-render-cyan">
                     {repo.issuesIngested || 15} issues indexed
                   </span>
                 </div>
@@ -268,7 +269,7 @@ export default function ConnectRepoPage() {
       </div>
 
       {/* Navigation Footer Controls */}
-      <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-2xl bg-white/[0.02] border border-white/5">
+      <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-xl bg-[#0e101d] border border-[#232742]">
         <div>
           <h3 className="font-semibold text-sm text-white">Next Step: Find Calibrated Issues</h3>
           <p className="text-xs text-slate-400">
@@ -279,13 +280,13 @@ export default function ConnectRepoPage() {
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <Link
             href="/dashboard"
-            className="flex-1 sm:flex-none text-center px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white font-medium text-xs border border-white/10 transition-all"
+            className="flex-1 sm:flex-none text-center px-4 py-2 rounded-lg bg-[#141729] hover:bg-[#1a1f36] text-white font-medium text-xs border border-[#232742] transition-all"
           >
             Browse Issue Feed
           </Link>
           <Link
             href="/match"
-            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-compass-500 to-emerald-500 hover:from-compass-400 hover:to-emerald-400 text-slate-950 font-bold text-xs shadow-glow-teal transition-all active:scale-95"
+            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2 rounded-lg bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet hover:opacity-95 text-slate-950 font-bold text-xs transition-all active:scale-95"
           >
             <Sparkles className="w-3.5 h-3.5" />
             <span>Smart Match Now</span>

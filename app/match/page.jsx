@@ -184,7 +184,7 @@ function MatchContent() {
       
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto mb-8 relative z-10">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#0e101d] border border-render-cyan/40 text-render-cyan text-xs font-mono mb-3 shadow-glow-render">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#0e101d] border border-[#232742] text-render-cyan text-xs font-mono mb-3 shadow-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-render-cyan animate-pulse" />
           <Sparkles className="w-3.5 h-3.5 text-render-cyan" />
           <span className="font-semibold">AI Neural Vector Matching Engine • Render Cloud</span>
@@ -199,7 +199,7 @@ function MatchContent() {
 
       {/* 1-CLICK GITHUB USERNAME SCANNER LAUNCHPAD */}
       <div className="max-w-4xl mx-auto mb-8 relative z-10">
-        <div className="rounded-3xl border border-[#222842] bg-[#0e101d]/90 p-6 sm:p-7 backdrop-blur-2xl shadow-glow-indigo relative overflow-hidden">
+        <div className="rounded-xl border border-[#222842] bg-[#0e101d] p-6 sm:p-7 backdrop-blur-2xl shadow-glow-indigo relative overflow-hidden">
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet" />
 
           {/* Persona Quick Chips */}
@@ -217,9 +217,9 @@ function MatchContent() {
                     setGithubProfile(p.handle);
                     handleScanProfile(p.handle);
                   }}
-                  className={`px-3 py-1 rounded-full text-xs font-mono border transition-all flex items-center gap-1.5 ${
+                  className={`px-2.5 py-1 rounded-md text-xs font-mono border transition-all flex items-center gap-1.5 ${
                     githubProfile.toLowerCase() === p.handle.toLowerCase()
-                      ? "bg-render-cyan/20 text-render-cyan border-render-cyan/50 shadow-glow-render"
+                      ? "bg-[#181d33] text-render-cyan border-render-cyan/50 shadow-sm"
                       : "bg-[#121626] hover:bg-[#181d33] text-slate-300 hover:text-white border-[#222842]"
                   }`}
                 >
@@ -232,15 +232,15 @@ function MatchContent() {
 
           {/* Transparent Live vs Cached Profile Notice */}
           {activeContributor?.isRateLimited && (
-            <div className="mb-4 p-2.5 rounded-xl bg-amber-950/40 border border-amber-500/40 text-amber-300 text-xs font-mono flex items-center gap-2">
+            <div className="mb-4 p-2.5 rounded-lg bg-amber-950/40 border border-amber-500/40 text-amber-300 text-xs font-mono flex items-center gap-2">
               <AlertCircle className="w-4 h-4 flex-shrink-0 text-amber-400" />
               <span>GitHub API rate limit active (60 req/hr). Showing cached profile snapshot for @{activeContributor.login}.</span>
             </div>
           )}
 
           {activeContributor?.isLive && (
-            <div className="mb-4 p-2 rounded-xl bg-[#0f282e] border border-render-emerald/40 text-render-emerald text-xs font-mono flex items-center gap-2">
-              <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 text-render-emerald" />
+            <div className="mb-4 p-2.5 rounded-lg bg-[#121526] border border-[#232742] text-slate-300 text-xs font-mono flex items-center gap-2">
+              <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 text-render-cyan" />
               <span>Live GitHub API connection verified ({activeContributor.repoCountAnalyzed || 30} public repositories analyzed).</span>
             </div>
           )}
@@ -261,13 +261,13 @@ function MatchContent() {
                     value={githubProfile}
                     onChange={(e) => setGithubProfile(e.target.value)}
                     placeholder="e.g. Saksham842 or octocat"
-                    className="w-full bg-[#08090f] border border-[#222842] rounded-xl pl-10 pr-24 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-render-cyan focus:shadow-glow-render font-mono transition-all"
+                    className="w-full bg-[#08090f] border border-[#222842] rounded-lg pl-10 pr-24 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-render-cyan font-mono transition-all"
                   />
                   <button
                     type="button"
                     onClick={() => handleScanProfile(githubProfile)}
                     disabled={scanningGithub}
-                    className="absolute right-1.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-render-cyan/20 hover:bg-render-cyan/30 text-render-cyan border border-render-cyan/40 text-[10px] font-mono font-semibold transition-all disabled:opacity-50"
+                    className="absolute right-1.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-md bg-[#181d33] hover:bg-[#202745] text-render-cyan border border-render-cyan/40 text-[10px] font-mono font-semibold transition-all disabled:opacity-50"
                   >
                     {scanningGithub ? "Scanning..." : "Scan Repos"}
                   </button>
@@ -286,7 +286,7 @@ function MatchContent() {
                     value={skillsInput}
                     onChange={(e) => setSkillsInput(e.target.value)}
                     placeholder="React, Next.js, TypeScript, Node.js..."
-                    className="w-full bg-[#08090f] border border-[#222842] rounded-xl pl-10 pr-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-render-indigo focus:shadow-glow-indigo font-mono transition-all"
+                    className="w-full bg-[#08090f] border border-[#222842] rounded-lg pl-10 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-render-indigo font-mono transition-all"
                   />
                 </div>
               </div>
@@ -296,7 +296,7 @@ function MatchContent() {
                 <button
                   type="submit"
                   disabled={loading || scanningGithub}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet hover:opacity-90 text-slate-950 font-black text-xs shadow-glow-render transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet hover:opacity-95 text-slate-950 font-bold text-xs shadow-none transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
                 >
                   {loading ? (
                     <>
@@ -329,9 +329,9 @@ function MatchContent() {
                       key={sk}
                       type="button"
                       onClick={() => toggleDetectedSkill(sk)}
-                      className={`px-2.5 py-1 rounded-lg text-[11px] font-mono border transition-all flex items-center gap-1.5 ${
+                      className={`px-2 py-0.5 rounded-md text-[11px] font-mono border transition-all flex items-center gap-1.5 ${
                         isIncluded
-                          ? "bg-compass-500/15 text-compass-200 border-compass-500/40 shadow-sm"
+                          ? "bg-[#181d33] text-render-cyan border-render-cyan/40 shadow-sm"
                           : "bg-white/5 text-slate-500 border-white/5 line-through opacity-60"
                       }`}
                     >
@@ -351,7 +351,7 @@ function MatchContent() {
                   key={sk}
                   type="button"
                   onClick={() => addSkillChip(sk)}
-                  className="px-2 py-0.5 rounded-md text-[11px] font-mono bg-white/5 hover:bg-compass-500/20 hover:text-compass-300 text-slate-400 border border-white/5 transition-all"
+                  className="px-2 py-0.5 rounded-md text-[11px] font-mono bg-white/5 hover:bg-render-cyan/15 hover:text-render-cyan text-slate-400 border border-white/5 transition-all"
                 >
                   +{sk}
                 </button>
@@ -360,7 +360,7 @@ function MatchContent() {
           </form>
 
           {error && (
-            <div className="mt-4 p-3 rounded-xl bg-rose-950/40 border border-rose-500/40 text-rose-300 text-xs flex items-center gap-2">
+            <div className="mt-4 p-3 rounded-lg bg-rose-950/40 border border-rose-500/40 text-rose-300 text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 flex-shrink-0" />
               <span>{error}</span>
             </div>
@@ -372,15 +372,15 @@ function MatchContent() {
       {!loading && matches.length > 0 && (
         <div className="max-w-4xl mx-auto flex flex-wrap items-center justify-between gap-4 mb-6 px-2 text-xs font-mono">
           <div className="flex items-center gap-2">
-            <Filter className="w-3.5 h-3.5 text-compass-400" />
+            <Filter className="w-3.5 h-3.5 text-render-cyan" />
             <span className="text-slate-400">Filter Difficulty:</span>
             {["all", "Easy", "Intermediate", "Advanced"].map((lvl) => (
               <button
                 key={lvl}
                 onClick={() => setDifficultyFilter(lvl)}
-                className={`px-2.5 py-1 rounded-lg border transition-all ${
+                className={`px-2.5 py-1 rounded-md border transition-all ${
                   difficultyFilter.toLowerCase() === lvl.toLowerCase()
-                    ? "bg-compass-500/20 text-compass-300 border-compass-500/50"
+                    ? "bg-[#181d33] text-render-cyan border-render-cyan/40"
                     : "bg-white/5 text-slate-400 border-white/5 hover:text-white"
                 }`}
               >
@@ -390,12 +390,12 @@ function MatchContent() {
           </div>
 
           <div className="flex items-center gap-2">
-            <ArrowUpDown className="w-3.5 h-3.5 text-cyan-400" />
+            <ArrowUpDown className="w-3.5 h-3.5 text-render-indigo" />
             <span className="text-slate-400">Sort By:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-[#070e17] border border-white/10 text-white rounded-lg px-2.5 py-1 text-xs outline-none focus:border-compass-400"
+              className="bg-[#08090f] border border-[#232742] text-white rounded-md px-2.5 py-1 text-xs outline-none focus:border-render-cyan font-mono"
             >
               <option value="score">Highest Match Score (0-100)</option>
               <option value="effort">Quickest Win (Lowest Effort)</option>
@@ -406,17 +406,17 @@ function MatchContent() {
 
       {/* RESULTS DISPLAY */}
       {loading ? (
-        <div className="rounded-3xl border border-white/10 bg-[#070e17]/80 p-12 text-center max-w-xl mx-auto backdrop-blur-xl">
+        <div className="rounded-xl border border-[#232742] bg-[#0e101d] p-12 text-center max-w-xl mx-auto backdrop-blur-xl">
           <div className="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
-            <div className="absolute inset-0 rounded-full border border-compass-500/30 animate-ping" />
-            <div className="absolute inset-2 rounded-full border border-dashed border-cyan-400/40 animate-spin-slow" />
-            <div className="w-12 h-12 rounded-full bg-compass-500/20 border border-compass-400 flex items-center justify-center text-compass-300 shadow-glow-teal">
+            <div className="absolute inset-0 rounded-full border border-render-cyan/30 animate-ping" />
+            <div className="absolute inset-2 rounded-full border border-dashed border-render-indigo/40 animate-spin-slow" />
+            <div className="w-12 h-12 rounded-lg bg-[#141729] border border-render-cyan flex items-center justify-center text-render-cyan shadow-glow-render">
               <Zap className="w-6 h-6 animate-pulse" />
             </div>
           </div>
           <h3 className="text-lg font-bold text-white mb-2">Executing Neural Vector Matching</h3>
           <p className="text-xs text-slate-400 font-mono max-w-md mx-auto leading-relaxed">
-            Projecting 768-D sentence-transformer embeddings against GitHub issue difficulty & skill vectors...
+            Projecting 768-D sentence-transformer embeddings against GitHub issue difficulty &amp; skill vectors...
           </p>
         </div>
       ) : filteredMatches.length > 0 ? (
@@ -425,11 +425,11 @@ function MatchContent() {
           contributor={activeContributor}
         />
       ) : hasSearched ? (
-        <div className="rounded-3xl border border-dashed border-white/10 bg-[#070e17]/50 p-12 text-center max-w-md mx-auto">
-          <div className="w-14 h-14 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center mx-auto mb-4 text-amber-400">
-            <HelpCircle className="w-7 h-7" />
+        <div className="rounded-xl border border-dashed border-[#232742] bg-[#0e101d] p-12 text-center max-w-md mx-auto">
+          <div className="w-12 h-12 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center mx-auto mb-4 text-amber-400">
+            <HelpCircle className="w-6 h-6" />
           </div>
-          <h3 className="text-lg font-bold text-white mb-1">No matching issues with this filter</h3>
+          <h3 className="text-base font-bold text-white mb-1">No matching issues with this filter</h3>
           <p className="text-xs text-slate-400 mb-6 leading-relaxed">
             Clear your difficulty filter or add more skills to your profile graph.
           </p>
@@ -439,7 +439,7 @@ function MatchContent() {
               setSkillsInput("React, TypeScript, Next.js, Node.js");
               triggerMatch("React, TypeScript, Next.js, Node.js", activeContributor);
             }}
-            className="px-4 py-2 rounded-xl bg-compass-500 hover:bg-compass-400 text-slate-950 font-semibold text-xs transition-all shadow-glow-teal"
+            className="px-4 py-2 rounded-lg bg-render-cyan hover:bg-cyan-400 text-slate-950 font-bold text-xs transition-all shadow-glow-render"
           >
             Reset Filters
           </button>
@@ -453,7 +453,7 @@ export default function MatchPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex-1 flex items-center justify-center min-h-[60vh] text-compass-400 gap-2 font-mono text-xs">
+        <div className="flex-1 flex items-center justify-center min-h-[60vh] text-render-cyan gap-2 font-mono text-xs">
           <Loader2 className="w-5 h-5 animate-spin" />
           <span>Loading Contrib Compass Matcher...</span>
         </div>

@@ -61,26 +61,26 @@ export default function Navbar() {
         
         {/* Brand Logo with Render.com signature cyan, indigo & violet */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="relative flex items-center justify-center w-10 h-10 rounded-2xl bg-gradient-to-br from-render-cyan via-render-indigo to-render-violet p-0.5 shadow-glow-render transition-all duration-300 group-hover:scale-105 group-hover:shadow-glow-violet">
-            <div className="w-full h-full bg-[#0d101a] rounded-[14px] flex items-center justify-center">
-              <Compass className="w-5 h-5 text-render-cyan group-hover:rotate-45 transition-all duration-500" />
+          <div className="relative flex items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-br from-render-cyan via-render-indigo to-render-violet p-0.5 transition-all duration-300 group-hover:scale-105">
+            <div className="w-full h-full bg-[#0d101a] rounded-[6px] flex items-center justify-center">
+              <Compass className="w-4.5 h-4.5 text-render-cyan group-hover:rotate-45 transition-all duration-500" />
             </div>
-            <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-render-cyan rounded-full animate-ping" />
-            <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-render-cyan rounded-full" />
+            <div className="absolute -top-1 -right-1 w-2 h-2 bg-render-cyan rounded-full animate-ping" />
+            <div className="absolute -top-1 -right-1 w-2 h-2 bg-render-cyan rounded-full" />
           </div>
 
           <div className="flex flex-col">
-            <span className="font-black text-lg tracking-wider text-white flex items-center gap-1.5 font-sans">
+            <span className="font-extrabold text-base tracking-wider text-white flex items-center gap-1.5 font-sans">
               CONTRIB <span className="bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet bg-clip-text text-transparent">COMPASS</span>
             </span>
-            <span className="text-[9px] font-mono text-render-cyan/80 tracking-widest uppercase">
+            <span className="text-[9px] font-mono text-slate-400 tracking-wider uppercase">
               AI OSS MATCHING • RENDER CLOUD UI
             </span>
           </div>
         </Link>
 
         {/* Navigation Links */}
-        <nav className="hidden md:flex items-center gap-1 bg-[#0e101d]/80 border border-[#222842] p-1 rounded-2xl backdrop-blur-md">
+        <nav className="hidden md:flex items-center gap-1 bg-[#0e101d] border border-[#232742] p-1 rounded-lg">
           {navLinks.map((link) => {
             const Icon = link.icon;
             const isActive = pathname === link.href;
@@ -88,10 +88,10 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
                   isActive
-                    ? "bg-render-cyan/15 text-render-cyan border border-render-cyan/40 shadow-glow-render"
-                    : "text-slate-400 hover:text-white hover:bg-white/5"
+                    ? "bg-[#181d33] text-render-cyan border border-render-cyan/40 shadow-sm"
+                    : "text-slate-400 hover:text-white hover:bg-white/5 border border-transparent"
                 }`}
               >
                 <Icon className={`w-3.5 h-3.5 ${isActive ? "text-render-cyan" : "text-slate-500"}`} />
@@ -102,32 +102,32 @@ export default function Navbar() {
         </nav>
 
         {/* Action Controls & Profile */}
-        <div className="flex items-center gap-3">
-          {/* Demo / Live Toggle Pill for judges & presentation */}
+        <div className="flex items-center gap-2.5">
+          {/* Demo / Live Toggle Chip for judges & presentation */}
           <button
             onClick={toggleMock}
             title="Click to toggle between Simulated Mock Fixtures and Real Backend API"
-            className={`hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono border transition-all ${
+            className={`hidden sm:flex items-center gap-2 px-2.5 py-1.5 rounded-md text-[11px] font-mono border transition-all ${
               mockActive
-                ? "bg-[#161a2e] border-amber-500/40 text-amber-300 hover:bg-[#1f2440]"
-                : "bg-[#0b1b1f] border-render-emerald/40 text-render-emerald shadow-[0_0_15px_rgba(16,185,129,0.2)] hover:bg-[#0f282e]"
+                ? "bg-[#121526] border-amber-500/40 text-amber-300 hover:border-amber-400/60"
+                : "bg-[#121526] border-[#232742] text-slate-300 hover:border-render-cyan/50 hover:text-white"
             }`}
           >
-            <span className={`w-1.5 h-1.5 rounded-full ${mockActive ? "bg-amber-400" : "bg-render-emerald animate-pulse"}`} />
-            <span>{mockActive ? "MODE: DEMO FIXTURES" : "MODE: LIVE BACKEND"}</span>
+            <span className={`w-1.5 h-1.5 rounded-full ${mockActive ? "bg-amber-400" : "bg-render-cyan animate-pulse"}`} />
+            <span className="tracking-wide font-medium">{mockActive ? "MODE: DEMO FIXTURES" : "MODE: LIVE BACKEND"}</span>
           </button>
 
           {user ? (
-            <div className="flex items-center gap-2.5 pl-2 border-l border-white/10">
+            <div className="flex items-center gap-2 pl-2 border-l border-white/10">
               <div className="flex items-center gap-2">
                 {user.avatar_url ? (
                   <img
                     src={user.avatar_url}
                     alt={user.name || user.login}
-                    className="w-7 h-7 rounded-full border border-render-cyan/40 object-cover"
+                    className="w-7 h-7 rounded-md border border-[#232742] object-cover"
                   />
                 ) : (
-                  <div className="w-7 h-7 rounded-full bg-render-indigo flex items-center justify-center text-xs font-bold text-white">
+                  <div className="w-7 h-7 rounded-md bg-render-indigo flex items-center justify-center text-xs font-bold text-white">
                     {(user.login || "U").charAt(0).toUpperCase()}
                   </div>
                 )}
@@ -145,18 +145,18 @@ export default function Navbar() {
               <button
                 onClick={() => setShowSettings(true)}
                 title="API Keys & Settings"
-                className="relative p-1.5 rounded-lg text-slate-400 hover:text-render-cyan hover:bg-render-cyan/10 transition-colors"
+                className="relative p-1.5 rounded-md text-slate-400 hover:text-render-cyan hover:bg-[#121526] border border-transparent hover:border-[#232742] transition-colors"
               >
                 <Settings className="w-4 h-4" />
                 {hasKeys && (
-                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-render-cyan rounded-full border border-[#08090f]" />
+                  <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-render-cyan rounded-full" />
                 )}
               </button>
 
               <button
                 onClick={handleLogout}
                 title="Sign out"
-                className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                className="p-1.5 rounded-md text-slate-400 hover:text-rose-400 hover:bg-[#121526] border border-transparent hover:border-[#232742] transition-colors"
               >
                 <LogOut className="w-4 h-4" />
               </button>
@@ -167,16 +167,16 @@ export default function Navbar() {
               <button
                 onClick={() => setShowSettings(true)}
                 title="API Keys & Settings"
-                className="relative p-1.5 rounded-lg text-slate-400 hover:text-render-cyan hover:bg-render-cyan/10 transition-colors"
+                className="relative p-1.5 rounded-md text-slate-400 hover:text-render-cyan hover:bg-[#121526] border border-transparent hover:border-[#232742] transition-colors"
               >
                 <Settings className="w-4 h-4" />
                 {hasKeys && (
-                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-render-cyan rounded-full border border-[#08090f]" />
+                  <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-render-cyan rounded-full" />
                 )}
               </button>
               <Link
                 href="/login"
-                className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-gradient-to-r from-render-cyan via-render-indigo to-render-violet hover:opacity-90 text-slate-950 font-bold text-xs shadow-glow-render transition-all active:scale-95"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-gradient-to-r from-render-cyan to-render-indigo hover:opacity-95 text-slate-950 font-bold text-xs transition-all active:scale-95"
               >
                 <Github className="w-3.5 h-3.5" />
                 <span>Sign In</span>

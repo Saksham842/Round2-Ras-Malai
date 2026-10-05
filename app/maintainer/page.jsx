@@ -63,8 +63,8 @@ export default function MaintainerPage() {
       
       {/* Toast */}
       {toast && (
-        <div className="fixed bottom-8 right-8 z-50 p-4 rounded-2xl bg-emerald-950 border border-emerald-500/50 text-emerald-200 text-xs font-mono flex items-center gap-2 shadow-glow-emerald animate-bounce">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+        <div className="fixed bottom-8 right-8 z-50 p-3 rounded-lg bg-[#121526] border border-render-cyan/40 text-render-cyan text-xs font-mono flex items-center gap-2 shadow-glow-render">
+          <CheckCircle2 className="w-4 h-4 text-render-cyan" />
           <span>{toast}</span>
         </div>
       )}
@@ -72,11 +72,11 @@ export default function MaintainerPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-compass-500/10 border border-compass-500/30 text-compass-300 text-xs font-mono mb-2">
-            <ShieldCheck className="w-3.5 h-3.5 text-compass-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#121526] border border-[#232742] text-render-cyan text-xs font-mono mb-2">
+            <ShieldCheck className="w-3.5 h-3.5 text-render-cyan" />
             <span>Maintainer Feedback Loop</span>
           </div>
-          <h1 className="text-3xl font-extrabold text-white">Maintainer Triage & Feedback Studio</h1>
+          <h1 className="text-3xl font-extrabold text-white">Maintainer Triage &amp; Feedback Studio</h1>
           <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl">
             Review auto-generated difficulty and skill labels. Maintainer corrections are stored and immediately override model labels in the matching engine.
           </p>
@@ -85,26 +85,24 @@ export default function MaintainerPage() {
         <button
           onClick={loadIssues}
           disabled={loading}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white font-mono text-xs border border-white/10 transition-all self-start md:self-auto"
+          className="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#141729] hover:bg-[#1a1f36] text-white font-mono text-xs border border-[#232742] transition-all self-start md:self-auto cursor-pointer"
         >
           <RefreshCcw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
           <span>Refresh Queue</span>
         </button>
       </div>
 
-
-
       {/* Issues list with Maintainer editor enabled */}
       <div className="space-y-4">
         <div className="flex items-center justify-between pb-2 border-b border-white/10">
           <h2 className="text-base font-bold text-white">Auto-Triaged Issue Queue</h2>
-          <span className="text-xs font-mono text-slate-400">Click &quot;Edit&quot; on any card to correct labels</span>
+          <span className="text-xs font-mono text-slate-400">Click &quot;Calibrate&quot; on any card to correct labels</span>
         </div>
 
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3].map((idx) => (
-              <div key={idx} className="h-60 rounded-2xl bg-white/5 animate-pulse" />
+              <div key={idx} className="h-60 rounded-xl bg-white/5 animate-pulse" />
             ))}
           </div>
         ) : (
@@ -122,11 +120,11 @@ export default function MaintainerPage() {
       </div>
 
       {/* Navigation Footer */}
-      <div className="mt-12 flex items-center justify-between p-5 rounded-2xl bg-white/[0.02] border border-white/5 text-xs">
+      <div className="mt-12 flex items-center justify-between p-5 rounded-xl bg-[#0e101d] border border-[#232742] text-xs">
         <span className="text-slate-400 font-mono">Changes take effect immediately across all contributor match queries.</span>
         <Link
           href="/match"
-          className="flex items-center gap-1 text-compass-400 hover:text-white font-semibold"
+          className="flex items-center gap-1 text-render-cyan hover:underline font-semibold"
         >
           <span>Return to Matchmaker</span>
           <ArrowRight className="w-3.5 h-3.5" />
