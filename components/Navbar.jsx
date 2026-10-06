@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Compass, GitPullRequest, GitFork, Sparkles, Shield, Github, LogOut, CheckCircle2, Settings, ArrowRight, ChevronRight } from "lucide-react";
+import { Compass, GitPullRequest, GitFork, Sparkles, Shield, Github, LogOut, CheckCircle2, Settings, ArrowRight } from "lucide-react";
 import { getStoredUser, isMockMode, setMockMode, getStoredGithubPat, getStoredGroqKey } from "../lib/api";
 import SettingsModal from "./SettingsModal";
 
@@ -56,24 +56,26 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-white/[0.08] bg-[#070913]/80 backdrop-blur-xl transition-all">
+      <header className="sticky top-0 z-50 w-full border-b border-white/[0.08] bg-[#050a0f]/85 backdrop-blur-xl transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           
-          {/* Stripe-style Brand Logo */}
+          {/* Brand Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#635bff] to-[#ff5b79] p-0.5 flex items-center justify-center shadow-[0_2px_12px_rgba(99,91,255,0.4)]">
-              <div className="w-full h-full bg-[#080913] rounded-[6px] flex items-center justify-center">
-                <Compass className="w-4 h-4 text-white group-hover:rotate-45 transition-transform duration-500" />
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-compass-500 to-emerald-400 p-0.5 flex items-center justify-center shadow-glow-teal">
+              <div className="w-full h-full bg-[#050a0f] rounded-[6px] flex items-center justify-center">
+                <Compass className="w-4 h-4 text-compass-300 group-hover:rotate-45 transition-transform duration-500" />
               </div>
             </div>
 
             <div className="flex items-center gap-1.5 font-bold tracking-tight text-white text-base">
               <span>Contrib</span>
-              <span className="stripe-gradient-text font-black">Compass</span>
+              <span className="bg-gradient-to-r from-compass-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent font-black">
+                Compass
+              </span>
             </div>
           </Link>
 
-          {/* Stripe-style Navigation Links */}
+          {/* Navigation Links */}
           <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => {
               const Icon = link.icon;
@@ -84,7 +86,7 @@ export default function Navbar() {
                   href={link.href}
                   className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
                     isActive
-                      ? "bg-white/10 text-white font-semibold"
+                      ? "bg-compass-500/15 text-compass-300 border border-compass-500/30 font-semibold"
                       : "text-slate-300 hover:text-white hover:bg-white/5"
                   }`}
                 >
@@ -114,7 +116,7 @@ export default function Navbar() {
               <div className="flex items-center gap-2">
                 <Link
                   href="/dashboard"
-                  className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 hover:border-white/20 transition-all text-xs text-white"
+                  className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 hover:border-compass-500/30 transition-all text-xs text-white"
                 >
                   {user.avatar_url ? (
                     <img
@@ -123,7 +125,7 @@ export default function Navbar() {
                       className="w-5 h-5 rounded-full border border-white/20"
                     />
                   ) : (
-                    <div className="w-5 h-5 rounded-full bg-[#635bff] text-white flex items-center justify-center text-[10px] font-bold">
+                    <div className="w-5 h-5 rounded-full bg-compass-600 text-white flex items-center justify-center text-[10px] font-bold">
                       {(user.login || "U")[0].toUpperCase()}
                     </div>
                   )}
@@ -133,11 +135,11 @@ export default function Navbar() {
                 <button
                   onClick={() => setShowSettings(true)}
                   title="Configure API Keys"
-                  className="p-1.5 rounded-full hover:bg-white/10 text-slate-400 hover:text-white transition-all relative"
+                  className="p-1.5 rounded-full hover:bg-white/10 text-slate-400 hover:text-compass-400 transition-all relative"
                 >
                   <Settings className="w-4 h-4" />
                   {hasKeys && (
-                    <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-[#00d4b6] rounded-full" />
+                    <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-compass-400 rounded-full" />
                   )}
                 </button>
 
@@ -154,11 +156,11 @@ export default function Navbar() {
                 <button
                   onClick={() => setShowSettings(true)}
                   title="Configure API Keys"
-                  className="p-1.5 rounded-full hover:bg-white/10 text-slate-400 hover:text-white transition-all relative"
+                  className="p-1.5 rounded-full hover:bg-white/10 text-slate-400 hover:text-compass-400 transition-all relative"
                 >
                   <Settings className="w-4 h-4" />
                   {hasKeys && (
-                    <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-[#00d4b6] rounded-full" />
+                    <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-compass-400 rounded-full" />
                   )}
                 </button>
 
@@ -171,9 +173,9 @@ export default function Navbar() {
 
                 <Link
                   href="/match"
-                  className="stripe-btn-primary px-4 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5"
+                  className="cyber-btn-primary px-4 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 text-slate-950 shadow-glow-teal"
                 >
-                  <span>Start matching</span>
+                  <span>Launch Matcher</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
